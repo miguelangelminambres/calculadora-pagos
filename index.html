@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Pagos - Pandilla</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body { margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .tab-button { transition: all 0.2s; }
+        input[type="file"] { display: none; }
+    </style>
+</head>
+<body>
+    <div id="app"></div>
+
+    <script type="module">
+        const { createClient } = supabase;
+        
+        const supabaseClient = createClient(
+            'https://enlfkcvnuwoidhemlxpw.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVubGZrY3ZudXdvaWRoZW1seHB3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE1ODQ5MzYsImV4cCI6MjA3NzE2MDkzNn0.cLiCiGjmRvt8bNGzGGlUaxUKF_C9nZKF5kgbX25sjtM'
+        );
+
+        const CORRECT_PASSWORD = 'onfire25';
+        
+        let state = {
+            isAuthenticated: false,
+            passwordInput: '',
+            passwordError: false,
+            showPassword: false,
+            activeTab: 'registros',
+            members: [],
+            bars: [],
+            payments: [],
+            defaultMembers: [],
+            orderItems: [],
+            currentOrder: {},
+            games: [],
+            gameResults: [],
+            newMember: { name: '', avatar: '', photo: '' },
+            newBar: '',
+            newItem: '',
+            newGame: '',
+            newPayment: {
+                payers: [],
+                present: [],
+                amount: '',
+                bar: '',
+                date: new Date().toISOString().split('T')[0],
+                registered_by: ''
+            },
+            newGameResult: {
+                game: '',
+                bar: '',
+                losers: [],
+                date: new Date().toISOString().split('T')[0],
+                registered_by: ''
+            }
+        };
+
+        async function loadAllData() {
+            try {
+                const [membersRes, barsRes, paymentsRes, gamesRes, gameResultsRes, orderItemsRes, defaultMembersRes] = await Promise.all([
+                    supabaseClient.from('members').select('*').order('created_at'),
+                    supabaseClient.from('bars').select('*').order('created_at'),
+                    supabaseClient.from('payments').select('*').order('created_at'),
+                    supabaseClient.from('games').select('*').order('created_at'),
+                    supabaseClient.from('game_results').select('*').order('created_at'),
+                    supabaseClient.from('order_items').select('*').order('created_at'),
+                    supabaseClient.from('default_members').select('*')
+                ]);
+
+                if (membersRes.data) state.members = membersRes.data;
+                if (barsRes.data) state.bars = barsRes.data;
+                if (paymentsRes.data) state.payments = paymentsRes.data;
+                if (gamesRes.data) state.games = gamesRes.data;
+                if (gameResultsRes.data) state.gameResults = gameResultsRes.data;
+                if (orderItemsRes.data) state.orderItems = orderItemsRes.data;
+                if (defaultMembersRes.data) state.defaultMembers = defaultMembersRes.data.map(d => d.member_id);
+                
+                state.newPayment.present = [...state.defaultMembers];
+                render();
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        function handleLogin() {
+            if (state.passwordInput.trim() === CORRECT_PASSWORD) {
+                state.isAuthenticated = true;
+                state.passwordError = false;
+                localStorage.setItem('authenticated', 'true');
+                loadAllData();
+            } else {
+                state.passwordError = true;
+                state.passwordInput = '';
+                render();
+            }
+        }
+
+        function handleLogout() {
+            state.isAuthenticated = false;
+            localStorage.removeItem('authenticated');
+            render();
+        }
+
+        async function addMember() {
+            if (state.newMember.name.trim()) {
+                const member = { id: Date.now(), ...state.newMember };
+                await supabaseClient.from('members').insert([member]);
+                state.members.push(member);
+                state.newMember = { name: '', avatar: '', photo: '' };
+                render();
+            }
+        }
+
+        async function deleteMember(id) {
+            await supabaseClient.from('members').delete().eq('id', id);
+            state.members = state.members.filter(m => m.id !== id);
+            render();
+        }
+
+        async function toggleDefaultMember(id) {
+            const isDefault = state.defaultMembers.includes(id);
+            if (isDefault) {
+                await supabaseClient.from('default_members').delete().eq('member_id', id);
+                state.defaultMembers = state.defaultMembers.filter(m => m !== id);
+            } else {
+                await supabaseClient.from('default_members').insert([{ member_id: id }]);
+                state.defaultMembers.push(id);
+            }
+            state.newPayment.present = [...state.defaultMembers];
+            render();
+        }
+
+        async function addBar() {
+            if (state.newBar.trim()) {
+                const bar = { id: Date.now(), name: state.newBar };
+                await supabaseClient.from('bars').insert([bar]);
+                state.bars.push(bar);
+                state.newBar = '';
+                render();
+            }
+        }
+
+        async function deleteBar(id) {
+            await supabaseClient.from('bars').delete().eq('id', id);
+            state.bars = state.bars.filter(b => b.id !== id);
+            render();
+        }
+
+        async function addPayment() {
+            if (state.newPayment.payers.length > 0 && state.newPayment.amount && state.newPayment.bar && state.newPayment.registered_by) {
+                const payment = { 
+                    id: Date.now(), 
+                    ...state.newPayment, 
+                    amount: parseFloat(state.newPayment.amount)
+                };
+                await supabaseClient.from('payments').insert([payment]);
+                state.payments.push(payment);
+                state.newPayment = {
+                    payers: [],
+                    present: state.newPayment.present,
+                    amount: '',
+                    bar: '',
+                    date: new Date().toISOString().split('T')[0],
+                    registered_by: ''
+                };
+                render();
+            }
+        }
+
+        async function deletePayment(id) {
+            await supabaseClient.from('payments').delete().eq('id', id);
+            state.payments = state.payments.filter(p => p.id !== id);
+            render();
+        }
+
+        async function addOrderItem() {
+            if (state.newItem.trim()) {
+                const item = { id: Date.now(), name: state.newItem };
+                await supabaseClient.from('order_items').insert([item]);
+                state.orderItems.push(item);
+                state.newItem = '';
+                render();
+            }
+        }
+
+        async function deleteOrderItem(id) {
+            await supabaseClient.from('order_items').delete().eq('id', id);
+            state.orderItems = state.orderItems.filter(i => i.id !== id);
+            render();
+        }
+
+        async function addGame() {
+            if (state.newGame.trim()) {
+                const game = { id: Date.now(), name: state.newGame };
+                await supabaseClient.from('games').insert([game]);
+                state.games.push(game);
+                state.newGame = '';
+                render();
+            }
+        }
+
+        async function deleteGame(id) {
+            await supabaseClient.from('games').delete().eq('id', id);
+            state.games = state.games.filter(g => g.id !== id);
+            render();
+        }
+
+        async function addGameResult() {
+            if (state.newGameResult.game && state.newGameResult.losers.length > 0 && state.newGameResult.registered_by) {
+                const result = { id: Date.now(), ...state.newGameResult };
+                await supabaseClient.from('game_results').insert([result]);
+                state.gameResults.push(result);
+                state.newGameResult = {
+                    game: '',
+                    bar: '',
+                    losers: [],
+                    date: new Date().toISOString().split('T')[0],
+                    registered_by: ''
+                };
+                render();
+            }
+        }
+
+        async function deleteGameResult(id) {
+            await supabaseClient.from('game_results').delete().eq('id', id);
+            state.gameResults = state.gameResults.filter(r => r.id !== id);
+            render();
+        }
+
+        function togglePayer(id) {
+            if (state.newPayment.payers.includes(id)) {
+                state.newPayment.payers = state.newPayment.payers.filter(p => p !== id);
+            } else {
+                state.newPayment.payers.push(id);
+            }
+            render();
+        }
+
+        function togglePresent(id) {
+            if (state.newPayment.present.includes(id)) {
+                state.newPayment.present = state.newPayment.present.filter(p => p !== id);
+            } else {
+                state.newPayment.present.push(id);
+            }
+            render();
+        }
+
+        function toggleLoser(id) {
+            if (state.newGameResult.losers.includes(id)) {
+                state.newGameResult.losers = state.newGameResult.losers.filter(l => l !== id);
+            } else {
+                state.newGameResult.losers.push(id);
+            }
+            render();
+        }
+
+        function updateOrderQuantity(itemId, delta) {
+            state.currentOrder[itemId] = Math.max(0, (state.currentOrder[itemId] || 0) + delta);
+            render();
+        }
+
+        function clearOrder() {
+            state.currentOrder = {};
+            render();
+        }
+
+        function getMemberName(id) {
+            const member = state.members.find(m => m.id === id);
+            return member ? member.name : 'Desconocido';
+        }
+
+        function calculateStats() {
+            const stats = state.members.map(member => {
+                const timesPaid = state.payments.filter(p => p.payers.includes(member.id)).length;
+                const timesPresent = state.payments.filter(p => p.present.includes(member.id)).length;
+                const timesNotPaid = timesPresent - timesPaid;
+                const totalSpent = state.payments
+                    .filter(p => p.payers.includes(member.id))
+                    .reduce((sum, p) => sum + (p.amount / p.payers.length), 0);
+                
+                const avgSpent = timesPaid > 0 ? totalSpent / timesPaid : 0;
+                
+                let currentStreak = 0;
+                for (let i = state.payments.length - 1; i >= 0; i--) {
+                    if (state.payments[i].present.includes(member.id)) {
+                        if (!state.payments[i].payers.includes(member.id)) {
+                            currentStreak++;
+                        } else {
+                            break;
+                        }
+                    }
+                }
+
+                const shouldHavePaid = timesPresent / (timesPresent > 0 ? timesPresent : 1);
+                const actuallyPaid = timesPaid / (timesPresent > 0 ? timesPresent : 1);
+                const moralDebt = (shouldHavePaid - actuallyPaid) * 100;
+
+                const timesLost = state.gameResults.filter(r => r.losers.includes(member.id)).length;
+
+                return {
+                    member,
+                    timesPaid,
+                    timesPresent,
+                    timesNotPaid,
+                    totalSpent,
+                    avgSpent,
+                    currentStreak,
+                    moralDebt,
+                    paymentRate: timesPresent > 0 ? (timesPaid / timesPresent * 100) : 0,
+                    timesLost
+                };
+            });
+
+            return stats.sort((a, b) => b.timesPaid - a.timesPaid);
+        }
+
+        function render() {
+            const app = document.getElementById('app');
+            
+            if (!state.isAuthenticated) {
+                app.innerHTML = `
+                    <div class="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 p-4 flex items-center justify-center">
+                        <div class="bg-white rounded-lg shadow-xl p-8 max-w-md w-full">
+                            <div class="text-center mb-6">
+                                <div class="text-6xl mb-4">🔥</div>
+                                <h1 class="text-3xl font-bold text-purple-800 mb-2">Calculadora de Pagos</h1>
+                                <p class="text-gray-600">Acceso exclusivo para la pandilla</p>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block font-semibold mb-2 text-gray-700">Contraseña:</label>
+                                    <div class="relative">
+                                        <input
+                                            type="${state.showPassword ? 'text' : 'password'}"
+                                            id="passwordInput"
+                                            value="${state.passwordInput}"
+                                            class="w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-2 pr-12 ${
+                                                state.passwordError ? 'border-red-500' : 'border-gray-300'
+                                            }"
+                                            placeholder="Introduce la contraseña"
+                                        />
+                                        <button
+                                            onclick="state.showPassword = !state.showPassword; render();"
+                                            type="button"
+                                            class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+                                        >
+                                            ${state.showPassword ? '🙈' : '👁️'}
+                                        </button>
+                                    </div>
+                                    ${state.passwordError ? '<p class="text-red-500 text-sm mt-2">❌ Contraseña incorrecta</p>' : ''}
+                                </div>
+                                
+                                <button
+                                    onclick="handleLogin()"
+                                    class="w-full bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700 transition"
+                                >
+                                    Entrar
+                                </button>
+                            </div>
+                            
+                            <div class="mt-6 text-center text-sm text-gray-500">
+                                🔒 Solo miembros de la pandilla
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                const input = document.getElementById('passwordInput');
+                if (input) {
+                    input.addEventListener('input', (e) => {
+                        state.passwordInput = e.target.value;
+                    });
+                    input.addEventListener('keypress', (e) => {
+                        if (e.key === 'Enter') handleLogin();
+                    });
+                    input.focus();
+                }
+                return;
+            }
+
+            // App principal con tabs
+            const tabs = [
+                { id: 'registros', label: 'Registros', icon: '📝' },
+                { id: 'miembros', label: 'Miembros', icon: '👥' },
+                { id: 'bares', label: 'Bares', icon: '🍺' },
+                { id: 'pedidos', label: 'Pedidos', icon: '🛒' },
+                { id: 'juegos', label: 'Juegos', icon: '🎲' },
+                { id: 'estadisticas', label: 'Stats', icon: '📊' }
+            ];
+
+            let tabsHTML = tabs.map(tab => `
+                <button
+                    onclick="state.activeTab = '${tab.id}'; render();"
+                    class="tab-button flex items-center gap-2 px-4 py-2 rounded-lg font-medium whitespace-nowrap ${
+                        state.activeTab === tab.id 
+                            ? 'bg-purple-600 text-white' 
+                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }"
+                >
+                    <span>${tab.icon}</span>
+                    <span>${tab.label}</span>
+                </button>
+            `).join('');
+
+            let content = '';
+
+            if (state.activeTab === 'registros') {
+                content = `
+                    <div class="bg-white rounded-lg shadow-lg p-6">
+                        <h2 class="text-2xl font-bold mb-4 text-purple-700">Nuevo Registro</h2>
+                        
+                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+                            <p class="text-sm text-blue-700">💡 La ronda se mantiene automáticamente</p>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block font-semibold mb-2">Quién paga:</label>
+                                <div class="flex flex-wrap gap-2">
+                                    ${state.members.map(m => `
+                                        <button
+                                            onclick="togglePayer(${m.id})"
+                                            class="px-4 py-2 rounded-lg font-medium transition ${
+                                                state.newPayment.payers.includes(m.id)
+                                                    ? 'bg-green-500 text-white'
+                                                    : 'bg-gray-200 text-gray-700'
+                                            }"
+                                        >
+                                            ${m.avatar || '👤'} ${m.name}
+                                        </button>
+                                    `).join('')}
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block font-semibold mb-2">Presentes (${state.newPayment.present.length}):</label>
+                                <div class="flex flex-wrap gap-2">
+                                    ${state.members.map(m => `
+                                        <button
+                                            onclick="togglePresent(${m.id})"
+                                            class="px-4 py-2 rounded-lg font-medium transition ${
+                                                state.newPayment.present.includes(m.id)
+                                                    ? 'bg-blue-500 text-white'
+                                                    : 'bg-gray-200 text-gray-700'
+                                            }"
+                                        >
+                                            ${m.avatar || '👤'} ${m.name}
+                                        </button>
+                                    `).join('')}
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block font-semibold mb-2">Importe (€):</label>
+                                    <input
+                                        type="number"
+                                        step="0.01"
+                                        value="${state.newPayment.amount}"
+                                        onchange="state.newPayment.amount = this.value"
+                                        class="w-full px-4 py-3 border rounded-lg"
+                                        placeholder="15.50"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label class="block font-semibold mb-2">Bar:</label>
+                                    <select
+                                        onchange="state.newPayment.bar = this.value"
+                                        class="w-full px-4 py-3 border rounded-lg"
+                                    >
+                                        <option value="">Selecciona</option>
+                                        ${state.bars.map(b => `
+                                            <option value="${b.name}" ${state.newPayment.bar === b.name ? 'selected' : ''}>
+                                                ${b.name}
+                                            </option>
+                                        `).join('')}
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label class="block font-semibold mb-2">Fecha:</label>
+                                    <input
+                                        type="date"
+                                        value="${state.newPayment.date}"
+                                        onchange="state.newPayment.date = this.value"
+                                        class="w-full px-4 py-3 border rounded-lg"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label class="block font-semibold mb-2">📝 Registrado por:</label>
+                                    <select
+                                        onchange="state.newPayment.registered_by = parseInt(this.value)"
+                                        class="w-full px-4 py-3 border rounded-lg bg-yellow-50"
+                                    >
+                                        <option value="">Selecciona</option>
+                                        ${state.members.map(m => `
+                                            <option value="${m.id}" ${state.newPayment.registered_by === m.id ? 'selected' : ''}>
+                                                ${m.name}
+                                            </option>
+                                        `).join('')}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <button
+                                onclick="addPayment()"
+                                class="w-full bg-purple-600 text-white py-4 rounded-lg font-semibold hover:bg-purple-700 transition"
+                            >
+                                ➕ Añadir Registro
+                            </button>
+                        </div>
+
+                        <div class="mt-8">
+                            <h3 class="text-xl font-bold mb-4">Historial</h3>
+                            <div class="space-y-3">
+                                ${state.payments.slice().reverse().map(p => `
+                                    <div class="bg-gray-50 p-4 rounded-lg">
+                                        <div class="flex justify-between items-start">
+                                            <div class="flex-1">
+                                                <div class="font-semibold text-lg">
+                                                    ${p.payers.map(id => getMemberName(id)).join(', ')} pagó ${p.amount.toFixed(2)}€
+                                                </div>
+                                                <div class="text-sm text-gray-600 mt-1">
+                                                    ${p.bar} • ${new Date(p.date).toLocaleDateString('es-ES')}
+                                                </div>
+                                                ${p.registered_by ? `
+                                                    <div class="text-xs text-yellow-700 bg-yellow-100 inline-block px-2 py-1 rounded mt-2">
+                                                        📝 ${getMemberName(p.registered_by)}
+                                                    </div>
+                                                ` : ''}
+                                            </div>
+                                            <button
+                                                onclick="deletePayment(${p.id})"
+                                                class="text-red-500 hover:text-red-700"
+                                            >
+                                                🗑️
+                                            </button>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (state.activeTab === 'miembros') {
+                content = `
+                    <div class="bg-white rounded-lg shadow-lg p-6">
+                        <h2 class="text-2xl font-bold mb-4 text-purple-700">Miembros</h2>
+                        
+                        <div class="mb-6 space-y-4">
+                            <div class="flex gap-2">
+                                <input
+                                    type="text"
+                                    value="${state.newMember.name}"
+                                    onchange="state.newMember.name = this.value"
+                                    placeholder="Nombre"
+                                    class="flex-1 px-4 py-3 border rounded-lg"
+                                />
+                                <input
+                                    type="text"
+                                    value="${state.newMember.avatar}"
+                                    onchange="state.newMember.avatar = this.value"
+                                    placeholder="😊"
+                                    class="w-16 px-2 py-3 border rounded-lg text-center"
+                                />
+                                <button
+                                    onclick="addMember()"
+                                    class="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700"
+                                >
+                                    ➕
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            ${state.members.map(m => `
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <div class="flex items-center gap-3">
+                                            <div class="text-4xl">${m.avatar || '👤'}</div>
+                                            <div>
+                                                <div class="font-semibold text-lg">${m.name}</div>
+                                                <button
+                                                    onclick="toggleDefaultMember(${m.id})"
+                                                    class="text-sm ${
+                                                        state.defaultMembers.includes(m.id) 
+                                                            ? 'text-green-600' 
+                                                            : 'text-gray-500'
+                                                    }"
+                                                >
+                                                    ${state.defaultMembers.includes(m.id) ? '✓' : '✗'} Por defecto
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <button
+                                            onclick="deleteMember(${m.id})"
+                                            class="text-red-500 hover:text-red-700"
+                                        >
+                                            🗑️
+                                        </button>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            } else if (state.activeTab === 'bares') {
+                content = `
+                    <div class="bg-white rounded-lg shadow-lg p-6">
+                        <h2 class="text-2xl font-bold mb-4 text-purple-700">Bares</h2>
+                        
+                        <div class="flex gap-2 mb-6">
+                            <input
+                                type="text"
+                                value="${state.newBar}"
+                                onchange="state.newBar = this.value"
+                                placeholder="Nombre del bar"
+                                class="flex-1 px-4 py-3 border rounded-lg"
+                            />
+                            <button
+                                onclick="addBar()"
+                                class="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700"
+                            >
+                                ➕
+                            </button>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            ${state.bars.map(b => `
+                                <div class="bg-gray-50 p-4 rounded-lg flex items-center justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <span class="text-2xl">🍺</span>
+                                        <span class="font-semibold">${b.name}</span>
+                                    </div>
+                                    <button
+                                        onclick="deleteBar(${b.id})"
+                                        class="text-red-500 hover:text-red-700"
+                                    >
+                                        🗑️
+                                    </button>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            } else if (state.activeTab === 'pedidos') {
+                content = `
+                    <div class="bg-white rounded-lg shadow-lg p-6">
+                        <h2 class="text-2xl font-bold mb-4 text-purple-700">Pedidos</h2>
+                        
+                        <div class="flex gap-2 mb-6">
+                            <input
+                                type="text"
+                                value="${state.newItem}"
+                                onchange="state.newItem = this.value"
+                                placeholder="Artículo (Caña, Café...)"
+                                class="flex-1 px-4 py-3 border rounded-lg"
+                            />
+                            <button
+                                onclick="addOrderItem()"
+                                class="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700"
+                            >
+                                ➕
+                            </button>
+                        </div>
+
+                        <div class="grid grid-cols-1 gap-3 mb-6">
+                            ${state.orderItems.map(item => `
+                                <div class="bg-gray-50 p-4 rounded-lg">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <span class="font-semibold">${item.name}</span>
+                                        <button
