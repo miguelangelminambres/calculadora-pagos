@@ -785,6 +785,170 @@
             display: none;
         }
 
+        .activation-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+
+        .activation-box {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .activation-box h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .activation-box .subtitle {
+            color: #6b7280;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .activation-step {
+            background: #f9fafb;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+            text-align: left;
+        }
+
+        .activation-step h3 {
+            color: #374151;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .activation-step p {
+            color: #6b7280;
+            margin: 0;
+            font-size: 0.95em;
+        }
+
+        .license-input-group {
+            margin: 30px 0 20px 0;
+        }
+
+        .license-input-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: #374151;
+            font-weight: 600;
+            text-align: left;
+        }
+
+        .license-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1.1em;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: border-color 0.3s;
+            box-sizing: border-box;
+        }
+
+        .license-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .pandilla-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+        }
+
+        .pandilla-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .activation-button {
+            width: 100%;
+            padding: 15px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .activation-button:hover {
+            background: #5568d3;
+        }
+
+        .activation-button:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        .activation-error {
+            color: #ef4444;
+            margin-top: 15px;
+            font-size: 0.95em;
+            display: none;
+            padding: 10px;
+            background: #fee2e2;
+            border-radius: 8px;
+        }
+
+        .activation-success {
+            color: #10b981;
+            margin-top: 15px;
+            font-size: 0.95em;
+            display: none;
+            padding: 10px;
+            background: #d1fae5;
+            border-radius: 8px;
+        }
+
+        .contact-info {
+            margin-top: 30px;
+            padding: 20px;
+            background: #eff6ff;
+            border-radius: 10px;
+            border: 2px solid #dbeafe;
+        }
+
+        .contact-info h4 {
+            color: #1e40af;
+            margin-bottom: 10px;
+        }
+
+        .contact-info p {
+            color: #1e3a8a;
+            margin: 5px 0;
+            font-size: 0.9em;
+        }
+
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
             10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
@@ -1111,6 +1275,41 @@
                 font-size: 0.9em;
             }
 
+            /* Activation box */
+            .activation-box {
+                padding: 25px;
+                width: 95%;
+            }
+
+            .activation-box h1 {
+                font-size: 1.5em;
+            }
+
+            .activation-box .subtitle {
+                font-size: 0.95em;
+            }
+
+            .activation-step {
+                padding: 15px;
+            }
+
+            .activation-step h3 {
+                font-size: 1em;
+            }
+
+            .license-input {
+                font-size: 1em;
+                padding: 12px;
+            }
+
+            .contact-info {
+                padding: 15px;
+            }
+
+            .contact-info h4 {
+                font-size: 1em;
+            }
+
             /* Order items */
             .order-member-card {
                 padding: 15px;
@@ -1292,12 +1491,92 @@
             .login-box h1 {
                 font-size: 1.3em;
             }
+
+            /* Activation box pequeño */
+            .activation-box {
+                padding: 20px;
+                width: 98%;
+            }
+
+            .activation-box h1 {
+                font-size: 1.3em;
+            }
+
+            .activation-step {
+                padding: 12px;
+            }
+
+            .activation-step h3 {
+                font-size: 0.95em;
+            }
+
+            .license-input {
+                font-size: 0.95em;
+                padding: 10px;
+            }
+
+            .contact-info {
+                padding: 12px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Pantalla de Activación de Licencia -->
+    <div id="activationOverlay" class="activation-overlay app-hidden">
+        <div class="activation-box">
+            <h1>🍻 Gestión de Bares</h1>
+            <p class="subtitle">Sistema de Gestión para Pandillas</p>
+
+            <div class="activation-step">
+                <h3>📋 Paso 1: Obtén tu licencia</h3>
+                <p>Contacta con el administrador para adquirir tu código de licencia único.</p>
+            </div>
+
+            <div class="activation-step">
+                <h3>✅ Paso 2: Activa tu licencia</h3>
+                <p>Introduce tu código de licencia y el nombre de tu pandilla para activar la aplicación.</p>
+            </div>
+
+            <div class="license-input-group">
+                <label for="pandillaNameInput">Nombre de tu Pandilla:</label>
+                <input 
+                    type="text" 
+                    id="pandillaNameInput" 
+                    class="pandilla-input" 
+                    placeholder="Ej: Los Pocha, La Peña del Bar..."
+                    maxlength="30"
+                >
+            </div>
+
+            <div class="license-input-group">
+                <label for="licenseInput">Código de Licencia:</label>
+                <input 
+                    type="text" 
+                    id="licenseInput" 
+                    class="license-input" 
+                    placeholder="XXXX-XXXX-XXXX"
+                    maxlength="14"
+                    autocomplete="off"
+                >
+            </div>
+
+            <button class="activation-button" onclick="activateLicense()">🔓 Activar Licencia</button>
+            
+            <div id="activationError" class="activation-error"></div>
+            <div id="activationSuccess" class="activation-success"></div>
+
+            <div class="contact-info">
+                <h4>💬 ¿Necesitas una licencia?</h4>
+                <p>Contacta por WhatsApp: <strong>+34 XXX XXX XXX</strong></p>
+                <p>O por email: <strong>tucorreo@ejemplo.com</strong></p>
+                <p style="margin-top: 10px; color: #6b7280;">Precio: 25€ por pandilla (pago único)</p>
+            </div>
+        </div>
+    </div>
+
     <!-- Pantalla de Login -->
-    <div id="loginOverlay" class="login-overlay">
+    <div id="loginOverlay" class="login-overlay app-hidden">
         <div class="login-box">
             <h1>🍻 Gestión de Bares</h1>
             <p>Introduce la contraseña para acceder</p>
@@ -1319,7 +1598,7 @@
     </div>
 
     <div class="container app-hidden" id="appContainer">
-        <h1>🍻 Gestión de Bares</h1>
+        <h1 id="appTitle">🍻 Gestión de Bares</h1>
 
         <div class="tabs">
             <button class="tab active" onclick="showTab('miembros')">👥 Miembros</button>
@@ -1657,6 +1936,14 @@
             activeMembers: [], // IDs de miembros actualmente activos
             articles: [], // Artículos disponibles (bebidas, comidas, etc)
             currentOrders: {} // Pedido actual global: { articleId: quantity }
+        };
+
+        // Sistema de licencias
+        let licenseData = {
+            code: null,           // Código de licencia activado
+            pandillaName: null,   // Nombre de la pandilla
+            activated: false,     // Si está activada
+            activationDate: null  // Fecha de activación
         };
 
         let currentEditingPayment = null;
@@ -3561,6 +3848,153 @@
         // Sistema de login
         const CORRECT_PASSWORD = "pocha25";
 
+        // ============================================
+        // SISTEMA DE LICENCIAS
+        // ============================================
+        
+        // CÓDIGOS DE LICENCIA VÁLIDOS (TÚ LOS GENERAS Y CONTROLAS)
+        // Formato: "XXXX-XXXX-XXXX"
+        const VALID_LICENSES = [
+            "POCH-2025-A001",  // Licencia para Pandilla 1
+            "POCH-2025-A002",  // Licencia para Pandilla 2
+            "POCH-2025-A003",  // Licencia para Pandilla 3
+            "POCH-2025-A004",  // Licencia para Pandilla 4
+            // Añade más códigos según los vayas vendiendo
+        ];
+
+        // Cargar datos de licencia
+        function loadLicenseData() {
+            const saved = localStorage.getItem('licenseData');
+            if (saved) {
+                licenseData = JSON.parse(saved);
+            }
+        }
+
+        // Guardar datos de licencia
+        function saveLicenseData() {
+            localStorage.setItem('licenseData', JSON.stringify(licenseData));
+        }
+
+        // Formatear código de licencia mientras se escribe
+        document.addEventListener('DOMContentLoaded', function() {
+            const licenseInput = document.getElementById('licenseInput');
+            if (licenseInput) {
+                licenseInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+                    let formatted = '';
+                    
+                    for (let i = 0; i < value.length && i < 12; i++) {
+                        if (i > 0 && i % 4 === 0) {
+                            formatted += '-';
+                        }
+                        formatted += value[i];
+                    }
+                    
+                    e.target.value = formatted;
+                });
+            }
+        });
+
+        // Activar licencia
+        function activateLicense() {
+            const licenseInput = document.getElementById('licenseInput');
+            const pandillaInput = document.getElementById('pandillaNameInput');
+            const errorDiv = document.getElementById('activationError');
+            const successDiv = document.getElementById('activationSuccess');
+            const button = document.querySelector('.activation-button');
+            
+            const code = licenseInput.value.trim().toUpperCase();
+            const pandillaName = pandillaInput.value.trim();
+            
+            // Limpiar mensajes
+            errorDiv.style.display = 'none';
+            successDiv.style.display = 'none';
+            
+            // Validaciones
+            if (!pandillaName) {
+                errorDiv.textContent = '❌ Por favor, introduce el nombre de tu pandilla';
+                errorDiv.style.display = 'block';
+                errorDiv.style.animation = 'shake 0.5s';
+                setTimeout(() => errorDiv.style.animation = '', 500);
+                return;
+            }
+            
+            if (!code) {
+                errorDiv.textContent = '❌ Por favor, introduce tu código de licencia';
+                errorDiv.style.display = 'block';
+                errorDiv.style.animation = 'shake 0.5s';
+                setTimeout(() => errorDiv.style.animation = '', 500);
+                return;
+            }
+            
+            // Verificar si el código es válido
+            if (!VALID_LICENSES.includes(code)) {
+                errorDiv.textContent = '❌ Código de licencia inválido. Contacta con el administrador.';
+                errorDiv.style.display = 'block';
+                errorDiv.style.animation = 'shake 0.5s';
+                setTimeout(() => errorDiv.style.animation = '', 500);
+                return;
+            }
+            
+            // Verificar si el código ya fue usado (verificación básica)
+            // Nota: En una versión más avanzada, esto se verificaría en un servidor
+            const usedLicenses = JSON.parse(localStorage.getItem('usedLicenses') || '[]');
+            if (usedLicenses.includes(code)) {
+                errorDiv.textContent = '❌ Este código ya ha sido activado. Contacta con el administrador.';
+                errorDiv.style.display = 'block';
+                errorDiv.style.animation = 'shake 0.5s';
+                setTimeout(() => errorDiv.style.animation = '', 500);
+                return;
+            }
+            
+            // Activar licencia
+            button.disabled = true;
+            button.textContent = '⏳ Activando...';
+            
+            setTimeout(() => {
+                licenseData.code = code;
+                licenseData.pandillaName = pandillaName;
+                licenseData.activated = true;
+                licenseData.activationDate = new Date().toISOString();
+                
+                saveLicenseData();
+                
+                // Marcar licencia como usada
+                usedLicenses.push(code);
+                localStorage.setItem('usedLicenses', JSON.stringify(usedLicenses));
+                
+                successDiv.textContent = '✅ ¡Licencia activada correctamente! Redirigiendo...';
+                successDiv.style.display = 'block';
+                
+                // Actualizar título con nombre de pandilla
+                document.getElementById('appTitle').textContent = `🍻 ${pandillaName}`;
+                
+                setTimeout(() => {
+                    document.getElementById('activationOverlay').classList.add('app-hidden');
+                    document.getElementById('loginOverlay').classList.remove('app-hidden');
+                    document.getElementById('loginPassword').focus();
+                }, 1500);
+            }, 1000);
+        }
+
+        // Verificar licencia al cargar
+        function checkLicense() {
+            loadLicenseData();
+            
+            if (licenseData.activated && licenseData.code && VALID_LICENSES.includes(licenseData.code)) {
+                // Licencia válida, actualizar título y continuar al login
+                document.getElementById('appTitle').textContent = `🍻 ${licenseData.pandillaName}`;
+                document.getElementById('activationOverlay').classList.add('app-hidden');
+                document.getElementById('loginOverlay').classList.remove('app-hidden');
+                return true;
+            } else {
+                // Sin licencia o inválida, mostrar pantalla de activación
+                document.getElementById('activationOverlay').classList.remove('app-hidden');
+                document.getElementById('loginOverlay').classList.add('app-hidden');
+                return false;
+            }
+        }
+
         function checkPassword() {
             const input = document.getElementById('loginPassword');
             const password = input.value;
@@ -3593,6 +4027,30 @@
 
         // Permitir Enter para enviar
         document.addEventListener('DOMContentLoaded', function() {
+            // Verificar licencia primero
+            checkLicense();
+            
+            // Configurar input de licencia
+            const licenseInput = document.getElementById('licenseInput');
+            if (licenseInput) {
+                licenseInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        activateLicense();
+                    }
+                });
+            }
+
+            // Configurar input de nombre de pandilla
+            const pandillaInput = document.getElementById('pandillaNameInput');
+            if (pandillaInput) {
+                pandillaInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        document.getElementById('licenseInput').focus();
+                    }
+                });
+            }
+            
+            // Configurar password input
             const passwordInput = document.getElementById('loginPassword');
             if (passwordInput) {
                 passwordInput.addEventListener('keypress', function(e) {
@@ -3602,13 +4060,10 @@
                 });
                 
                 // Verificar si ya está autenticado en esta sesión
-                if (sessionStorage.getItem('authenticated') === 'true') {
+                if (sessionStorage.getItem('authenticated') === 'true' && licenseData.activated) {
                     document.getElementById('loginOverlay').style.display = 'none';
                     document.getElementById('appContainer').classList.remove('app-hidden');
                 }
-                
-                // Focus automático en el input
-                passwordInput.focus();
             }
         });
 
