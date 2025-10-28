@@ -25,6 +25,7 @@
             border-radius: 20px;
             padding: 30px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            box-sizing: border-box;
         }
 
         h1 {
@@ -100,6 +101,7 @@
             border-radius: 8px;
             font-size: 1em;
             transition: border-color 0.3s;
+            box-sizing: border-box;
         }
 
         input:focus, select:focus {
@@ -690,10 +692,609 @@
             font-weight: bold;
             color: #667eea;
         }
+
+        .login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .login-box {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .login-box h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .login-box p {
+            color: #6b7280;
+            margin-bottom: 30px;
+        }
+
+        .login-input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .login-input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #374151;
+            font-weight: 500;
+        }
+
+        .login-input-wrapper {
+            position: relative;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1.1em;
+            transition: border-color 0.3s;
+        }
+
+        .login-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .login-error {
+            color: #ef4444;
+            margin-top: 10px;
+            font-size: 0.9em;
+            display: none;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 14px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .login-button:hover {
+            background: #5568d3;
+        }
+
+        .app-hidden {
+            display: none;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+            20%, 40%, 60%, 80% { transform: translateX(10px); }
+        }
+
+        .selector-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .selector-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #e5e7eb;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .selector-card:hover {
+            border-color: #667eea;
+            background: #f0f9ff;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+
+        .selector-card.selected {
+            border-color: #667eea;
+            background: #e0e7ff;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .selector-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .selector-name {
+            font-weight: bold;
+            color: #374151;
+            margin-bottom: 5px;
+        }
+
+        .selector-count {
+            font-size: 0.9em;
+            color: #6b7280;
+        }
+
+        .detail-section {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .detail-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .detail-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #374151;
+            margin-left: 15px;
+        }
+
+        .payment-detail-card {
+            background: #f9fafb;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .payment-detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .payment-detail-info {
+            font-size: 0.9em;
+            color: #6b7280;
+            margin: 5px 0;
+        }
+
+        /* ============================================
+           RESPONSIVE - MOBILE STYLES
+           ============================================ */
+        
+        @media (max-width: 768px) {
+            body {
+                font-size: 14px;
+            }
+
+            .container {
+                padding: 10px;
+                max-width: 100%;
+            }
+
+            h1 {
+                font-size: 1.5em;
+                padding: 15px 10px;
+            }
+
+            /* Tabs horizontalmente scrollables */
+            .tabs {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                gap: 5px;
+                padding: 10px 5px;
+                margin-bottom: 15px;
+            }
+
+            .tab {
+                padding: 10px 15px;
+                font-size: 0.85em;
+                white-space: nowrap;
+                flex-shrink: 0;
+            }
+
+            /* Secciones */
+            .section {
+                padding: 15px;
+                margin-bottom: 15px;
+            }
+
+            /* Formularios */
+            .form-group {
+                margin-bottom: 12px;
+            }
+
+            .form-group label {
+                font-size: 0.9em;
+            }
+
+            input, select, button {
+                font-size: 14px;
+                padding: 10px;
+            }
+
+            /* Grids responsive */
+            .stats-grid {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+                gap: 10px;
+            }
+
+            .balance-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .member-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 10px;
+            }
+
+            .selector-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 10px;
+            }
+
+            .order-items-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 8px;
+            }
+
+            /* Stat cards más pequeñas */
+            .stat-card {
+                padding: 12px;
+            }
+
+            .stat-value {
+                font-size: 1.3em;
+            }
+
+            .stat-label {
+                font-size: 0.85em;
+            }
+
+            /* Balance cards */
+            .balance-card {
+                padding: 12px;
+            }
+
+            .balance-card h3 {
+                font-size: 1em;
+            }
+
+            /* Member cards */
+            .member-card {
+                padding: 12px;
+            }
+
+            .member-card h3 {
+                font-size: 1em;
+            }
+
+            /* Avatares más pequeños */
+            .avatar-display {
+                font-size: 20px;
+                width: 35px;
+                height: 35px;
+            }
+
+            /* Lista de items */
+            .list-item {
+                padding: 12px;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .list-item-content {
+                width: 100%;
+            }
+
+            .delete-btn, .edit-btn {
+                width: 100%;
+                margin-top: 5px;
+            }
+
+            /* History list */
+            .history-item {
+                padding: 12px;
+            }
+
+            .history-item-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+
+            .history-item-amount {
+                font-size: 1.2em;
+            }
+
+            /* Ranking items */
+            .ranking-item {
+                padding: 12px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .ranking-position {
+                font-size: 20px;
+                width: auto;
+                margin-right: 0;
+                margin-bottom: 5px;
+            }
+
+            .ranking-info {
+                margin-bottom: 5px;
+            }
+
+            .ranking-stats {
+                width: 100%;
+            }
+
+            .ranking-amount {
+                font-size: 1.3em;
+            }
+
+            /* Modal responsive */
+            .modal-content {
+                width: 95%;
+                margin: 20px auto;
+                max-height: 90vh;
+                overflow-y: auto;
+            }
+
+            .modal-header {
+                padding: 15px;
+            }
+
+            .modal-header h2 {
+                font-size: 1.2em;
+            }
+
+            /* Participant selector */
+            .participant-selector {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+                gap: 8px;
+            }
+
+            .participant-option {
+                padding: 8px;
+                font-size: 0.85em;
+            }
+
+            /* Login box */
+            .login-box {
+                padding: 25px;
+                width: 95%;
+            }
+
+            .login-box h1 {
+                font-size: 1.5em;
+            }
+
+            .login-box p {
+                font-size: 0.9em;
+            }
+
+            /* Order items */
+            .order-member-card {
+                padding: 15px;
+            }
+
+            .order-member-name {
+                font-size: 1em;
+            }
+
+            .order-item {
+                padding: 10px;
+            }
+
+            .order-item-header {
+                font-size: 0.85em;
+            }
+
+            .order-btn {
+                width: 32px;
+                height: 32px;
+                font-size: 16px;
+            }
+
+            .order-quantity {
+                font-size: 18px;
+                min-width: 25px;
+            }
+
+            /* Order summary */
+            .order-summary-item {
+                padding: 10px;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+
+            .order-summary-quantity {
+                font-size: 1.1em;
+            }
+
+            /* Game stat cards */
+            .game-stat-card {
+                padding: 15px;
+            }
+
+            /* Detail sections */
+            .detail-section {
+                padding: 15px;
+            }
+
+            .detail-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .detail-title {
+                font-size: 1.2em;
+                margin-left: 0;
+                margin-top: 10px;
+            }
+
+            /* Payment detail cards */
+            .payment-detail-card {
+                padding: 12px;
+            }
+
+            .payment-detail-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .payment-detail-info {
+                font-size: 0.85em;
+            }
+
+            /* Selector cards */
+            .selector-card {
+                padding: 15px;
+            }
+
+            .selector-icon {
+                font-size: 32px;
+            }
+
+            .selector-name {
+                font-size: 0.9em;
+            }
+
+            .selector-count {
+                font-size: 0.8em;
+            }
+
+            /* Buttons más grandes para touch */
+            button {
+                min-height: 44px;
+                touch-action: manipulation;
+            }
+
+            /* Checkbox más grande */
+            input[type="checkbox"] {
+                width: 20px;
+                height: 20px;
+            }
+
+            /* Progress bar */
+            .progress-bar {
+                width: 100%;
+            }
+
+            /* Ocultar textos largos en móvil */
+            .section h2 {
+                font-size: 1.2em;
+            }
+
+            .section p {
+                font-size: 0.9em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.3em;
+            }
+
+            .tab {
+                padding: 8px 12px;
+                font-size: 0.8em;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .stat-card {
+                padding: 10px;
+            }
+
+            .stat-value {
+                font-size: 1.2em;
+            }
+
+            .member-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .selector-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+
+            .order-items-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .participant-selector {
+                grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+            }
+
+            .modal-content {
+                width: 98%;
+            }
+
+            .login-box {
+                padding: 20px;
+            }
+
+            .login-box h1 {
+                font-size: 1.3em;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
+    <!-- Pantalla de Login -->
+    <div id="loginOverlay" class="login-overlay">
+        <div class="login-box">
+            <h1>🍻 Gestión de Bares</h1>
+            <p>Introduce la contraseña para acceder</p>
+            <div class="login-input-group">
+                <label for="loginPassword">Contraseña:</label>
+                <div class="login-input-wrapper">
+                    <input 
+                        type="text" 
+                        id="loginPassword" 
+                        class="login-input" 
+                        placeholder="Escribe la contraseña..."
+                        autocomplete="off"
+                    >
+                </div>
+            </div>
+            <button class="login-button" onclick="checkPassword()">🔓 Entrar</button>
+            <div id="loginError" class="login-error">❌ Contraseña incorrecta</div>
+        </div>
+    </div>
+
+    <div class="container app-hidden" id="appContainer">
         <h1>🍻 Gestión de Bares</h1>
 
         <div class="tabs">
@@ -704,6 +1305,8 @@
             <button class="tab" onclick="showTab('pedidos')">📋 Pedidos</button>
             <button class="tab" onclick="showTab('pagos')">💰 Registrar Pago</button>
             <button class="tab" onclick="showTab('balances')">📊 Balances</button>
+            <button class="tab" onclick="showTab('balance-juegos')">🎮 Balance/Juego</button>
+            <button class="tab" onclick="showTab('balance-miembros')">👤 Balance/Miembro</button>
             <button class="tab" onclick="showTab('historial')">📜 Historial</button>
         </div>
 
@@ -941,6 +1544,32 @@
             </div>
         </div>
 
+        <!-- TAB BALANCE POR JUEGO -->
+        <div id="balance-juegos" class="tab-content">
+            <div class="section">
+                <h2>🎮 Balance Detallado por Juego</h2>
+                <p style="color: #6b7280; margin-bottom: 20px;">
+                    Selecciona un juego para ver todos los detalles: quién ha pagado, participantes, balances, etc.
+                </p>
+                <div id="gameBalanceSelector"></div>
+            </div>
+            
+            <div id="gameBalanceDetails"></div>
+        </div>
+
+        <!-- TAB BALANCE POR MIEMBRO -->
+        <div id="balance-miembros" class="tab-content">
+            <div class="section">
+                <h2>👤 Balance Detallado por Miembro</h2>
+                <p style="color: #6b7280; margin-bottom: 20px;">
+                    Selecciona un miembro para ver todos sus pagos, participaciones y balances detallados.
+                </p>
+                <div id="memberBalanceSelector"></div>
+            </div>
+            
+            <div id="memberBalanceDetails"></div>
+        </div>
+
         <!-- TAB HISTORIAL -->
         <div id="historial" class="tab-content">
             <div class="section">
@@ -1151,6 +1780,16 @@
             } else if (tabName === 'pedidos') {
                 renderOrderArticlesManager();
                 renderCurrentOrderSummary();
+            } else if (tabName === 'balance-juegos') {
+                renderGameBalanceSelector();
+                if (selectedGame !== null) {
+                    renderGameBalanceDetails(selectedGame);
+                }
+            } else if (tabName === 'balance-miembros') {
+                renderMemberBalanceSelector();
+                if (selectedMember !== null) {
+                    renderMemberBalanceDetails(selectedMember);
+                }
             }
         }
 
@@ -1485,6 +2124,200 @@
             renderOrderArticlesManager();
             renderCurrentOrderSummary();
             alert('El pedido ha sido limpiado');
+        }
+
+        // Variables para los selectores
+        let selectedGame = null;
+        let selectedMember = null;
+
+        // Renderizar selector de juegos para balance detallado
+        function renderGameBalanceSelector() {
+            const container = document.getElementById('gameBalanceSelector');
+            
+            if (data.games.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #6b7280;">No hay juegos registrados</p>';
+                return;
+            }
+
+            // Añadir opción "Sin juego"
+            const gamesWithNoGame = [{id: 0, name: 'Sin juego', icon: '🚫'}, ...data.games.map(g => ({...g, icon: '🎮'}))];
+
+            container.innerHTML = `
+                <div class="selector-grid">
+                    ${gamesWithNoGame.map(game => {
+                        const paymentsCount = data.payments.filter(p => 
+                            game.id === 0 ? !p.gameId : p.gameId === game.id
+                        ).length;
+                        
+                        return `
+                            <div class="selector-card ${selectedGame === game.id ? 'selected' : ''}" 
+                                 onclick="selectGameForBalance(${game.id})">
+                                <div class="selector-icon">${game.icon || '🎮'}</div>
+                                <div class="selector-name">${game.name}</div>
+                                <div class="selector-count">${paymentsCount} ${paymentsCount === 1 ? 'pago' : 'pagos'}</div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
+        // Seleccionar juego y mostrar detalles
+        function selectGameForBalance(gameId) {
+            selectedGame = gameId;
+            renderGameBalanceSelector();
+            renderGameBalanceDetails(gameId);
+        }
+
+        // Renderizar detalles del balance de un juego
+        function renderGameBalanceDetails(gameId) {
+            const container = document.getElementById('gameBalanceDetails');
+            
+            // Filtrar pagos de este juego
+            const gamePayments = data.payments.filter(p => 
+                gameId === 0 ? !p.gameId : p.gameId === gameId
+            );
+
+            if (gamePayments.length === 0) {
+                container.innerHTML = `
+                    <div class="section">
+                        <p style="text-align: center; color: #6b7280;">No hay pagos registrados para este juego</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const game = gameId === 0 ? {name: 'Sin juego', icon: '🚫'} : data.games.find(g => g.id === gameId);
+            
+            // Calcular estadísticas
+            const totalAmount = gamePayments.reduce((sum, p) => sum + p.amount, 0);
+            const avgAmount = totalAmount / gamePayments.length;
+
+            // Calcular quién ha pagado cuánto
+            const payerStats = {};
+            gamePayments.forEach(payment => {
+                const payers = payment.payers || (payment.memberId ? [payment.memberId] : []);
+                const amountPerPayer = payment.amount / (payers.length || 1);
+                
+                payers.forEach(payerId => {
+                    if (!payerStats[payerId]) {
+                        const member = data.members.find(m => m.id === payerId);
+                        payerStats[payerId] = {
+                            member: member,
+                            totalPaid: 0,
+                            paymentsCount: 0
+                        };
+                    }
+                    payerStats[payerId].totalPaid += amountPerPayer;
+                    payerStats[payerId].paymentsCount++;
+                });
+            });
+
+            const sortedPayers = Object.values(payerStats).sort((a, b) => b.totalPaid - a.totalPaid);
+
+            // Calcular participaciones
+            const participantStats = {};
+            gamePayments.forEach(payment => {
+                const participants = payment.participants || [];
+                const amountPerParticipant = payment.amount / (participants.length || 1);
+                
+                participants.forEach(participantId => {
+                    if (!participantStats[participantId]) {
+                        const member = data.members.find(m => m.id === participantId);
+                        participantStats[participantId] = {
+                            member: member,
+                            totalOwed: 0,
+                            participationsCount: 0
+                        };
+                    }
+                    participantStats[participantId].totalOwed += amountPerParticipant;
+                    participantStats[participantId].participationsCount++;
+                });
+            });
+
+            let html = `
+                <div class="section">
+                    <div class="detail-header">
+                        <span style="font-size: 50px;">${game.icon || '🎮'}</span>
+                        <div class="detail-title">${game.name}</div>
+                    </div>
+
+                    <div class="stats-grid" style="margin-bottom: 20px;">
+                        <div class="stat-card">
+                            <div class="stat-label">Total Gastado</div>
+                            <div class="stat-value">${totalAmount.toFixed(2)}€</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Total Pagos</div>
+                            <div class="stat-value">${gamePayments.length}</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Promedio/Pago</div>
+                            <div class="stat-value">${avgAmount.toFixed(2)}€</div>
+                        </div>
+                    </div>
+
+                    <h3 style="color: #374151; margin: 20px 0 15px 0;">💰 Ranking de Pagadores</h3>
+                    <div class="balance-grid">
+                        ${sortedPayers.map((stat, index) => {
+                            const position = index + 1;
+                            let medal = '';
+                            if (position === 1) medal = '🥇';
+                            else if (position === 2) medal = '🥈';
+                            else if (position === 3) medal = '🥉';
+                            
+                            return `
+                                <div class="balance-card">
+                                    <h3 style="display: flex; align-items: center;">
+                                        ${medal ? `<span style="font-size: 24px; margin-right: 10px;">${medal}</span>` : ''}
+                                        ${displayAvatar(stat.member.avatar)}
+                                        ${stat.member.name}
+                                    </h3>
+                                    <div style="color: #6b7280; font-size: 0.9em; margin-top: 10px;">
+                                        Ha pagado: <strong>${stat.totalPaid.toFixed(2)}€</strong><br>
+                                        En ${stat.paymentsCount} ${stat.paymentsCount === 1 ? 'pago' : 'pagos'}
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+
+                    <h3 style="color: #374151; margin: 20px 0 15px 0;">📜 Historial de Pagos</h3>
+                    ${gamePayments.sort((a, b) => new Date(b.date) - new Date(a.date)).map(payment => {
+                        const bar = data.bars.find(b => b.id === payment.barId);
+                        const payers = payment.payers || (payment.memberId ? [payment.memberId] : []);
+                        const payerObjects = payers.map(id => data.members.find(m => m.id === id)).filter(m => m);
+                        const payerNames = payerObjects.map(m => m.name).join(' + ');
+                        const date = new Date(payment.date);
+                        
+                        const participants = payment.participants || [];
+                        const participantNames = participants
+                            .map(id => data.members.find(m => m.id === id))
+                            .filter(m => m)
+                            .map(m => m.name)
+                            .join(', ');
+
+                        return `
+                            <div class="payment-detail-card">
+                                <div class="payment-detail-header">
+                                    <strong style="color: #374151;">${payerNames} → ${bar ? bar.name : 'Bar desconocido'}</strong>
+                                    <strong style="color: #667eea; font-size: 1.1em;">${payment.amount.toFixed(2)}€</strong>
+                                </div>
+                                <div class="payment-detail-info">
+                                    📅 ${date.toLocaleDateString('es-ES')} ${date.toLocaleTimeString('es-ES', {hour: '2-digit', minute: '2-digit'})}
+                                </div>
+                                ${participantNames ? `
+                                    <div class="payment-detail-info">
+                                        👥 Participantes: ${participantNames}
+                                    </div>
+                                ` : ''}
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+
+            container.innerHTML = html;
         }
 
         // Registrar pago
@@ -2388,6 +3221,241 @@
             container.innerHTML = html;
         }
 
+        // Renderizar selector de miembros para balance detallado
+        function renderMemberBalanceSelector() {
+            const container = document.getElementById('memberBalanceSelector');
+            
+            if (data.members.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #6b7280;">No hay miembros registrados</p>';
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="selector-grid">
+                    ${data.members.map(member => {
+                        const paymentsAsPayer = data.payments.filter(p => {
+                            const payers = p.payers || (p.memberId ? [p.memberId] : []);
+                            return payers.includes(member.id);
+                        }).length;
+                        
+                        const paymentsAsParticipant = data.payments.filter(p => 
+                            (p.participants || []).includes(member.id)
+                        ).length;
+                        
+                        return `
+                            <div class="selector-card ${selectedMember === member.id ? 'selected' : ''}" 
+                                 onclick="selectMemberForBalance(${member.id})">
+                                <div style="font-size: 40px; margin-bottom: 10px;">${member.avatar}</div>
+                                <div class="selector-name">${member.name}</div>
+                                <div class="selector-count">
+                                    ${paymentsAsPayer} pagado${paymentsAsPayer !== 1 ? 's' : ''} · 
+                                    ${paymentsAsParticipant} participación${paymentsAsParticipant !== 1 ? 'es' : ''}
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
+        // Seleccionar miembro y mostrar detalles
+        function selectMemberForBalance(memberId) {
+            selectedMember = memberId;
+            renderMemberBalanceSelector();
+            renderMemberBalanceDetails(memberId);
+        }
+
+        // Renderizar detalles del balance de un miembro
+        function renderMemberBalanceDetails(memberId) {
+            const container = document.getElementById('memberBalanceDetails');
+            const member = data.members.find(m => m.id === memberId);
+            
+            if (!member) {
+                container.innerHTML = '';
+                return;
+            }
+
+            // Pagos donde este miembro ha pagado
+            const paymentsAsPayer = data.payments.filter(p => {
+                const payers = p.payers || (p.memberId ? [p.memberId] : []);
+                return payers.includes(memberId);
+            });
+
+            // Pagos donde este miembro ha participado
+            const paymentsAsParticipant = data.payments.filter(p => 
+                (p.participants || []).includes(memberId)
+            );
+
+            // Calcular totales pagados
+            let totalPaid = 0;
+            paymentsAsPayer.forEach(payment => {
+                const payers = payment.payers || (payment.memberId ? [payment.memberId] : []);
+                totalPaid += payment.amount / payers.length;
+            });
+
+            // Calcular total que debe
+            let totalOwed = 0;
+            paymentsAsParticipant.forEach(payment => {
+                const participants = payment.participants || [];
+                if (participants.length > 0) {
+                    totalOwed += payment.amount / participants.length;
+                }
+            });
+
+            const balance = totalPaid - totalOwed;
+            const balanceClass = balance > 0 ? 'balance-positive' : balance < 0 ? 'balance-negative' : 'balance-neutral';
+            const balanceText = balance > 0 ? 'Le deben' : balance < 0 ? 'Debe' : 'Saldado';
+
+            // Agrupar por bar
+            const paymentsByBar = {};
+            paymentsAsPayer.forEach(payment => {
+                const bar = data.bars.find(b => b.id === payment.barId);
+                if (bar) {
+                    if (!paymentsByBar[bar.id]) {
+                        paymentsByBar[bar.id] = {
+                            bar: bar,
+                            payments: [],
+                            total: 0
+                        };
+                    }
+                    const payers = payment.payers || (payment.memberId ? [payment.memberId] : []);
+                    const amountPaid = payment.amount / payers.length;
+                    paymentsByBar[bar.id].payments.push({...payment, amountPaid});
+                    paymentsByBar[bar.id].total += amountPaid;
+                }
+            });
+
+            // Agrupar por juego
+            const paymentsByGame = {};
+            paymentsAsPayer.forEach(payment => {
+                const gameId = payment.gameId || 0;
+                const game = gameId === 0 ? {id: 0, name: 'Sin juego', icon: '🚫'} : data.games.find(g => g.id === gameId);
+                
+                if (game) {
+                    if (!paymentsByGame[gameId]) {
+                        paymentsByGame[gameId] = {
+                            game: game,
+                            count: 0,
+                            total: 0
+                        };
+                    }
+                    const payers = payment.payers || (payment.memberId ? [payment.memberId] : []);
+                    const amountPaid = payment.amount / payers.length;
+                    paymentsByGame[gameId].count++;
+                    paymentsByGame[gameId].total += amountPaid;
+                }
+            });
+
+            let html = `
+                <div class="section">
+                    <div class="detail-header">
+                        <span style="font-size: 50px;">${member.avatar}</span>
+                        <div class="detail-title">${member.name}</div>
+                    </div>
+
+                    <div class="stats-grid" style="margin-bottom: 20px;">
+                        <div class="stat-card">
+                            <div class="stat-label">Total Pagado</div>
+                            <div class="stat-value" style="color: #10b981;">${totalPaid.toFixed(2)}€</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Total Debe</div>
+                            <div class="stat-value" style="color: #ef4444;">${totalOwed.toFixed(2)}€</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Balance</div>
+                            <div class="stat-value ${balanceClass}">${Math.abs(balance).toFixed(2)}€</div>
+                            <div style="color: #6b7280; font-size: 0.9em; margin-top: 5px;">${balanceText}</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Pagos Realizados</div>
+                            <div class="stat-value">${paymentsAsPayer.length}</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Participaciones</div>
+                            <div class="stat-value">${paymentsAsParticipant.length}</div>
+                        </div>
+                    </div>
+
+                    <h3 style="color: #374151; margin: 20px 0 15px 0;">🏪 Pagos por Bar</h3>
+                    <div class="balance-grid">
+                        ${Object.values(paymentsByBar).length > 0 ? Object.values(paymentsByBar).sort((a, b) => b.total - a.total).map(barData => `
+                            <div class="balance-card">
+                                <h3 style="display: flex; align-items: center;">
+                                    <span style="font-size: 24px; margin-right: 10px;">${barData.bar.avatar}</span>
+                                    ${barData.bar.name}
+                                </h3>
+                                <div style="color: #6b7280; font-size: 0.9em; margin-top: 10px;">
+                                    Pagado: <strong>${barData.total.toFixed(2)}€</strong><br>
+                                    En ${barData.payments.length} ${barData.payments.length === 1 ? 'pago' : 'pagos'}
+                                </div>
+                            </div>
+                        `).join('') : '<p style="text-align: center; color: #6b7280;">No hay pagos en bares</p>'}
+                    </div>
+
+                    <h3 style="color: #374151; margin: 20px 0 15px 0;">🎮 Pagos por Juego</h3>
+                    <div class="balance-grid">
+                        ${Object.values(paymentsByGame).length > 0 ? Object.values(paymentsByGame).sort((a, b) => b.total - a.total).map(gameData => `
+                            <div class="balance-card">
+                                <h3 style="display: flex; align-items: center;">
+                                    <span style="font-size: 24px; margin-right: 10px;">${gameData.game.icon || '🎮'}</span>
+                                    ${gameData.game.name}
+                                </h3>
+                                <div style="color: #6b7280; font-size: 0.9em; margin-top: 10px;">
+                                    Pagado: <strong>${gameData.total.toFixed(2)}€</strong><br>
+                                    En ${gameData.count} ${gameData.count === 1 ? 'partida' : 'partidas'}
+                                </div>
+                            </div>
+                        `).join('') : '<p style="text-align: center; color: #6b7280;">No hay pagos con juegos</p>'}
+                    </div>
+
+                    <h3 style="color: #374151; margin: 20px 0 15px 0;">📜 Historial de Pagos</h3>
+                    ${paymentsAsPayer.length > 0 ? paymentsAsPayer.sort((a, b) => new Date(b.date) - new Date(a.date)).map(payment => {
+                        const bar = data.bars.find(b => b.id === payment.barId);
+                        const game = payment.gameId ? data.games.find(g => g.id === payment.gameId) : null;
+                        const date = new Date(payment.date);
+                        const payers = payment.payers || (payment.memberId ? [payment.memberId] : []);
+                        const amountPaid = payment.amount / payers.length;
+                        
+                        const participants = payment.participants || [];
+                        const participantNames = participants
+                            .map(id => data.members.find(m => m.id === id))
+                            .filter(m => m)
+                            .map(m => m.name)
+                            .join(', ');
+
+                        return `
+                            <div class="payment-detail-card">
+                                <div class="payment-detail-header">
+                                    <strong style="color: #374151;">${bar ? bar.name : 'Bar desconocido'}</strong>
+                                    <div>
+                                        <span style="color: #6b7280; font-size: 0.9em;">Pagó: </span>
+                                        <strong style="color: #667eea; font-size: 1.1em;">${amountPaid.toFixed(2)}€</strong>
+                                        ${payers.length > 1 ? `<span style="color: #6b7280; font-size: 0.85em;"> (de ${payment.amount.toFixed(2)}€)</span>` : ''}
+                                    </div>
+                                </div>
+                                <div class="payment-detail-info">
+                                    📅 ${date.toLocaleDateString('es-ES')} ${date.toLocaleTimeString('es-ES', {hour: '2-digit', minute: '2-digit'})}
+                                </div>
+                                ${game ? `
+                                    <div class="payment-detail-info">
+                                        🎮 ${game.name}
+                                    </div>
+                                ` : ''}
+                                ${participantNames ? `
+                                    <div class="payment-detail-info">
+                                        👥 Participantes: ${participantNames}
+                                    </div>
+                                ` : ''}
+                            </div>
+                        `;
+                    }).join('') : '<p style="text-align: center; color: #6b7280;">No hay pagos registrados</p>'}
+                </div>
+            `;
+
+            container.innerHTML = html;
+        }
+
         // Renderizar historial
         function renderHistory() {
             const list = document.getElementById('historyList');
@@ -2465,6 +3533,60 @@
             renderArticles();
             updatePaymentSelects();
         }
+
+        // Sistema de login
+        const CORRECT_PASSWORD = "pocha25";
+
+        function checkPassword() {
+            const input = document.getElementById('loginPassword');
+            const password = input.value;
+            const errorDiv = document.getElementById('loginError');
+
+            if (password === CORRECT_PASSWORD) {
+                // Contraseña correcta
+                document.getElementById('loginOverlay').style.display = 'none';
+                document.getElementById('appContainer').classList.remove('app-hidden');
+                
+                // Guardar que ya ha iniciado sesión
+                sessionStorage.setItem('authenticated', 'true');
+                
+                // Limpiar input
+                input.value = '';
+                errorDiv.style.display = 'none';
+            } else {
+                // Contraseña incorrecta
+                errorDiv.style.display = 'block';
+                input.value = '';
+                input.focus();
+                
+                // Animar el error
+                errorDiv.style.animation = 'shake 0.5s';
+                setTimeout(() => {
+                    errorDiv.style.animation = '';
+                }, 500);
+            }
+        }
+
+        // Permitir Enter para enviar
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordInput = document.getElementById('loginPassword');
+            if (passwordInput) {
+                passwordInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        checkPassword();
+                    }
+                });
+                
+                // Verificar si ya está autenticado en esta sesión
+                if (sessionStorage.getItem('authenticated') === 'true') {
+                    document.getElementById('loginOverlay').style.display = 'none';
+                    document.getElementById('appContainer').classList.remove('app-hidden');
+                }
+                
+                // Focus automático en el input
+                passwordInput.focus();
+            }
+        });
 
         // Iniciar cuando cargue la página
         window.onload = init;
