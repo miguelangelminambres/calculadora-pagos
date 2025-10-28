@@ -3,722 +3,1036 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Pagos</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <title>Gestión de Bares - Grupo de Amigos</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #f5f3ff 0%, #dbeafe 100%);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+            padding: 20px;
         }
-        .container { max-width: 1200px; margin: 0 auto; padding: 1rem; }
-        .header { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-        .title { font-size: 2rem; font-weight: bold; color: #7c3aed; }
-        .btn { 
-            padding: 0.75rem 1.5rem; 
-            border: none; 
-            border-radius: 0.5rem; 
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .btn-primary { background: #7c3aed; color: white; }
-        .btn-primary:hover { background: #6d28d9; }
-        .btn-danger { background: #ef4444; color: white; }
-        .btn-danger:hover { background: #dc2626; }
-        .btn-success { background: #10b981; color: white; }
-        .btn-success:hover { background: #059669; }
-        .card { 
-            background: white; 
-            border-radius: 1rem; 
-            padding: 2rem;
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
-        }
-        .tabs { 
-            display: flex; 
-            gap: 0.5rem; 
-            margin-bottom: 2rem;
-            overflow-x: auto;
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
             background: white;
-            padding: 0.5rem;
-            border-radius: 0.5rem;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
         }
-        .tab { 
-            padding: 0.75rem 1.5rem;
+
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: none;
             border: none;
-            border-radius: 0.5rem;
-            background: #f3f4f6;
+            color: #6b7280;
             cursor: pointer;
-            white-space: nowrap;
+            font-size: 1.1em;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab:hover {
+            color: #667eea;
+        }
+
+        .tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .section {
+            background: #f9fafb;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .section h2 {
+            color: #374151;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #4b5563;
             font-weight: 500;
         }
-        .tab.active { background: #7c3aed; color: white; }
-        .tab:hover:not(.active) { background: #e5e7eb; }
-        .input { 
+
+        input, select {
             width: 100%;
-            padding: 0.75rem;
+            padding: 10px;
             border: 2px solid #e5e7eb;
-            border-radius: 0.5rem;
-            font-size: 1rem;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
         }
-        .input:focus { 
-            outline: none; 
-            border-color: #7c3aed;
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
         }
-        .grid { display: grid; gap: 1rem; }
-        .grid-2 { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
-        .member-btn, .item-card {
-            padding: 0.75rem 1rem;
-            border-radius: 0.5rem;
-            border: 2px solid #e5e7eb;
-            background: #f9fafb;
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: all 0.2s;
+            font-size: 1em;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #5568d3;
+        }
+
+        .button-secondary {
+            background: #6b7280;
+        }
+
+        .button-secondary:hover {
+            background: #4b5563;
+        }
+
+        .list {
+            list-style: none;
+        }
+
+        .list-item {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .list-item-content {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            flex: 1;
         }
-        .member-btn.selected { background: #7c3aed; color: white; border-color: #7c3aed; }
-        .member-btn.present { background: #3b82f6; color: white; border-color: #3b82f6; }
-        .member-btn.loser { background: #ef4444; color: white; border-color: #ef4444; }
-        .login-screen {
+
+        .delete-btn {
+            background: #ef4444;
+            padding: 8px 16px;
+            font-size: 0.9em;
+        }
+
+        .delete-btn:hover {
+            background: #dc2626;
+        }
+
+        .balance-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .balance-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .balance-card h3 {
+            color: #374151;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .balance-amount {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .balance-positive {
+            color: #10b981;
+        }
+
+        .balance-negative {
+            color: #ef4444;
+        }
+
+        .balance-neutral {
+            color: #6b7280;
+        }
+
+        .history-list {
+            list-style: none;
+        }
+
+        .history-item {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .history-date {
+            color: #6b7280;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        .history-details {
+            color: #374151;
+            margin-bottom: 5px;
+        }
+
+        .history-amount {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .alert-warning {
+            background: #fef3c7;
+            color: #92400e;
+            border-left: 4px solid #f59e0b;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            color: #6b7280;
+            margin-top: 5px;
+        }
+
+        .back-button {
+            background: #3b82f6;
+            margin-bottom: 20px;
+        }
+
+        .back-button:hover {
+            background: #2563eb;
+        }
+
+        .avatar-selector {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .avatar-option {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s;
+            font-size: 30px;
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
+            background: #f3f4f6;
         }
-        .login-card {
-            max-width: 400px;
-            width: 100%;
-            text-align: center;
+
+        .avatar-option:hover {
+            transform: scale(1.1);
+            border-color: #3b82f6;
         }
-        .login-icon { font-size: 4rem; margin-bottom: 1rem; }
-        .error { color: #ef4444; margin-top: 0.5rem; font-size: 0.875rem; }
-        .success { color: #10b981; margin-top: 0.5rem; font-size: 0.875rem; }
-        .stat-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+        .avatar-option.selected {
+            border-color: #2563eb;
+            background: #dbeafe;
+        }
+
+        .avatar-display {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            background: #f3f4f6;
+            margin-right: 10px;
+        }
+
+        .edit-button {
+            background: #f59e0b;
             color: white;
-            padding: 1.5rem;
-            border-radius: 0.5rem;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85em;
+            margin-left: 10px;
         }
-        .stat-value { font-size: 2.5rem; font-weight: bold; }
-        .stat-label { font-size: 0.875rem; opacity: 0.9; }
-        .history-item {
-            background: #f9fafb;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            margin-bottom: 0.75rem;
+
+        .edit-button:hover {
+            background: #d97706;
         }
-        .badge {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            background: #fef3c7;
-            color: #92400e;
-            border-radius: 0.25rem;
-            font-size: 0.75rem;
-            margin-top: 0.5rem;
+
+        .history-item-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
         }
-        .hidden { display: none; }
-        .label { font-weight: 600; margin-bottom: 0.5rem; display: block; }
-        .mb-1 { margin-bottom: 0.5rem; }
-        .mb-2 { margin-bottom: 1rem; }
-        .mb-4 { margin-bottom: 2rem; }
-        .mt-2 { margin-top: 1rem; }
-        .text-sm { font-size: 0.875rem; }
-        .text-gray { color: #6b7280; }
-        .flex { display: flex; }
-        .flex-wrap { flex-wrap: wrap; }
-        .gap-2 { gap: 0.5rem; }
-        .items-center { align-items: center; }
-        .justify-between { justify-content: space-between; }
+
+        .custom-avatar-input {
+            display: none;
+        }
+
+        .custom-avatar-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px dashed #9ca3af;
+            transition: all 0.3s;
+            background: #f3f4f6;
+            font-size: 24px;
+        }
+
+        .custom-avatar-label:hover {
+            border-color: #3b82f6;
+            background: #dbeafe;
+        }
+
+        .avatar-preview {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-close {
+            background: #ef4444;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            padding: 0;
+        }
     </style>
 </head>
 <body>
-    <div id="app"></div>
+    <div class="container">
+        <h1>🍻 Gestión de Bares</h1>
 
-    <script type="module">
-        const { createClient } = supabase;
-        const client = createClient(
-            'https://enlfkcvnuwoidhemlxpw.supabase.co',
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVubGZrY3ZudXdvaWRoZW1seHB3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE1ODQ5MzYsImV4cCI6MjA3NzE2MDkzNn0.cLiCiGjmRvt8bNGzGGlUaxUKF_C9nZKF5kgbX25sjtM'
-        );
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('miembros')">👥 Miembros</button>
+            <button class="tab" onclick="showTab('bares')">🏪 Bares</button>
+            <button class="tab" onclick="showTab('pagos')">💰 Registrar Pago</button>
+            <button class="tab" onclick="showTab('balances')">📊 Balances</button>
+            <button class="tab" onclick="showTab('historial')">📜 Historial</button>
+        </div>
 
-        let state = {
-            auth: false,
-            tab: 'registros',
+        <!-- TAB MIEMBROS -->
+        <div id="miembros" class="tab-content active">
+            <div class="section">
+                <h2>Añadir Miembro</h2>
+                <div class="form-group">
+                    <label>Nombre del Miembro:</label>
+                    <input type="text" id="memberName" placeholder="Ej: Juan">
+                </div>
+                <div class="form-group">
+                    <label>Selecciona un Avatar:</label>
+                    <div class="avatar-selector" id="memberAvatarSelector"></div>
+                    <input type="file" id="memberCustomAvatar" class="custom-avatar-input" accept="image/*">
+                </div>
+                <button onclick="addMember()">➕ Añadir Miembro</button>
+            </div>
+
+            <div class="section">
+                <h2>Miembros del Grupo</h2>
+                <ul id="membersList" class="list"></ul>
+            </div>
+        </div>
+
+        <!-- TAB BARES -->
+        <div id="bares" class="tab-content">
+            <div class="section">
+                <h2>Añadir Bar</h2>
+                <div class="form-group">
+                    <label>Nombre del Bar:</label>
+                    <input type="text" id="barName" placeholder="Ej: La Taberna">
+                </div>
+                <div class="form-group">
+                    <label>Selecciona un Avatar:</label>
+                    <div class="avatar-selector" id="barAvatarSelector"></div>
+                    <input type="file" id="barCustomAvatar" class="custom-avatar-input" accept="image/*">
+                </div>
+                <button onclick="addBar()">➕ Añadir Bar</button>
+            </div>
+
+            <div class="section">
+                <h2>Bares Registrados</h2>
+                <ul id="barsList" class="list"></ul>
+            </div>
+        </div>
+
+        <!-- TAB PAGOS -->
+        <div id="pagos" class="tab-content">
+            <div class="section">
+                <h2>Registrar Nuevo Pago</h2>
+                <div class="form-group">
+                    <label>Bar:</label>
+                    <select id="paymentBar">
+                        <option value="">Selecciona un bar</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Miembro que paga:</label>
+                    <select id="payerMember">
+                        <option value="">Selecciona un miembro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Cantidad (€):</label>
+                    <input type="number" id="paymentAmount" placeholder="0.00" step="0.01" min="0">
+                </div>
+                <button onclick="registerPayment()">💳 Registrar Pago</button>
+            </div>
+        </div>
+
+        <!-- TAB BALANCES -->
+        <div id="balances" class="tab-content">
+            <div class="section">
+                <h2>Balances por Bar</h2>
+                <div id="barBalances"></div>
+            </div>
+        </div>
+
+        <!-- TAB HISTORIAL -->
+        <div id="historial" class="tab-content">
+            <div class="section">
+                <h2>Historial de Pagos</h2>
+                <ul id="historyList" class="history-list"></ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para editar pago -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Editar Pago</h2>
+                <button class="modal-close" onclick="closeEditModal()">✕</button>
+            </div>
+            <div class="form-group">
+                <label>Bar:</label>
+                <select id="editPaymentBar"></select>
+            </div>
+            <div class="form-group">
+                <label>Miembro que paga:</label>
+                <select id="editPayerMember"></select>
+            </div>
+            <div class="form-group">
+                <label>Cantidad (€):</label>
+                <input type="number" id="editPaymentAmount" step="0.01" min="0">
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <button onclick="saveEditedPayment()">💾 Guardar Cambios</button>
+                <button class="button-secondary" onclick="closeEditModal()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Avatares disponibles
+        const memberAvatars = ['👨', '👩', '🧑', '👦', '👧', '🧔', '👨‍🦰', '👩‍🦰', '👨‍🦱', '👩‍🦱', '👨‍🦳', '👩‍🦳', '👨‍🦲', '👩‍🦲', '🧑‍🦰'];
+        const barAvatars = ['🍺', '🍻', '🍷', '🍸', '🍹', '🥃', '🍾', '🏪', '🏠', '🎭', '🎪', '🎨', '🎵', '⚽', '🎮'];
+
+        // Sistema de datos
+        let data = {
             members: [],
             bars: [],
-            payments: [],
-            games: [],
-            gameResults: [],
-            orderItems: [],
-            defaultMembers: [],
-            currentOrder: {},
-            newPayment: { payers: [], present: [], amount: '', bar: '', date: new Date().toISOString().split('T')[0], registered_by: '' },
-            newGameResult: { game: '', bar: '', losers: [], date: new Date().toISOString().split('T')[0], registered_by: '' }
+            payments: []
         };
 
-        async function loadData() {
-            const [m, b, p, g, gr, oi, dm] = await Promise.all([
-                client.from('members').select('*'),
-                client.from('bars').select('*'),
-                client.from('payments').select('*'),
-                client.from('games').select('*'),
-                client.from('game_results').select('*'),
-                client.from('order_items').select('*'),
-                client.from('default_members').select('*')
-            ]);
-            if (m.data) state.members = m.data;
-            if (b.data) state.bars = b.data;
-            if (p.data) state.payments = p.data;
-            if (g.data) state.games = g.data;
-            if (gr.data) state.gameResults = gr.data;
-            if (oi.data) state.orderItems = oi.data;
-            if (dm.data) state.defaultMembers = dm.data.map(d => d.member_id);
-            state.newPayment.present = [...state.defaultMembers];
+        let currentEditingPayment = null;
+
+        // Cargar datos del localStorage
+        function loadData() {
+            const saved = localStorage.getItem('barsManagementData');
+            if (saved) {
+                data = JSON.parse(saved);
+            }
         }
 
-        function login(pass) {
-            if (pass === 'onfire25') {
-                state.auth = true;
-                localStorage.setItem('auth', 'true');
-                loadData().then(render);
+        // Guardar datos en localStorage
+        function saveData() {
+            localStorage.setItem('barsManagementData', JSON.stringify(data));
+        }
+
+        // Inicializar selectores de avatares
+        function initAvatarSelectors() {
+            const memberSelector = document.getElementById('memberAvatarSelector');
+            const barSelector = document.getElementById('barAvatarSelector');
+
+            memberSelector.innerHTML = memberAvatars.map((avatar, index) => 
+                `<div class="avatar-option ${index === 0 ? 'selected' : ''}" onclick="selectAvatar('member', '${avatar}', ${index})">${avatar}</div>`
+            ).join('') + `<label class="custom-avatar-label" for="memberCustomAvatar">📷</label>`;
+
+            barSelector.innerHTML = barAvatars.map((avatar, index) => 
+                `<div class="avatar-option ${index === 0 ? 'selected' : ''}" onclick="selectAvatar('bar', '${avatar}', ${index})">${avatar}</div>`
+            ).join('') + `<label class="custom-avatar-label" for="barCustomAvatar">📷</label>`;
+
+            // Manejar upload de imágenes personalizadas
+            document.getElementById('memberCustomAvatar').addEventListener('change', (e) => handleCustomAvatar(e, 'member'));
+            document.getElementById('barCustomAvatar').addEventListener('change', (e) => handleCustomAvatar(e, 'bar'));
+        }
+
+        let selectedMemberAvatar = memberAvatars[0];
+        let selectedBarAvatar = barAvatars[0];
+
+        function selectAvatar(type, avatar, index) {
+            const selector = document.getElementById(type === 'member' ? 'memberAvatarSelector' : 'barAvatarSelector');
+            const options = selector.querySelectorAll('.avatar-option');
+            options.forEach((opt, i) => {
+                opt.classList.toggle('selected', i === index);
+            });
+
+            if (type === 'member') {
+                selectedMemberAvatar = avatar;
             } else {
-                document.getElementById('error').classList.remove('hidden');
+                selectedBarAvatar = avatar;
             }
         }
 
-        function logout() {
-            state.auth = false;
-            localStorage.removeItem('auth');
-            render();
-        }
-
-        function getMemberName(id) {
-            const m = state.members.find(x => x.id === id);
-            return m ? m.name : 'Desconocido';
-        }
-
-        async function addMember() {
-            const name = document.getElementById('memberName').value;
-            const avatar = document.getElementById('memberAvatar').value;
-            if (!name) return;
-            const member = { id: Date.now(), name, avatar, photo: '' };
-            await client.from('members').insert([member]);
-            state.members.push(member);
-            document.getElementById('memberName').value = '';
-            document.getElementById('memberAvatar').value = '';
-            render();
-        }
-
-        async function addBar() {
-            const name = document.getElementById('barName').value;
-            if (!name) return;
-            const bar = { id: Date.now(), name };
-            await client.from('bars').insert([bar]);
-            state.bars.push(bar);
-            document.getElementById('barName').value = '';
-            render();
-        }
-
-        async function addPayment() {
-            const { payers, present, amount, bar, date, registered_by } = state.newPayment;
-            if (payers.length === 0 || !amount || !bar || !registered_by) {
-                alert('Completa todos los campos');
-                return;
-            }
-            const payment = { id: Date.now(), payers, present, amount: parseFloat(amount), bar, date, registered_by };
-            await client.from('payments').insert([payment]);
-            state.payments.push(payment);
-            state.newPayment = { 
-                payers: [], 
-                present: state.newPayment.present, 
-                amount: '', 
-                bar: '', 
-                date: new Date().toISOString().split('T')[0],
-                registered_by: '' 
-            };
-            render();
-        }
-
-        async function deletePayment(id) {
-            await client.from('payments').delete().eq('id', id);
-            state.payments = state.payments.filter(p => p.id !== id);
-            render();
-        }
-
-        async function addGame() {
-            const name = document.getElementById('gameName').value;
-            if (!name) return;
-            const game = { id: Date.now(), name };
-            await client.from('games').insert([game]);
-            state.games.push(game);
-            document.getElementById('gameName').value = '';
-            render();
-        }
-
-        async function addGameResult() {
-            const { game, bar, losers, date, registered_by } = state.newGameResult;
-            if (!game || losers.length === 0 || !registered_by) {
-                alert('Completa todos los campos');
-                return;
-            }
-            const result = { id: Date.now(), game, bar, losers, date, registered_by };
-            await client.from('game_results').insert([result]);
-            state.gameResults.push(result);
-            state.newGameResult = { 
-                game: '', 
-                bar: '', 
-                losers: [], 
-                date: new Date().toISOString().split('T')[0],
-                registered_by: '' 
-            };
-            render();
-        }
-
-        async function deleteGameResult(id) {
-            await client.from('game_results').delete().eq('id', id);
-            state.gameResults = state.gameResults.filter(r => r.id !== id);
-            render();
-        }
-
-        function toggleLoser(id) {
-            if (state.newGameResult.losers.includes(id)) {
-                state.newGameResult.losers = state.newGameResult.losers.filter(l => l !== id);
-            } else {
-                state.newGameResult.losers.push(id);
-            }
-            render();
-        }
-
-        async function toggleDefaultMember(id) {
-            if (state.defaultMembers.includes(id)) {
-                await client.from('default_members').delete().eq('member_id', id);
-                state.defaultMembers = state.defaultMembers.filter(m => m !== id);
-            } else {
-                await client.from('default_members').insert([{ member_id: id }]);
-                state.defaultMembers.push(id);
-            }
-            state.newPayment.present = [...state.defaultMembers];
-            render();
-        }
-
-        function togglePayer(id) {
-            if (state.newPayment.payers.includes(id)) {
-                state.newPayment.payers = state.newPayment.payers.filter(p => p !== id);
-            } else {
-                state.newPayment.payers.push(id);
-            }
-            render();
-        }
-
-        function togglePresent(id) {
-            if (state.newPayment.present.includes(id)) {
-                state.newPayment.present = state.newPayment.present.filter(p => p !== id);
-            } else {
-                state.newPayment.present.push(id);
-            }
-            render();
-        }
-
-        function calculateStats() {
-            return state.members.map(member => {
-                const timesPaid = state.payments.filter(p => p.payers.includes(member.id)).length;
-                const timesPresent = state.payments.filter(p => p.present.includes(member.id)).length;
-                const totalSpent = state.payments
-                    .filter(p => p.payers.includes(member.id))
-                    .reduce((sum, p) => sum + (p.amount / p.payers.length), 0);
-                
-                let streak = 0;
-                for (let i = state.payments.length - 1; i >= 0; i--) {
-                    if (state.payments[i].present.includes(member.id)) {
-                        if (!state.payments[i].payers.includes(member.id)) streak++;
-                        else break;
+        function handleCustomAvatar(event, type) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imageData = e.target.result;
+                    const selector = document.getElementById(type === 'member' ? 'memberAvatarSelector' : 'barAvatarSelector');
+                    
+                    // Deseleccionar otros avatares
+                    selector.querySelectorAll('.avatar-option').forEach(opt => opt.classList.remove('selected'));
+                    
+                    // Actualizar el label con la imagen
+                    const label = selector.querySelector('.custom-avatar-label');
+                    label.innerHTML = `<img src="${imageData}" class="avatar-preview">`;
+                    label.style.border = '3px solid #2563eb';
+                    
+                    if (type === 'member') {
+                        selectedMemberAvatar = imageData;
+                    } else {
+                        selectedBarAvatar = imageData;
                     }
-                }
-
-                const rate = timesPresent > 0 ? (timesPaid / timesPresent * 100) : 0;
-                const debt = ((timesPresent - timesPaid) / (timesPresent || 1)) * 100;
-
-                return { member, timesPaid, timesPresent, totalSpent, streak, rate, debt };
-            }).sort((a, b) => b.timesPaid - a.timesPaid);
+                };
+                reader.readAsDataURL(file);
+            }
         }
 
-        function render() {
-            const app = document.getElementById('app');
+        // Función para mostrar avatar
+        function displayAvatar(avatar) {
+            if (avatar.startsWith('data:image')) {
+                return `<img src="${avatar}" class="avatar-preview" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">`;
+            }
+            return `<span class="avatar-display">${avatar}</span>`;
+        }
+
+        // Cambiar de tab
+        function showTab(tabName) {
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
             
-            if (!state.auth) {
-                app.innerHTML = `
-                    <div class="login-screen">
-                        <div class="card login-card">
-                            <div class="login-icon">🔥</div>
-                            <h1 class="title mb-2">Calculadora de Pagos</h1>
-                            <p class="text-gray mb-4">Acceso exclusivo para la pandilla</p>
-                            <input type="password" id="passInput" class="input mb-2" placeholder="Contraseña" />
-                            <p id="error" class="error hidden">❌ Contraseña incorrecta</p>
-                            <button onclick="loginHandler()" class="btn btn-primary" style="width:100%;margin-top:1rem">Entrar</button>
-                        </div>
-                    </div>
-                `;
-                document.getElementById('passInput').addEventListener('keypress', e => {
-                    if (e.key === 'Enter') login(e.target.value);
-                });
+            event.target.classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+            
+            if (tabName === 'balances') {
+                renderBalances();
+            } else if (tabName === 'historial') {
+                renderHistory();
+            }
+        }
+
+        // Añadir miembro
+        function addMember() {
+            const name = document.getElementById('memberName').value.trim();
+            
+            if (!name) {
+                alert('Por favor, introduce un nombre');
                 return;
             }
 
-            const tabs = [
-                { id: 'registros', label: 'Registros' },
-                { id: 'miembros', label: 'Miembros' },
-                { id: 'bares', label: 'Bares' },
-                { id: 'juegos', label: 'Juegos' },
-                { id: 'estadisticas', label: 'Estadísticas' }
-            ];
-
-            let content = '';
-
-            if (state.tab === 'registros') {
-                content = `
-                    <h2 style="font-size:1.5rem;font-weight:bold;margin-bottom:1rem">Nuevo Registro</h2>
-                    
-                    <div style="background:#dbeafe;padding:1rem;border-radius:0.5rem;margin-bottom:1rem">
-                        <p class="text-sm">💡 La ronda se mantiene automáticamente</p>
-                    </div>
-
-                    <div class="mb-4">
-                        <label class="label">Quién paga:</label>
-                        <div class="flex flex-wrap gap-2">
-                            ${state.members.map(m => `
-                                <button onclick="togglePayerHandler(${m.id})" class="member-btn ${state.newPayment.payers.includes(m.id) ? 'selected' : ''}">
-                                    ${m.avatar || '👤'} ${m.name}
-                                </button>
-                            `).join('')}
-                        </div>
-                    </div>
-
-                    <div class="mb-4">
-                        <label class="label">Presentes (${state.newPayment.present.length}):</label>
-                        <div class="flex flex-wrap gap-2">
-                            ${state.members.map(m => `
-                                <button onclick="togglePresentHandler(${m.id})" class="member-btn ${state.newPayment.present.includes(m.id) ? 'present' : ''}">
-                                    ${m.avatar || '👤'} ${m.name}
-                                </button>
-                            `).join('')}
-                        </div>
-                    </div>
-
-                    <div class="grid grid-2 mb-4">
-                        <div>
-                            <label class="label">Importe (€):</label>
-                            <input type="number" id="payAmount" value="${state.newPayment.amount}" class="input" placeholder="15.50" />
-                        </div>
-                        <div>
-                            <label class="label">Bar:</label>
-                            <select id="payBar" class="input">
-                                <option value="">Selecciona</option>
-                                ${state.bars.map(b => `<option value="${b.name}" ${state.newPayment.bar === b.name ? 'selected' : ''}>${b.name}</option>`).join('')}
-                            </select>
-                        </div>
-                        <div>
-                            <label class="label">Fecha:</label>
-                            <input type="date" id="payDate" value="${state.newPayment.date}" class="input" />
-                        </div>
-                        <div>
-                            <label class="label">📝 Registrado por:</label>
-                            <select id="payReg" class="input" style="background:#fef3c7">
-                                <option value="">Selecciona</option>
-                                ${state.members.map(m => `<option value="${m.id}" ${state.newPayment.registered_by === m.id ? 'selected' : ''}>${m.name}</option>`).join('')}
-                            </select>
-                        </div>
-                    </div>
-
-                    <button onclick="addPaymentHandler()" class="btn btn-primary" style="width:100%">➕ Añadir Registro</button>
-
-                    <h3 style="font-size:1.25rem;font-weight:bold;margin:2rem 0 1rem">Historial</h3>
-                    ${state.payments.slice().reverse().map(p => `
-                        <div class="history-item">
-                            <div class="flex justify-between items-center">
-                                <div style="flex:1">
-                                    <div style="font-weight:600">
-                                        ${p.payers.map(id => getMemberName(id)).join(', ')} pagó ${p.amount.toFixed(2)}€
-                                    </div>
-                                    <div class="text-sm text-gray mt-1">
-                                        ${p.bar} • ${new Date(p.date).toLocaleDateString('es-ES')}
-                                    </div>
-                                    ${p.registered_by ? `<span class="badge">📝 ${getMemberName(p.registered_by)}</span>` : ''}
-                                </div>
-                                <button onclick="deletePaymentHandler(${p.id})" class="btn btn-danger">🗑️</button>
-                            </div>
-                        </div>
-                    `).join('')}
-                `;
-            } else if (state.tab === 'miembros') {
-                content = `
-                    <h2 style="font-size:1.5rem;font-weight:bold;margin-bottom:1rem">Miembros</h2>
-                    
-                    <div class="flex gap-2 mb-4">
-                        <input type="text" id="memberName" class="input" placeholder="Nombre" style="flex:1" />
-                        <input type="text" id="memberAvatar" class="input" placeholder="😊" style="width:80px" />
-                        <button onclick="addMemberHandler()" class="btn btn-primary">➕</button>
-                    </div>
-
-                    <div class="grid grid-2">
-                        ${state.members.map(m => `
-                            <div class="item-card">
-                                <div style="font-size:2rem">${m.avatar || '👤'}</div>
-                                <div style="flex:1">
-                                    <div style="font-weight:600">${m.name}</div>
-                                    <button onclick="toggleDefaultHandler(${m.id})" class="text-sm ${state.defaultMembers.includes(m.id) ? 'success' : 'text-gray'}">
-                                        ${state.defaultMembers.includes(m.id) ? '✓' : '✗'} Por defecto
-                                    </button>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                `;
-            } else if (state.tab === 'bares') {
-                content = `
-                    <h2 style="font-size:1.5rem;font-weight:bold;margin-bottom:1rem">Bares</h2>
-                    
-                    <div class="flex gap-2 mb-4">
-                        <input type="text" id="barName" class="input" placeholder="Nombre del bar" style="flex:1" />
-                        <button onclick="addBarHandler()" class="btn btn-primary">➕</button>
-                    </div>
-
-                    <div class="grid grid-2">
-                        ${state.bars.map(b => `
-                            <div class="item-card">
-                                <span style="font-size:1.5rem">🍺</span>
-                                <span style="font-weight:600;flex:1">${b.name}</span>
-                            </div>
-                        `).join('')}
-                    </div>
-                `;
-            } else if (state.tab === 'juegos') {
-                content = `
-                    <h2 style="font-size:1.5rem;font-weight:bold;margin-bottom:1rem">🎲 Juegos</h2>
-                    
-                    <div class="flex gap-2 mb-4">
-                        <input type="text" id="gameName" class="input" placeholder="Nombre del juego (Chinos, Dardos...)" style="flex:1" />
-                        <button onclick="addGameHandler()" class="btn btn-primary">➕</button>
-                    </div>
-
-                    <div class="grid grid-2 mb-4">
-                        ${state.games.map(g => `
-                            <div class="item-card">
-                                <span style="font-size:1.5rem">🎮</span>
-                                <span style="font-weight:600;flex:1">${g.name}</span>
-                            </div>
-                        `).join('')}
-                    </div>
-
-                    <div style="border-top:2px solid #e5e7eb;padding-top:1.5rem">
-                        <h3 style="font-size:1.25rem;font-weight:bold;margin-bottom:1rem">Registrar Resultado</h3>
-                        
-                        <div class="grid grid-2 mb-4">
-                            <div>
-                                <label class="label">Juego:</label>
-                                <select id="gameSelect" class="input">
-                                    <option value="">Selecciona</option>
-                                    ${state.games.map(g => `<option value="${g.name}" ${state.newGameResult.game === g.name ? 'selected' : ''}>${g.name}</option>`).join('')}
-                                </select>
-                            </div>
-                            <div>
-                                <label class="label">Bar (opcional):</label>
-                                <select id="gameBar" class="input">
-                                    <option value="">Selecciona</option>
-                                    ${state.bars.map(b => `<option value="${b.name}" ${state.newGameResult.bar === b.name ? 'selected' : ''}>${b.name}</option>`).join('')}
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="mb-4">
-                            <label class="label">Quién perdió:</label>
-                            <div class="flex flex-wrap gap-2">
-                                ${state.members.map(m => `
-                                    <button onclick="toggleLoserHandler(${m.id})" class="member-btn ${state.newGameResult.losers.includes(m.id) ? 'loser' : ''}">
-                                        ${m.avatar || '👤'} ${m.name}
-                                    </button>
-                                `).join('')}
-                            </div>
-                        </div>
-
-                        <div class="grid grid-2 mb-4">
-                            <div>
-                                <label class="label">Fecha:</label>
-                                <input type="date" id="gameDate" value="${state.newGameResult.date}" class="input" />
-                            </div>
-                            <div>
-                                <label class="label">📝 Registrado por:</label>
-                                <select id="gameReg" class="input" style="background:#fef3c7">
-                                    <option value="">Selecciona</option>
-                                    ${state.members.map(m => `<option value="${m.id}" ${state.newGameResult.registered_by === m.id ? 'selected' : ''}>${m.name}</option>`).join('')}
-                                </select>
-                            </div>
-                        </div>
-
-                        <button onclick="addGameResultHandler()" class="btn btn-primary" style="width:100%">➕ Registrar Resultado</button>
-                    </div>
-
-                    <h3 style="font-size:1.25rem;font-weight:bold;margin:2rem 0 1rem">Historial de Juegos</h3>
-                    ${state.gameResults.slice().reverse().map(r => `
-                        <div class="history-item">
-                            <div class="flex justify-between items-center">
-                                <div style="flex:1">
-                                    <div style="font-weight:600">
-                                        🎮 ${r.game} - Perdió: ${r.losers.map(id => getMemberName(id)).join(', ')}
-                                    </div>
-                                    <div class="text-sm text-gray mt-1">
-                                        ${r.bar ? r.bar + ' • ' : ''}${new Date(r.date).toLocaleDateString('es-ES')}
-                                    </div>
-                                    ${r.registered_by ? `<span class="badge">📝 ${getMemberName(r.registered_by)}</span>` : ''}
-                                </div>
-                                <button onclick="deleteGameResultHandler(${r.id})" class="btn btn-danger">🗑️</button>
-                            </div>
-                        </div>
-                    `).join('')}
-                `;
-            } else if (state.tab === 'estadisticas') {
-                const stats = calculateStats();
-                const mostSolidario = stats.find(s => s.timesPaid > 0) ? stats.reduce((a, b) => a.rate > b.rate ? a : b) : null;
-                const timesLostByMember = state.members.map(m => ({
-                    member: m,
-                    losses: state.gameResults.filter(r => r.losers.includes(m.id)).length
-                }));
-                const mostLosses = timesLostByMember.find(t => t.losses > 0) ? timesLostByMember.reduce((a, b) => a.losses > b.losses ? a : b) : null;
-                
-                content = `
-                    <h2 style="font-size:1.5rem;font-weight:bold;margin-bottom:1rem">Estadísticas</h2>
-                    
-                    <div class="grid grid-2 mb-4">
-                        <div class="stat-card">
-                            <div class="stat-label">Total Salidas</div>
-                            <div class="stat-value">${state.payments.length}</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-label">Juegos Jugados</div>
-                            <div class="stat-value">${state.gameResults.length}</div>
-                        </div>
-                    </div>
-
-                    ${mostSolidario || mostLosses ? `
-                        <h3 style="font-size:1.25rem;font-weight:bold;margin-bottom:1rem">🏆 Rankings</h3>
-                        <div class="grid grid-2 mb-4">
-                            ${mostSolidario ? `
-                                <div style="background:linear-gradient(135deg,#fbbf24 0%,#f59e0b 100%);color:white;padding:1.5rem;border-radius:0.5rem">
-                                    <div style="font-size:0.875rem;opacity:0.9">💰 Más Solidario</div>
-                                    <div style="font-size:1.5rem;font-weight:bold;margin-top:0.5rem">
-                                        ${mostSolidario.member.avatar || '👤'} ${mostSolidario.member.name}
-                                    </div>
-                                </div>
-                            ` : ''}
-                            ${mostLosses ? `
-                                <div style="background:linear-gradient(135deg,#ef4444 0%,#dc2626 100%);color:white;padding:1.5rem;border-radius:0.5rem">
-                                    <div style="font-size:0.875rem;opacity:0.9">🎮 Más Derrotas</div>
-                                    <div style="font-size:1.5rem;font-weight:bold;margin-top:0.5rem">
-                                        ${mostLosses.member.avatar || '👤'} ${mostLosses.member.name} (${mostLosses.losses})
-                                    </div>
-                                </div>
-                            ` : ''}
-                        </div>
-                    ` : ''}
-
-                    <h3 style="font-size:1.25rem;font-weight:bold;margin-bottom:1rem">Individuales</h3>
-                    ${stats.map(s => {
-                        const losses = state.gameResults.filter(r => r.losers.includes(s.member.id)).length;
-                        return `
-                        <div class="history-item mb-2">
-                            <div class="flex items-center gap-2 mb-2">
-                                <div style="font-size:2rem">${s.member.avatar || '👤'}</div>
-                                <div style="font-size:1.25rem;font-weight:bold">${s.member.name}</div>
-                            </div>
-                            <div class="grid grid-2 text-sm">
-                                <div><span class="text-gray">Pagó:</span> <strong style="color:#10b981">${s.timesPaid}</strong></div>
-                                <div><span class="text-gray">Presente:</span> <strong>${s.timesPresent}</strong></div>
-                                <div><span class="text-gray">Sin pagar:</span> <strong style="color:#ef4444">${s.timesPresent - s.timesPaid}</strong></div>
-                                <div><span class="text-gray">Racha:</span> <strong>${s.streak} 🔥</strong></div>
-                                <div><span class="text-gray">Gastado:</span> <strong>${s.totalSpent.toFixed(2)}€</strong></div>
-                                <div><span class="text-gray">Tasa:</span> <strong>${s.rate.toFixed(0)}%</strong></div>
-                                ${losses > 0 ? `<div><span class="text-gray">Derrotas:</span> <strong style="color:#ef4444">${losses} 🎮</strong></div>` : ''}
-                            </div>
-                        </div>
-                    `;}).join('')}
-                `;
+            if (data.members.some(m => m.name.toLowerCase() === name.toLowerCase())) {
+                alert('Este miembro ya existe');
+                return;
             }
 
-            app.innerHTML = `
-                <div class="container">
-                    <div class="header">
-                        <h1 class="title">🍺 Calculadora</h1>
-                        <button onclick="logoutHandler()" class="btn btn-danger">Cerrar Sesión</button>
-                    </div>
-                    
-                    <div class="tabs">
-                        ${tabs.map(t => `
-                            <button onclick="changeTab('${t.id}')" class="tab ${state.tab === t.id ? 'active' : ''}">
-                                ${t.label}
-                            </button>
-                        `).join('')}
-                    </div>
+            data.members.push({
+                id: Date.now(),
+                name: name,
+                avatar: selectedMemberAvatar
+            });
 
-                    <div class="card">
-                        ${content}
-                    </div>
-                </div>
-            `;
+            saveData();
+            document.getElementById('memberName').value = '';
+            renderMembers();
+            updatePaymentSelects();
+            
+            // Reset avatar selection
+            selectedMemberAvatar = memberAvatars[0];
+            initAvatarSelectors();
+        }
 
-            // Event listeners
-            if (state.tab === 'registros') {
-                const amt = document.getElementById('payAmount');
-                const bar = document.getElementById('payBar');
-                const date = document.getElementById('payDate');
-                const reg = document.getElementById('payReg');
-                if (amt) amt.addEventListener('change', e => state.newPayment.amount = e.target.value);
-                if (bar) bar.addEventListener('change', e => state.newPayment.bar = e.target.value);
-                if (date) date.addEventListener('change', e => state.newPayment.date = e.target.value);
-                if (reg) reg.addEventListener('change', e => state.newPayment.registered_by = parseInt(e.target.value));
-            } else if (state.tab === 'juegos') {
-                const gameSelect = document.getElementById('gameSelect');
-                const gameBar = document.getElementById('gameBar');
-                const gameDate = document.getElementById('gameDate');
-                const gameReg = document.getElementById('gameReg');
-                if (gameSelect) gameSelect.addEventListener('change', e => state.newGameResult.game = e.target.value);
-                if (gameBar) gameBar.addEventListener('change', e => state.newGameResult.bar = e.target.value);
-                if (gameDate) gameDate.addEventListener('change', e => state.newGameResult.date = e.target.value);
-                if (gameReg) gameReg.addEventListener('change', e => state.newGameResult.registered_by = parseInt(e.target.value));
+        // Añadir bar
+        function addBar() {
+            const name = document.getElementById('barName').value.trim();
+            
+            if (!name) {
+                alert('Por favor, introduce el nombre del bar');
+                return;
+            }
+
+            if (data.bars.some(b => b.name.toLowerCase() === name.toLowerCase())) {
+                alert('Este bar ya existe');
+                return;
+            }
+
+            data.bars.push({
+                id: Date.now(),
+                name: name,
+                avatar: selectedBarAvatar
+            });
+
+            saveData();
+            document.getElementById('barName').value = '';
+            renderBars();
+            updatePaymentSelects();
+            
+            // Reset avatar selection
+            selectedBarAvatar = barAvatars[0];
+            initAvatarSelectors();
+        }
+
+        // Eliminar miembro
+        function deleteMember(id) {
+            if (!confirm('¿Estás seguro de eliminar este miembro? Se perderán sus pagos asociados.')) {
+                return;
+            }
+
+            data.members = data.members.filter(m => m.id !== id);
+            data.payments = data.payments.filter(p => p.memberId !== id);
+            saveData();
+            renderMembers();
+            updatePaymentSelects();
+        }
+
+        // Eliminar bar
+        function deleteBar(id) {
+            if (!confirm('¿Estás seguro de eliminar este bar? Se perderán los pagos asociados.')) {
+                return;
+            }
+
+            data.bars = data.bars.filter(b => b.id !== id);
+            data.payments = data.payments.filter(p => p.barId !== id);
+            saveData();
+            renderBars();
+            updatePaymentSelects();
+        }
+
+        // Registrar pago
+        function registerPayment() {
+            const barId = parseInt(document.getElementById('paymentBar').value);
+            const memberId = parseInt(document.getElementById('payerMember').value);
+            const amount = parseFloat(document.getElementById('paymentAmount').value);
+
+            if (!barId || !memberId || !amount || amount <= 0) {
+                alert('Por favor, completa todos los campos correctamente');
+                return;
+            }
+
+            data.payments.push({
+                id: Date.now(),
+                barId: barId,
+                memberId: memberId,
+                amount: amount,
+                date: new Date().toISOString()
+            });
+
+            saveData();
+            
+            // Limpiar formulario
+            document.getElementById('paymentBar').value = '';
+            document.getElementById('payerMember').value = '';
+            document.getElementById('paymentAmount').value = '';
+
+            alert('Pago registrado correctamente');
+        }
+
+        // Editar pago
+        function editPayment(paymentId) {
+            const payment = data.payments.find(p => p.id === paymentId);
+            if (!payment) return;
+
+            currentEditingPayment = paymentId;
+
+            // Llenar el modal con los datos actuales
+            document.getElementById('editPaymentBar').value = payment.barId;
+            document.getElementById('editPayerMember').value = payment.memberId;
+            document.getElementById('editPaymentAmount').value = payment.amount;
+
+            // Mostrar modal
+            document.getElementById('editModal').classList.add('active');
+        }
+
+        function closeEditModal() {
+            document.getElementById('editModal').classList.remove('active');
+            currentEditingPayment = null;
+        }
+
+        function saveEditedPayment() {
+            if (!currentEditingPayment) return;
+
+            const barId = parseInt(document.getElementById('editPaymentBar').value);
+            const memberId = parseInt(document.getElementById('editPayerMember').value);
+            const amount = parseFloat(document.getElementById('editPaymentAmount').value);
+
+            if (!barId || !memberId || !amount || amount <= 0) {
+                alert('Por favor, completa todos los campos correctamente');
+                return;
+            }
+
+            const paymentIndex = data.payments.findIndex(p => p.id === currentEditingPayment);
+            if (paymentIndex !== -1) {
+                data.payments[paymentIndex] = {
+                    ...data.payments[paymentIndex],
+                    barId: barId,
+                    memberId: memberId,
+                    amount: amount
+                };
+
+                saveData();
+                closeEditModal();
+                renderHistory();
+                alert('Pago actualizado correctamente');
             }
         }
 
-        // Global handlers
-        window.loginHandler = () => login(document.getElementById('passInput').value);
-        window.logoutHandler = logout;
-        window.changeTab = (tab) => { state.tab = tab; render(); };
-        window.addMemberHandler = addMember;
-        window.addBarHandler = addBar;
-        window.addGameHandler = addGame;
-        window.addPaymentHandler = addPayment;
-        window.addGameResultHandler = addGameResult;
-        window.deletePaymentHandler = deletePayment;
-        window.deleteGameResultHandler = deleteGameResult;
-        window.toggleDefaultHandler = toggleDefaultMember;
-        window.togglePayerHandler = togglePayer;
-        window.togglePresentHandler = togglePresent;
-        window.toggleLoserHandler = toggleLoser;
+        // Eliminar pago
+        function deletePayment(paymentId) {
+            if (!confirm('¿Estás seguro de eliminar este pago?')) {
+                return;
+            }
 
-        // Init
-        if (localStorage.getItem('auth') === 'true') {
-            state.auth = true;
-            loadData().then(render);
-        } else {
-            render();
+            data.payments = data.payments.filter(p => p.id !== paymentId);
+            saveData();
+            renderHistory();
         }
+
+        // Renderizar miembros
+        function renderMembers() {
+            const list = document.getElementById('membersList');
+            if (data.members.length === 0) {
+                list.innerHTML = '<li class="list-item">No hay miembros añadidos</li>';
+                return;
+            }
+
+            list.innerHTML = data.members.map(member => `
+                <li class="list-item">
+                    <div class="list-item-content">
+                        ${displayAvatar(member.avatar)}
+                        <strong>${member.name}</strong>
+                    </div>
+                    <button class="delete-btn" onclick="deleteMember(${member.id})">🗑️ Eliminar</button>
+                </li>
+            `).join('');
+        }
+
+        // Renderizar bares
+        function renderBars() {
+            const list = document.getElementById('barsList');
+            if (data.bars.length === 0) {
+                list.innerHTML = '<li class="list-item">No hay bares añadidos</li>';
+                return;
+            }
+
+            list.innerHTML = data.bars.map(bar => `
+                <li class="list-item">
+                    <div class="list-item-content">
+                        ${displayAvatar(bar.avatar)}
+                        <strong>${bar.name}</strong>
+                    </div>
+                    <button class="delete-btn" onclick="deleteBar(${bar.id})">🗑️ Eliminar</button>
+                </li>
+            `).join('');
+        }
+
+        // Actualizar selects de pagos
+        function updatePaymentSelects() {
+            const barSelect = document.getElementById('paymentBar');
+            const memberSelect = document.getElementById('payerMember');
+            const editBarSelect = document.getElementById('editPaymentBar');
+            const editMemberSelect = document.getElementById('editPayerMember');
+
+            // Select de bares
+            barSelect.innerHTML = '<option value="">Selecciona un bar</option>' +
+                data.bars.map(bar => `<option value="${bar.id}">${bar.name}</option>`).join('');
+            
+            editBarSelect.innerHTML = data.bars.map(bar => `<option value="${bar.id}">${bar.name}</option>`).join('');
+
+            // Select de miembros
+            memberSelect.innerHTML = '<option value="">Selecciona un miembro</option>' +
+                data.members.map(member => `<option value="${member.id}">${member.name}</option>`).join('');
+            
+            editMemberSelect.innerHTML = data.members.map(member => `<option value="${member.id}">${member.name}</option>`).join('');
+        }
+
+        // Calcular balances
+        function calculateBalances() {
+            const balances = {};
+
+            data.bars.forEach(bar => {
+                balances[bar.id] = {
+                    bar: bar,
+                    members: {}
+                };
+
+                data.members.forEach(member => {
+                    balances[bar.id].members[member.id] = {
+                        member: member,
+                        paid: 0,
+                        owes: 0,
+                        balance: 0
+                    };
+                });
+            });
+
+            // Calcular lo que cada uno ha pagado
+            data.payments.forEach(payment => {
+                if (balances[payment.barId] && balances[payment.barId].members[payment.memberId]) {
+                    balances[payment.barId].members[payment.memberId].paid += payment.amount;
+                }
+            });
+
+            // Calcular balances
+            Object.keys(balances).forEach(barId => {
+                const barBalance = balances[barId];
+                const totalPaid = Object.values(barBalance.members).reduce((sum, m) => sum + m.paid, 0);
+                const memberCount = data.members.length;
+                const avgPerPerson = totalPaid / memberCount;
+
+                Object.keys(barBalance.members).forEach(memberId => {
+                    const memberBalance = barBalance.members[memberId];
+                    memberBalance.owes = avgPerPerson;
+                    memberBalance.balance = memberBalance.paid - avgPerPerson;
+                });
+            });
+
+            return balances;
+        }
+
+        // Renderizar balances
+        function renderBalances() {
+            const container = document.getElementById('barBalances');
+            const balances = calculateBalances();
+
+            if (data.bars.length === 0) {
+                container.innerHTML = '<p>No hay bares registrados</p>';
+                return;
+            }
+
+            let html = '';
+
+            data.bars.forEach(bar => {
+                const barBalance = balances[bar.id];
+                html += `
+                    <div style="margin-bottom: 30px; background: white; padding: 20px; border-radius: 10px;">
+                        <h3 style="display: flex; align-items: center; margin-bottom: 15px;">
+                            ${displayAvatar(bar.avatar)}
+                            ${bar.name}
+                        </h3>
+                        <div class="balance-grid">
+                `;
+
+                Object.values(barBalance.members).forEach(memberBalance => {
+                    const balanceClass = memberBalance.balance > 0 ? 'balance-positive' : 
+                                       memberBalance.balance < 0 ? 'balance-negative' : 'balance-neutral';
+                    const balanceText = memberBalance.balance > 0 ? 'Le deben' : 
+                                       memberBalance.balance < 0 ? 'Debe' : 'Saldado';
+
+                    html += `
+                        <div class="balance-card">
+                            <h3 style="display: flex; align-items: center;">
+                                ${displayAvatar(memberBalance.member.avatar)}
+                                ${memberBalance.member.name}
+                            </h3>
+                            <div style="color: #6b7280; font-size: 0.9em; margin-top: 10px;">
+                                Ha pagado: <strong>${memberBalance.paid.toFixed(2)}€</strong><br>
+                                Debe pagar: <strong>${memberBalance.owes.toFixed(2)}€</strong>
+                            </div>
+                            <div class="balance-amount ${balanceClass}">
+                                ${Math.abs(memberBalance.balance).toFixed(2)}€
+                            </div>
+                            <div style="color: #6b7280;">${balanceText}</div>
+                        </div>
+                    `;
+                });
+
+                html += `</div></div>`;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // Renderizar historial
+        function renderHistory() {
+            const list = document.getElementById('historyList');
+            
+            if (data.payments.length === 0) {
+                list.innerHTML = '<li class="history-item">No hay pagos registrados</li>';
+                return;
+            }
+
+            const sortedPayments = [...data.payments].sort((a, b) => 
+                new Date(b.date) - new Date(a.date)
+            );
+
+            list.innerHTML = sortedPayments.map(payment => {
+                const bar = data.bars.find(b => b.id === payment.barId);
+                const member = data.members.find(m => m.id === payment.memberId);
+                const date = new Date(payment.date);
+
+                if (!bar || !member) return '';
+
+                return `
+                    <li class="history-item">
+                        <div class="history-date">
+                            ${date.toLocaleDateString('es-ES')} - ${date.toLocaleTimeString('es-ES', {hour: '2-digit', minute: '2-digit'})}
+                        </div>
+                        <div class="history-details">
+                            ${displayAvatar(member.avatar)}
+                            <strong>${member.name}</strong> pagó en 
+                            ${displayAvatar(bar.avatar)}
+                            <strong>${bar.name}</strong>
+                        </div>
+                        <div class="history-amount">
+                            ${payment.amount.toFixed(2)}€
+                        </div>
+                        <div class="history-item-actions">
+                            <button class="edit-button" onclick="editPayment(${payment.id})">✏️ Editar</button>
+                            <button class="delete-btn" onclick="deletePayment(${payment.id})">🗑️ Eliminar</button>
+                        </div>
+                    </li>
+                `;
+            }).join('');
+        }
+
+        // Inicializar aplicación
+        function init() {
+            loadData();
+            initAvatarSelectors();
+            renderMembers();
+            renderBars();
+            updatePaymentSelects();
+        }
+
+        // Iniciar cuando cargue la página
+        window.onload = init;
     </script>
 </body>
 </html>
