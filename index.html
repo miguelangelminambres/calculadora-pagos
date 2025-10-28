@@ -3,15 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Pagos - Pandilla</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Calculadora de Pagos</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        body { margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        .tab-button { transition: all 0.2s; }
-        input[type="file"] { display: none; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f5f3ff 0%, #dbeafe 100%);
+            min-height: 100vh;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 1rem; }
+        .header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .title { font-size: 2rem; font-weight: bold; color: #7c3aed; }
+        .btn { 
+            padding: 0.75rem 1.5rem; 
+            border: none; 
+            border-radius: 0.5rem; 
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-primary { background: #7c3aed; color: white; }
+        .btn-primary:hover { background: #6d28d9; }
+        .btn-danger { background: #ef4444; color: white; }
+        .btn-danger:hover { background: #dc2626; }
+        .btn-success { background: #10b981; color: white; }
+        .btn-success:hover { background: #059669; }
+        .card { 
+            background: white; 
+            border-radius: 1rem; 
+            padding: 2rem;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        }
+        .tabs { 
+            display: flex; 
+            gap: 0.5rem; 
+            margin-bottom: 2rem;
+            overflow-x: auto;
+            background: white;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+        }
+        .tab { 
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            background: #f3f4f6;
+            cursor: pointer;
+            white-space: nowrap;
+            font-weight: 500;
+        }
+        .tab.active { background: #7c3aed; color: white; }
+        .tab:hover:not(.active) { background: #e5e7eb; }
+        .input { 
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+        }
+        .input:focus { 
+            outline: none; 
+            border-color: #7c3aed;
+        }
+        .grid { display: grid; gap: 1rem; }
+        .grid-2 { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+        .member-btn, .item-card {
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            border: 2px solid #e5e7eb;
+            background: #f9fafb;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .member-btn.selected { background: #7c3aed; color: white; border-color: #7c3aed; }
+        .member-btn.present { background: #3b82f6; color: white; border-color: #3b82f6; }
+        .member-btn.loser { background: #ef4444; color: white; border-color: #ef4444; }
+        .login-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .login-card {
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+        .login-icon { font-size: 4rem; margin-bottom: 1rem; }
+        .error { color: #ef4444; margin-top: 0.5rem; font-size: 0.875rem; }
+        .success { color: #10b981; margin-top: 0.5rem; font-size: 0.875rem; }
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+        }
+        .stat-value { font-size: 2.5rem; font-weight: bold; }
+        .stat-label { font-size: 0.875rem; opacity: 0.9; }
+        .history-item {
+            background: #f9fafb;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: #fef3c7;
+            color: #92400e;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            margin-top: 0.5rem;
+        }
+        .hidden { display: none; }
+        .label { font-weight: 600; margin-bottom: 0.5rem; display: block; }
+        .mb-1 { margin-bottom: 0.5rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .mb-4 { margin-bottom: 2rem; }
+        .mt-2 { margin-top: 1rem; }
+        .text-sm { font-size: 0.875rem; }
+        .text-gray { color: #6b7280; }
+        .flex { display: flex; }
+        .flex-wrap { flex-wrap: wrap; }
+        .gap-2 { gap: 0.5rem; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
     </style>
 </head>
 <body>
@@ -19,218 +146,123 @@
 
     <script type="module">
         const { createClient } = supabase;
-        
-        const supabaseClient = createClient(
+        const client = createClient(
             'https://enlfkcvnuwoidhemlxpw.supabase.co',
             'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVubGZrY3ZudXdvaWRoZW1seHB3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE1ODQ5MzYsImV4cCI6MjA3NzE2MDkzNn0.cLiCiGjmRvt8bNGzGGlUaxUKF_C9nZKF5kgbX25sjtM'
         );
 
-        const CORRECT_PASSWORD = 'onfire25';
-        
         let state = {
-            isAuthenticated: false,
-            passwordInput: '',
-            passwordError: false,
-            showPassword: false,
-            activeTab: 'registros',
+            auth: false,
+            tab: 'registros',
             members: [],
             bars: [],
             payments: [],
-            defaultMembers: [],
-            orderItems: [],
-            currentOrder: {},
             games: [],
             gameResults: [],
-            newMember: { name: '', avatar: '', photo: '' },
-            newBar: '',
-            newItem: '',
-            newGame: '',
-            newPayment: {
-                payers: [],
-                present: [],
-                amount: '',
-                bar: '',
-                date: new Date().toISOString().split('T')[0],
-                registered_by: ''
-            },
-            newGameResult: {
-                game: '',
-                bar: '',
-                losers: [],
-                date: new Date().toISOString().split('T')[0],
-                registered_by: ''
-            }
+            orderItems: [],
+            defaultMembers: [],
+            currentOrder: {},
+            newPayment: { payers: [], present: [], amount: '', bar: '', date: new Date().toISOString().split('T')[0], registered_by: '' }
         };
 
-        async function loadAllData() {
-            try {
-                const [membersRes, barsRes, paymentsRes, gamesRes, gameResultsRes, orderItemsRes, defaultMembersRes] = await Promise.all([
-                    supabaseClient.from('members').select('*').order('created_at'),
-                    supabaseClient.from('bars').select('*').order('created_at'),
-                    supabaseClient.from('payments').select('*').order('created_at'),
-                    supabaseClient.from('games').select('*').order('created_at'),
-                    supabaseClient.from('game_results').select('*').order('created_at'),
-                    supabaseClient.from('order_items').select('*').order('created_at'),
-                    supabaseClient.from('default_members').select('*')
-                ]);
-
-                if (membersRes.data) state.members = membersRes.data;
-                if (barsRes.data) state.bars = barsRes.data;
-                if (paymentsRes.data) state.payments = paymentsRes.data;
-                if (gamesRes.data) state.games = gamesRes.data;
-                if (gameResultsRes.data) state.gameResults = gameResultsRes.data;
-                if (orderItemsRes.data) state.orderItems = orderItemsRes.data;
-                if (defaultMembersRes.data) state.defaultMembers = defaultMembersRes.data.map(d => d.member_id);
-                
-                state.newPayment.present = [...state.defaultMembers];
-                render();
-            } catch (error) {
-                console.error('Error:', error);
-            }
+        async function loadData() {
+            const [m, b, p, g, gr, oi, dm] = await Promise.all([
+                client.from('members').select('*'),
+                client.from('bars').select('*'),
+                client.from('payments').select('*'),
+                client.from('games').select('*'),
+                client.from('game_results').select('*'),
+                client.from('order_items').select('*'),
+                client.from('default_members').select('*')
+            ]);
+            if (m.data) state.members = m.data;
+            if (b.data) state.bars = b.data;
+            if (p.data) state.payments = p.data;
+            if (g.data) state.games = g.data;
+            if (gr.data) state.gameResults = gr.data;
+            if (oi.data) state.orderItems = oi.data;
+            if (dm.data) state.defaultMembers = dm.data.map(d => d.member_id);
+            state.newPayment.present = [...state.defaultMembers];
         }
 
-        function handleLogin() {
-            if (state.passwordInput.trim() === CORRECT_PASSWORD) {
-                state.isAuthenticated = true;
-                state.passwordError = false;
-                localStorage.setItem('authenticated', 'true');
-                loadAllData();
+        function login(pass) {
+            if (pass === 'onfire25') {
+                state.auth = true;
+                localStorage.setItem('auth', 'true');
+                loadData().then(render);
             } else {
-                state.passwordError = true;
-                state.passwordInput = '';
-                render();
+                document.getElementById('error').classList.remove('hidden');
             }
         }
 
-        function handleLogout() {
-            state.isAuthenticated = false;
-            localStorage.removeItem('authenticated');
+        function logout() {
+            state.auth = false;
+            localStorage.removeItem('auth');
             render();
+        }
+
+        function getMemberName(id) {
+            const m = state.members.find(x => x.id === id);
+            return m ? m.name : 'Desconocido';
         }
 
         async function addMember() {
-            if (state.newMember.name.trim()) {
-                const member = { id: Date.now(), ...state.newMember };
-                await supabaseClient.from('members').insert([member]);
-                state.members.push(member);
-                state.newMember = { name: '', avatar: '', photo: '' };
-                render();
-            }
-        }
-
-        async function deleteMember(id) {
-            await supabaseClient.from('members').delete().eq('id', id);
-            state.members = state.members.filter(m => m.id !== id);
-            render();
-        }
-
-        async function toggleDefaultMember(id) {
-            const isDefault = state.defaultMembers.includes(id);
-            if (isDefault) {
-                await supabaseClient.from('default_members').delete().eq('member_id', id);
-                state.defaultMembers = state.defaultMembers.filter(m => m !== id);
-            } else {
-                await supabaseClient.from('default_members').insert([{ member_id: id }]);
-                state.defaultMembers.push(id);
-            }
-            state.newPayment.present = [...state.defaultMembers];
+            const name = document.getElementById('memberName').value;
+            const avatar = document.getElementById('memberAvatar').value;
+            if (!name) return;
+            const member = { id: Date.now(), name, avatar, photo: '' };
+            await client.from('members').insert([member]);
+            state.members.push(member);
+            document.getElementById('memberName').value = '';
+            document.getElementById('memberAvatar').value = '';
             render();
         }
 
         async function addBar() {
-            if (state.newBar.trim()) {
-                const bar = { id: Date.now(), name: state.newBar };
-                await supabaseClient.from('bars').insert([bar]);
-                state.bars.push(bar);
-                state.newBar = '';
-                render();
-            }
-        }
-
-        async function deleteBar(id) {
-            await supabaseClient.from('bars').delete().eq('id', id);
-            state.bars = state.bars.filter(b => b.id !== id);
+            const name = document.getElementById('barName').value;
+            if (!name) return;
+            const bar = { id: Date.now(), name };
+            await client.from('bars').insert([bar]);
+            state.bars.push(bar);
+            document.getElementById('barName').value = '';
             render();
         }
 
         async function addPayment() {
-            if (state.newPayment.payers.length > 0 && state.newPayment.amount && state.newPayment.bar && state.newPayment.registered_by) {
-                const payment = { 
-                    id: Date.now(), 
-                    ...state.newPayment, 
-                    amount: parseFloat(state.newPayment.amount)
-                };
-                await supabaseClient.from('payments').insert([payment]);
-                state.payments.push(payment);
-                state.newPayment = {
-                    payers: [],
-                    present: state.newPayment.present,
-                    amount: '',
-                    bar: '',
-                    date: new Date().toISOString().split('T')[0],
-                    registered_by: ''
-                };
-                render();
+            const { payers, present, amount, bar, date, registered_by } = state.newPayment;
+            if (payers.length === 0 || !amount || !bar || !registered_by) {
+                alert('Completa todos los campos');
+                return;
             }
+            const payment = { id: Date.now(), payers, present, amount: parseFloat(amount), bar, date, registered_by };
+            await client.from('payments').insert([payment]);
+            state.payments.push(payment);
+            state.newPayment = { 
+                payers: [], 
+                present: state.newPayment.present, 
+                amount: '', 
+                bar: '', 
+                date: new Date().toISOString().split('T')[0],
+                registered_by: '' 
+            };
+            render();
         }
 
         async function deletePayment(id) {
-            await supabaseClient.from('payments').delete().eq('id', id);
+            await client.from('payments').delete().eq('id', id);
             state.payments = state.payments.filter(p => p.id !== id);
             render();
         }
 
-        async function addOrderItem() {
-            if (state.newItem.trim()) {
-                const item = { id: Date.now(), name: state.newItem };
-                await supabaseClient.from('order_items').insert([item]);
-                state.orderItems.push(item);
-                state.newItem = '';
-                render();
+        async function toggleDefaultMember(id) {
+            if (state.defaultMembers.includes(id)) {
+                await client.from('default_members').delete().eq('member_id', id);
+                state.defaultMembers = state.defaultMembers.filter(m => m !== id);
+            } else {
+                await client.from('default_members').insert([{ member_id: id }]);
+                state.defaultMembers.push(id);
             }
-        }
-
-        async function deleteOrderItem(id) {
-            await supabaseClient.from('order_items').delete().eq('id', id);
-            state.orderItems = state.orderItems.filter(i => i.id !== id);
-            render();
-        }
-
-        async function addGame() {
-            if (state.newGame.trim()) {
-                const game = { id: Date.now(), name: state.newGame };
-                await supabaseClient.from('games').insert([game]);
-                state.games.push(game);
-                state.newGame = '';
-                render();
-            }
-        }
-
-        async function deleteGame(id) {
-            await supabaseClient.from('games').delete().eq('id', id);
-            state.games = state.games.filter(g => g.id !== id);
-            render();
-        }
-
-        async function addGameResult() {
-            if (state.newGameResult.game && state.newGameResult.losers.length > 0 && state.newGameResult.registered_by) {
-                const result = { id: Date.now(), ...state.newGameResult };
-                await supabaseClient.from('game_results').insert([result]);
-                state.gameResults.push(result);
-                state.newGameResult = {
-                    game: '',
-                    bar: '',
-                    losers: [],
-                    date: new Date().toISOString().split('T')[0],
-                    registered_by: ''
-                };
-                render();
-            }
-        }
-
-        async function deleteGameResult(id) {
-            await supabaseClient.from('game_results').delete().eq('id', id);
-            state.gameResults = state.gameResults.filter(r => r.id !== id);
+            state.newPayment.present = [...state.defaultMembers];
             render();
         }
 
@@ -252,431 +284,266 @@
             render();
         }
 
-        function toggleLoser(id) {
-            if (state.newGameResult.losers.includes(id)) {
-                state.newGameResult.losers = state.newGameResult.losers.filter(l => l !== id);
-            } else {
-                state.newGameResult.losers.push(id);
-            }
-            render();
-        }
-
-        function updateOrderQuantity(itemId, delta) {
-            state.currentOrder[itemId] = Math.max(0, (state.currentOrder[itemId] || 0) + delta);
-            render();
-        }
-
-        function clearOrder() {
-            state.currentOrder = {};
-            render();
-        }
-
-        function getMemberName(id) {
-            const member = state.members.find(m => m.id === id);
-            return member ? member.name : 'Desconocido';
-        }
-
         function calculateStats() {
-            const stats = state.members.map(member => {
+            return state.members.map(member => {
                 const timesPaid = state.payments.filter(p => p.payers.includes(member.id)).length;
                 const timesPresent = state.payments.filter(p => p.present.includes(member.id)).length;
-                const timesNotPaid = timesPresent - timesPaid;
                 const totalSpent = state.payments
                     .filter(p => p.payers.includes(member.id))
                     .reduce((sum, p) => sum + (p.amount / p.payers.length), 0);
                 
-                const avgSpent = timesPaid > 0 ? totalSpent / timesPaid : 0;
-                
-                let currentStreak = 0;
+                let streak = 0;
                 for (let i = state.payments.length - 1; i >= 0; i--) {
                     if (state.payments[i].present.includes(member.id)) {
-                        if (!state.payments[i].payers.includes(member.id)) {
-                            currentStreak++;
-                        } else {
-                            break;
-                        }
+                        if (!state.payments[i].payers.includes(member.id)) streak++;
+                        else break;
                     }
                 }
 
-                const shouldHavePaid = timesPresent / (timesPresent > 0 ? timesPresent : 1);
-                const actuallyPaid = timesPaid / (timesPresent > 0 ? timesPresent : 1);
-                const moralDebt = (shouldHavePaid - actuallyPaid) * 100;
+                const rate = timesPresent > 0 ? (timesPaid / timesPresent * 100) : 0;
+                const debt = ((timesPresent - timesPaid) / (timesPresent || 1)) * 100;
 
-                const timesLost = state.gameResults.filter(r => r.losers.includes(member.id)).length;
-
-                return {
-                    member,
-                    timesPaid,
-                    timesPresent,
-                    timesNotPaid,
-                    totalSpent,
-                    avgSpent,
-                    currentStreak,
-                    moralDebt,
-                    paymentRate: timesPresent > 0 ? (timesPaid / timesPresent * 100) : 0,
-                    timesLost
-                };
-            });
-
-            return stats.sort((a, b) => b.timesPaid - a.timesPaid);
+                return { member, timesPaid, timesPresent, totalSpent, streak, rate, debt };
+            }).sort((a, b) => b.timesPaid - a.timesPaid);
         }
 
         function render() {
             const app = document.getElementById('app');
             
-            if (!state.isAuthenticated) {
+            if (!state.auth) {
                 app.innerHTML = `
-                    <div class="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 p-4 flex items-center justify-center">
-                        <div class="bg-white rounded-lg shadow-xl p-8 max-w-md w-full">
-                            <div class="text-center mb-6">
-                                <div class="text-6xl mb-4">🔥</div>
-                                <h1 class="text-3xl font-bold text-purple-800 mb-2">Calculadora de Pagos</h1>
-                                <p class="text-gray-600">Acceso exclusivo para la pandilla</p>
-                            </div>
-                            
-                            <div class="space-y-4">
-                                <div>
-                                    <label class="block font-semibold mb-2 text-gray-700">Contraseña:</label>
-                                    <div class="relative">
-                                        <input
-                                            type="${state.showPassword ? 'text' : 'password'}"
-                                            id="passwordInput"
-                                            value="${state.passwordInput}"
-                                            class="w-full px-4 py-3 border-2 rounded-lg focus:outline-none focus:ring-2 pr-12 ${
-                                                state.passwordError ? 'border-red-500' : 'border-gray-300'
-                                            }"
-                                            placeholder="Introduce la contraseña"
-                                        />
-                                        <button
-                                            onclick="state.showPassword = !state.showPassword; render();"
-                                            type="button"
-                                            class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
-                                        >
-                                            ${state.showPassword ? '🙈' : '👁️'}
-                                        </button>
-                                    </div>
-                                    ${state.passwordError ? '<p class="text-red-500 text-sm mt-2">❌ Contraseña incorrecta</p>' : ''}
-                                </div>
-                                
-                                <button
-                                    onclick="handleLogin()"
-                                    class="w-full bg-purple-600 text-white py-3 rounded-lg font-semibold hover:bg-purple-700 transition"
-                                >
-                                    Entrar
-                                </button>
-                            </div>
-                            
-                            <div class="mt-6 text-center text-sm text-gray-500">
-                                🔒 Solo miembros de la pandilla
-                            </div>
+                    <div class="login-screen">
+                        <div class="card login-card">
+                            <div class="login-icon">🔥</div>
+                            <h1 class="title mb-2">Calculadora de Pagos</h1>
+                            <p class="text-gray mb-4">Acceso exclusivo para la pandilla</p>
+                            <input type="password" id="passInput" class="input mb-2" placeholder="Contraseña" />
+                            <p id="error" class="error hidden">❌ Contraseña incorrecta</p>
+                            <button onclick="loginHandler()" class="btn btn-primary" style="width:100%;margin-top:1rem">Entrar</button>
                         </div>
                     </div>
                 `;
-                
-                const input = document.getElementById('passwordInput');
-                if (input) {
-                    input.addEventListener('input', (e) => {
-                        state.passwordInput = e.target.value;
-                    });
-                    input.addEventListener('keypress', (e) => {
-                        if (e.key === 'Enter') handleLogin();
-                    });
-                    input.focus();
-                }
+                document.getElementById('passInput').addEventListener('keypress', e => {
+                    if (e.key === 'Enter') login(e.target.value);
+                });
                 return;
             }
 
-            // App principal con tabs
             const tabs = [
-                { id: 'registros', label: 'Registros', icon: '📝' },
-                { id: 'miembros', label: 'Miembros', icon: '👥' },
-                { id: 'bares', label: 'Bares', icon: '🍺' },
-                { id: 'pedidos', label: 'Pedidos', icon: '🛒' },
-                { id: 'juegos', label: 'Juegos', icon: '🎲' },
-                { id: 'estadisticas', label: 'Stats', icon: '📊' }
+                { id: 'registros', label: 'Registros' },
+                { id: 'miembros', label: 'Miembros' },
+                { id: 'bares', label: 'Bares' },
+                { id: 'estadisticas', label: 'Estadísticas' }
             ];
-
-            let tabsHTML = tabs.map(tab => `
-                <button
-                    onclick="state.activeTab = '${tab.id}'; render();"
-                    class="tab-button flex items-center gap-2 px-4 py-2 rounded-lg font-medium whitespace-nowrap ${
-                        state.activeTab === tab.id 
-                            ? 'bg-purple-600 text-white' 
-                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }"
-                >
-                    <span>${tab.icon}</span>
-                    <span>${tab.label}</span>
-                </button>
-            `).join('');
 
             let content = '';
 
-            if (state.activeTab === 'registros') {
+            if (state.tab === 'registros') {
                 content = `
-                    <div class="bg-white rounded-lg shadow-lg p-6">
-                        <h2 class="text-2xl font-bold mb-4 text-purple-700">Nuevo Registro</h2>
-                        
-                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
-                            <p class="text-sm text-blue-700">💡 La ronda se mantiene automáticamente</p>
-                        </div>
-
-                        <div class="space-y-4">
-                            <div>
-                                <label class="block font-semibold mb-2">Quién paga:</label>
-                                <div class="flex flex-wrap gap-2">
-                                    ${state.members.map(m => `
-                                        <button
-                                            onclick="togglePayer(${m.id})"
-                                            class="px-4 py-2 rounded-lg font-medium transition ${
-                                                state.newPayment.payers.includes(m.id)
-                                                    ? 'bg-green-500 text-white'
-                                                    : 'bg-gray-200 text-gray-700'
-                                            }"
-                                        >
-                                            ${m.avatar || '👤'} ${m.name}
-                                        </button>
-                                    `).join('')}
-                                </div>
-                            </div>
-
-                            <div>
-                                <label class="block font-semibold mb-2">Presentes (${state.newPayment.present.length}):</label>
-                                <div class="flex flex-wrap gap-2">
-                                    ${state.members.map(m => `
-                                        <button
-                                            onclick="togglePresent(${m.id})"
-                                            class="px-4 py-2 rounded-lg font-medium transition ${
-                                                state.newPayment.present.includes(m.id)
-                                                    ? 'bg-blue-500 text-white'
-                                                    : 'bg-gray-200 text-gray-700'
-                                            }"
-                                        >
-                                            ${m.avatar || '👤'} ${m.name}
-                                        </button>
-                                    `).join('')}
-                                </div>
-                            </div>
-
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                    <label class="block font-semibold mb-2">Importe (€):</label>
-                                    <input
-                                        type="number"
-                                        step="0.01"
-                                        value="${state.newPayment.amount}"
-                                        onchange="state.newPayment.amount = this.value"
-                                        class="w-full px-4 py-3 border rounded-lg"
-                                        placeholder="15.50"
-                                    />
-                                </div>
-
-                                <div>
-                                    <label class="block font-semibold mb-2">Bar:</label>
-                                    <select
-                                        onchange="state.newPayment.bar = this.value"
-                                        class="w-full px-4 py-3 border rounded-lg"
-                                    >
-                                        <option value="">Selecciona</option>
-                                        ${state.bars.map(b => `
-                                            <option value="${b.name}" ${state.newPayment.bar === b.name ? 'selected' : ''}>
-                                                ${b.name}
-                                            </option>
-                                        `).join('')}
-                                    </select>
-                                </div>
-
-                                <div>
-                                    <label class="block font-semibold mb-2">Fecha:</label>
-                                    <input
-                                        type="date"
-                                        value="${state.newPayment.date}"
-                                        onchange="state.newPayment.date = this.value"
-                                        class="w-full px-4 py-3 border rounded-lg"
-                                    />
-                                </div>
-
-                                <div>
-                                    <label class="block font-semibold mb-2">📝 Registrado por:</label>
-                                    <select
-                                        onchange="state.newPayment.registered_by = parseInt(this.value)"
-                                        class="w-full px-4 py-3 border rounded-lg bg-yellow-50"
-                                    >
-                                        <option value="">Selecciona</option>
-                                        ${state.members.map(m => `
-                                            <option value="${m.id}" ${state.newPayment.registered_by === m.id ? 'selected' : ''}>
-                                                ${m.name}
-                                            </option>
-                                        `).join('')}
-                                    </select>
-                                </div>
-                            </div>
-
-                            <button
-                                onclick="addPayment()"
-                                class="w-full bg-purple-600 text-white py-4 rounded-lg font-semibold hover:bg-purple-700 transition"
-                            >
-                                ➕ Añadir Registro
-                            </button>
-                        </div>
-
-                        <div class="mt-8">
-                            <h3 class="text-xl font-bold mb-4">Historial</h3>
-                            <div class="space-y-3">
-                                ${state.payments.slice().reverse().map(p => `
-                                    <div class="bg-gray-50 p-4 rounded-lg">
-                                        <div class="flex justify-between items-start">
-                                            <div class="flex-1">
-                                                <div class="font-semibold text-lg">
-                                                    ${p.payers.map(id => getMemberName(id)).join(', ')} pagó ${p.amount.toFixed(2)}€
-                                                </div>
-                                                <div class="text-sm text-gray-600 mt-1">
-                                                    ${p.bar} • ${new Date(p.date).toLocaleDateString('es-ES')}
-                                                </div>
-                                                ${p.registered_by ? `
-                                                    <div class="text-xs text-yellow-700 bg-yellow-100 inline-block px-2 py-1 rounded mt-2">
-                                                        📝 ${getMemberName(p.registered_by)}
-                                                    </div>
-                                                ` : ''}
-                                            </div>
-                                            <button
-                                                onclick="deletePayment(${p.id})"
-                                                class="text-red-500 hover:text-red-700"
-                                            >
-                                                🗑️
-                                            </button>
-                                        </div>
-                                    </div>
-                                `).join('')}
-                            </div>
-                        </div>
+                    <h2 style="font-size:1.5rem;font-weight:bold;margin-bottom:1rem">Nuevo Registro</h2>
+                    
+                    <div style="background:#dbeafe;padding:1rem;border-radius:0.5rem;margin-bottom:1rem">
+                        <p class="text-sm">💡 La ronda se mantiene automáticamente</p>
                     </div>
-                `;
-            } else if (state.activeTab === 'miembros') {
-                content = `
-                    <div class="bg-white rounded-lg shadow-lg p-6">
-                        <h2 class="text-2xl font-bold mb-4 text-purple-700">Miembros</h2>
-                        
-                        <div class="mb-6 space-y-4">
-                            <div class="flex gap-2">
-                                <input
-                                    type="text"
-                                    value="${state.newMember.name}"
-                                    onchange="state.newMember.name = this.value"
-                                    placeholder="Nombre"
-                                    class="flex-1 px-4 py-3 border rounded-lg"
-                                />
-                                <input
-                                    type="text"
-                                    value="${state.newMember.avatar}"
-                                    onchange="state.newMember.avatar = this.value"
-                                    placeholder="😊"
-                                    class="w-16 px-2 py-3 border rounded-lg text-center"
-                                />
-                                <button
-                                    onclick="addMember()"
-                                    class="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700"
-                                >
-                                    ➕
-                                </button>
-                            </div>
-                        </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="mb-4">
+                        <label class="label">Quién paga:</label>
+                        <div class="flex flex-wrap gap-2">
                             ${state.members.map(m => `
-                                <div class="bg-gray-50 p-4 rounded-lg">
-                                    <div class="flex items-center justify-between mb-3">
-                                        <div class="flex items-center gap-3">
-                                            <div class="text-4xl">${m.avatar || '👤'}</div>
-                                            <div>
-                                                <div class="font-semibold text-lg">${m.name}</div>
-                                                <button
-                                                    onclick="toggleDefaultMember(${m.id})"
-                                                    class="text-sm ${
-                                                        state.defaultMembers.includes(m.id) 
-                                                            ? 'text-green-600' 
-                                                            : 'text-gray-500'
-                                                    }"
-                                                >
-                                                    ${state.defaultMembers.includes(m.id) ? '✓' : '✗'} Por defecto
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <button
-                                            onclick="deleteMember(${m.id})"
-                                            class="text-red-500 hover:text-red-700"
-                                        >
-                                            🗑️
-                                        </button>
-                                    </div>
-                                </div>
+                                <button onclick="togglePayerHandler(${m.id})" class="member-btn ${state.newPayment.payers.includes(m.id) ? 'selected' : ''}">
+                                    ${m.avatar || '👤'} ${m.name}
+                                </button>
                             `).join('')}
                         </div>
                     </div>
-                `;
-            } else if (state.activeTab === 'bares') {
-                content = `
-                    <div class="bg-white rounded-lg shadow-lg p-6">
-                        <h2 class="text-2xl font-bold mb-4 text-purple-700">Bares</h2>
-                        
-                        <div class="flex gap-2 mb-6">
-                            <input
-                                type="text"
-                                value="${state.newBar}"
-                                onchange="state.newBar = this.value"
-                                placeholder="Nombre del bar"
-                                class="flex-1 px-4 py-3 border rounded-lg"
-                            />
-                            <button
-                                onclick="addBar()"
-                                class="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700"
-                            >
-                                ➕
-                            </button>
-                        </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                            ${state.bars.map(b => `
-                                <div class="bg-gray-50 p-4 rounded-lg flex items-center justify-between">
-                                    <div class="flex items-center gap-3">
-                                        <span class="text-2xl">🍺</span>
-                                        <span class="font-semibold">${b.name}</span>
+                    <div class="mb-4">
+                        <label class="label">Presentes (${state.newPayment.present.length}):</label>
+                        <div class="flex flex-wrap gap-2">
+                            ${state.members.map(m => `
+                                <button onclick="togglePresentHandler(${m.id})" class="member-btn ${state.newPayment.present.includes(m.id) ? 'present' : ''}">
+                                    ${m.avatar || '👤'} ${m.name}
+                                </button>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <div class="grid grid-2 mb-4">
+                        <div>
+                            <label class="label">Importe (€):</label>
+                            <input type="number" id="payAmount" value="${state.newPayment.amount}" class="input" placeholder="15.50" />
+                        </div>
+                        <div>
+                            <label class="label">Bar:</label>
+                            <select id="payBar" class="input">
+                                <option value="">Selecciona</option>
+                                ${state.bars.map(b => `<option value="${b.name}" ${state.newPayment.bar === b.name ? 'selected' : ''}>${b.name}</option>`).join('')}
+                            </select>
+                        </div>
+                        <div>
+                            <label class="label">Fecha:</label>
+                            <input type="date" id="payDate" value="${state.newPayment.date}" class="input" />
+                        </div>
+                        <div>
+                            <label class="label">📝 Registrado por:</label>
+                            <select id="payReg" class="input" style="background:#fef3c7">
+                                <option value="">Selecciona</option>
+                                ${state.members.map(m => `<option value="${m.id}" ${state.newPayment.registered_by === m.id ? 'selected' : ''}>${m.name}</option>`).join('')}
+                            </select>
+                        </div>
+                    </div>
+
+                    <button onclick="addPaymentHandler()" class="btn btn-primary" style="width:100%">➕ Añadir Registro</button>
+
+                    <h3 style="font-size:1.25rem;font-weight:bold;margin:2rem 0 1rem">Historial</h3>
+                    ${state.payments.slice().reverse().map(p => `
+                        <div class="history-item">
+                            <div class="flex justify-between items-center">
+                                <div style="flex:1">
+                                    <div style="font-weight:600">
+                                        ${p.payers.map(id => getMemberName(id)).join(', ')} pagó ${p.amount.toFixed(2)}€
                                     </div>
-                                    <button
-                                        onclick="deleteBar(${b.id})"
-                                        class="text-red-500 hover:text-red-700"
-                                    >
-                                        🗑️
+                                    <div class="text-sm text-gray mt-1">
+                                        ${p.bar} • ${new Date(p.date).toLocaleDateString('es-ES')}
+                                    </div>
+                                    ${p.registered_by ? `<span class="badge">📝 ${getMemberName(p.registered_by)}</span>` : ''}
+                                </div>
+                                <button onclick="deletePaymentHandler(${p.id})" class="btn btn-danger">🗑️</button>
+                            </div>
+                        </div>
+                    `).join('')}
+                `;
+            } else if (state.tab === 'miembros') {
+                content = `
+                    <h2 style="font-size:1.5rem;font-weight:bold;margin-bottom:1rem">Miembros</h2>
+                    
+                    <div class="flex gap-2 mb-4">
+                        <input type="text" id="memberName" class="input" placeholder="Nombre" style="flex:1" />
+                        <input type="text" id="memberAvatar" class="input" placeholder="😊" style="width:80px" />
+                        <button onclick="addMemberHandler()" class="btn btn-primary">➕</button>
+                    </div>
+
+                    <div class="grid grid-2">
+                        ${state.members.map(m => `
+                            <div class="item-card">
+                                <div style="font-size:2rem">${m.avatar || '👤'}</div>
+                                <div style="flex:1">
+                                    <div style="font-weight:600">${m.name}</div>
+                                    <button onclick="toggleDefaultHandler(${m.id})" class="text-sm ${state.defaultMembers.includes(m.id) ? 'success' : 'text-gray'}">
+                                        ${state.defaultMembers.includes(m.id) ? '✓' : '✗'} Por defecto
                                     </button>
                                 </div>
-                            `).join('')}
-                        </div>
+                            </div>
+                        `).join('')}
                     </div>
                 `;
-            } else if (state.activeTab === 'pedidos') {
+            } else if (state.tab === 'bares') {
                 content = `
-                    <div class="bg-white rounded-lg shadow-lg p-6">
-                        <h2 class="text-2xl font-bold mb-4 text-purple-700">Pedidos</h2>
-                        
-                        <div class="flex gap-2 mb-6">
-                            <input
-                                type="text"
-                                value="${state.newItem}"
-                                onchange="state.newItem = this.value"
-                                placeholder="Artículo (Caña, Café...)"
-                                class="flex-1 px-4 py-3 border rounded-lg"
-                            />
-                            <button
-                                onclick="addOrderItem()"
-                                class="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700"
-                            >
-                                ➕
-                            </button>
-                        </div>
+                    <h2 style="font-size:1.5rem;font-weight:bold;margin-bottom:1rem">Bares</h2>
+                    
+                    <div class="flex gap-2 mb-4">
+                        <input type="text" id="barName" class="input" placeholder="Nombre del bar" style="flex:1" />
+                        <button onclick="addBarHandler()" class="btn btn-primary">➕</button>
+                    </div>
 
-                        <div class="grid grid-cols-1 gap-3 mb-6">
-                            ${state.orderItems.map(item => `
-                                <div class="bg-gray-50 p-4 rounded-lg">
-                                    <div class="flex items-center justify-between mb-3">
-                                        <span class="font-semibold">${item.name}</span>
-                                        <button
+                    <div class="grid grid-2">
+                        ${state.bars.map(b => `
+                            <div class="item-card">
+                                <span style="font-size:1.5rem">🍺</span>
+                                <span style="font-weight:600;flex:1">${b.name}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } else if (state.tab === 'estadisticas') {
+                const stats = calculateStats();
+                content = `
+                    <h2 style="font-size:1.5rem;font-weight:bold;margin-bottom:1rem">Estadísticas</h2>
+                    
+                    <div class="grid grid-2 mb-4">
+                        <div class="stat-card">
+                            <div class="stat-label">Total Salidas</div>
+                            <div class="stat-value">${state.payments.length}</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-label">Miembros</div>
+                            <div class="stat-value">${state.members.length}</div>
+                        </div>
+                    </div>
+
+                    <h3 style="font-size:1.25rem;font-weight:bold;margin-bottom:1rem">Individuales</h3>
+                    ${stats.map(s => `
+                        <div class="history-item mb-2">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div style="font-size:2rem">${s.member.avatar || '👤'}</div>
+                                <div style="font-size:1.25rem;font-weight:bold">${s.member.name}</div>
+                            </div>
+                            <div class="grid grid-2 text-sm">
+                                <div><span class="text-gray">Pagó:</span> <strong style="color:#10b981">${s.timesPaid}</strong></div>
+                                <div><span class="text-gray">Presente:</span> <strong>${s.timesPresent}</strong></div>
+                                <div><span class="text-gray">Sin pagar:</span> <strong style="color:#ef4444">${s.timesPresent - s.timesPaid}</strong></div>
+                                <div><span class="text-gray">Racha:</span> <strong>${s.streak} 🔥</strong></div>
+                                <div><span class="text-gray">Gastado:</span> <strong>${s.totalSpent.toFixed(2)}€</strong></div>
+                                <div><span class="text-gray">Tasa:</span> <strong>${s.rate.toFixed(0)}%</strong></div>
+                            </div>
+                        </div>
+                    `).join('')}
+                `;
+            }
+
+            app.innerHTML = `
+                <div class="container">
+                    <div class="header">
+                        <h1 class="title">🍺 Calculadora</h1>
+                        <button onclick="logoutHandler()" class="btn btn-danger">Cerrar Sesión</button>
+                    </div>
+                    
+                    <div class="tabs">
+                        ${tabs.map(t => `
+                            <button onclick="changeTab('${t.id}')" class="tab ${state.tab === t.id ? 'active' : ''}">
+                                ${t.label}
+                            </button>
+                        `).join('')}
+                    </div>
+
+                    <div class="card">
+                        ${content}
+                    </div>
+                </div>
+            `;
+
+            // Event listeners
+            if (state.tab === 'registros') {
+                const amt = document.getElementById('payAmount');
+                const bar = document.getElementById('payBar');
+                const date = document.getElementById('payDate');
+                const reg = document.getElementById('payReg');
+                if (amt) amt.addEventListener('change', e => state.newPayment.amount = e.target.value);
+                if (bar) bar.addEventListener('change', e => state.newPayment.bar = e.target.value);
+                if (date) date.addEventListener('change', e => state.newPayment.date = e.target.value);
+                if (reg) reg.addEventListener('change', e => state.newPayment.registered_by = parseInt(e.target.value));
+            }
+        }
+
+        // Global handlers
+        window.loginHandler = () => login(document.getElementById('passInput').value);
+        window.logoutHandler = logout;
+        window.changeTab = (tab) => { state.tab = tab; render(); };
+        window.addMemberHandler = addMember;
+        window.addBarHandler = addBar;
+        window.addPaymentHandler = addPayment;
+        window.deletePaymentHandler = deletePayment;
+        window.toggleDefaultHandler = toggleDefaultMember;
+        window.togglePayerHandler = togglePayer;
+        window.togglePresentHandler = togglePresent;
+
+        // Init
+        if (localStorage.getItem('auth') === 'true') {
+            state.auth = true;
+            loadData().then(render);
+        } else {
+            render();
+        }
+    </script>
+</body>
+</html>
