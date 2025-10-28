@@ -413,6 +413,283 @@
             font-size: 20px;
             padding: 0;
         }
+
+        .participant-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin: 5px 0;
+            background: #f9fafb;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .participant-item:hover {
+            background: #f3f4f6;
+        }
+
+        .participant-item input[type="checkbox"] {
+            width: auto;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .participant-item label {
+            cursor: pointer;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+
+        .toggle-active-btn {
+            background: #10b981;
+            padding: 6px 12px;
+            font-size: 0.85em;
+            margin-right: 5px;
+        }
+
+        .toggle-active-btn.inactive {
+            background: #6b7280;
+        }
+
+        .toggle-active-btn:hover {
+            opacity: 0.8;
+        }
+
+        .member-status {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 500;
+            margin-left: 10px;
+        }
+
+        .member-status.active {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .member-status.inactive {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+
+        .ranking-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin: 10px 0;
+            background: #f9fafb;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .ranking-position {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+            margin-right: 20px;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .ranking-position.gold {
+            color: #f59e0b;
+        }
+
+        .ranking-position.silver {
+            color: #9ca3af;
+        }
+
+        .ranking-position.bronze {
+            color: #d97706;
+        }
+
+        .ranking-info {
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        .ranking-stats {
+            margin-left: auto;
+            text-align: right;
+        }
+
+        .ranking-amount {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #10b981;
+        }
+
+        .ranking-count {
+            color: #6b7280;
+            font-size: 0.9em;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            color: white;
+        }
+
+        .stat-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .progress-bar {
+            background: #e5e7eb;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+
+        .progress-fill {
+            background: #10b981;
+            height: 100%;
+            transition: width 0.3s;
+        }
+
+        .order-member-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .order-member-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .order-member-name {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #374151;
+            margin-left: 10px;
+        }
+
+        .order-items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 10px;
+        }
+
+        .order-item {
+            background: #f9fafb;
+            padding: 12px;
+            border-radius: 8px;
+            border: 2px solid #e5e7eb;
+            transition: all 0.2s;
+        }
+
+        .order-item:hover {
+            border-color: #667eea;
+            background: #f0f9ff;
+        }
+
+        .order-item-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .order-item-icon {
+            font-size: 20px;
+            margin-right: 8px;
+        }
+
+        .order-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .order-btn {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border: none;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+
+        .order-btn-minus {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .order-btn-minus:hover {
+            background: #fecaca;
+            transform: scale(1.1);
+        }
+
+        .order-btn-plus {
+            background: #d1fae5;
+            color: #059669;
+        }
+
+        .order-btn-plus:hover {
+            background: #a7f3d0;
+            transform: scale(1.1);
+        }
+
+        .order-quantity {
+            font-size: 20px;
+            font-weight: bold;
+            color: #667eea;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .order-summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px;
+            background: white;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .order-summary-label {
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .order-summary-quantity {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #667eea;
+        }
     </style>
 </head>
 <body>
@@ -422,6 +699,9 @@
         <div class="tabs">
             <button class="tab active" onclick="showTab('miembros')">👥 Miembros</button>
             <button class="tab" onclick="showTab('bares')">🏪 Bares</button>
+            <button class="tab" onclick="showTab('juegos')">🎮 Juegos</button>
+            <button class="tab" onclick="showTab('articulos')">🍺 Artículos</button>
+            <button class="tab" onclick="showTab('pedidos')">📋 Pedidos</button>
             <button class="tab" onclick="showTab('pagos')">💰 Registrar Pago</button>
             <button class="tab" onclick="showTab('balances')">📊 Balances</button>
             <button class="tab" onclick="showTab('historial')">📜 Historial</button>
@@ -445,6 +725,9 @@
 
             <div class="section">
                 <h2>Miembros del Grupo</h2>
+                <p style="color: #6b7280; margin-bottom: 15px; font-size: 0.95em;">
+                    💡 Los miembros marcados como <strong>"Activo"</strong> se incluirán automáticamente en cada nueva ronda
+                </p>
                 <ul id="membersList" class="list"></ul>
             </div>
         </div>
@@ -471,10 +754,93 @@
             </div>
         </div>
 
+        <!-- TAB JUEGOS -->
+        <div id="juegos" class="tab-content">
+            <div class="section">
+                <h2>Añadir Juego</h2>
+                <div class="form-group">
+                    <label>Nombre del Juego:</label>
+                    <input type="text" id="gameName" placeholder="Ej: Dominó, Cartas, Dardos...">
+                </div>
+                <button onclick="addGame()">➕ Añadir Juego</button>
+            </div>
+
+            <div class="section">
+                <h2>Juegos Registrados</h2>
+                <ul id="gamesList" class="list"></ul>
+            </div>
+        </div>
+
+        <!-- TAB ARTÍCULOS -->
+        <div id="articulos" class="tab-content">
+            <div class="section">
+                <h2>Añadir Artículo</h2>
+                <div class="form-group">
+                    <label>Nombre del Artículo:</label>
+                    <input type="text" id="articleName" placeholder="Ej: Coca-Cola, Cerveza, Café...">
+                </div>
+                <div class="form-group">
+                    <label>Icono:</label>
+                    <select id="articleIcon">
+                        <option value="🍺">🍺 Cerveza</option>
+                        <option value="🍷">🍷 Vino</option>
+                        <option value="🥤">🥤 Refresco</option>
+                        <option value="☕">☕ Café</option>
+                        <option value="🥃">🥃 Licor</option>
+                        <option value="🍹">🍹 Cóctel</option>
+                        <option value="💧">💧 Agua</option>
+                        <option value="🧃">🧃 Zumo</option>
+                        <option value="🍔">🍔 Hamburguesa</option>
+                        <option value="🍕">🍕 Pizza</option>
+                        <option value="🥪">🥪 Bocadillo</option>
+                        <option value="🍟">🍟 Patatas</option>
+                        <option value="🥗">🥗 Ensalada</option>
+                        <option value="🍰">🍰 Postre</option>
+                    </select>
+                </div>
+                <button onclick="addArticle()">➕ Añadir Artículo</button>
+            </div>
+
+            <div class="section">
+                <h2>Artículos Disponibles</h2>
+                <ul id="articlesList" class="list"></ul>
+            </div>
+        </div>
+
+        <!-- TAB PEDIDOS -->
+        <div id="pedidos" class="tab-content">
+            <div class="section" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                <h2 style="color: white; margin-bottom: 10px;">📋 Gestión de Pedidos</h2>
+                <p style="margin: 0; opacity: 0.9;">Gestiona el pedido total del grupo. Se mantiene de bar en bar hasta que lo actualices.</p>
+            </div>
+
+            <!-- Resumen del pedido actual -->
+            <div class="section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h2 style="margin: 0;">📝 Pedido Actual del Grupo</h2>
+                    <button onclick="clearAllOrders()" class="delete-btn">🗑️ Limpiar Todo</button>
+                </div>
+                <div id="currentOrderSummary" style="background: #f0f9ff; padding: 20px; border-radius: 10px; border: 2px solid #0369a1;"></div>
+            </div>
+
+            <!-- Gestión de artículos del pedido -->
+            <div class="section">
+                <h2>🍺 Gestión de Artículos</h2>
+                <p style="color: #6b7280; margin-bottom: 15px;">
+                    💡 Usa los botones + y - para ajustar las cantidades del pedido total
+                </p>
+                <div id="orderArticlesManager"></div>
+            </div>
+        </div>
+
         <!-- TAB PAGOS -->
         <div id="pagos" class="tab-content">
             <div class="section">
                 <h2>Registrar Nuevo Pago</h2>
+                <div class="form-group">
+                    <label>Fecha:</label>
+                    <input type="date" id="paymentDate">
+                </div>
                 <div class="form-group">
                     <label>Bar:</label>
                     <select id="paymentBar">
@@ -482,14 +848,31 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Miembro que paga:</label>
-                    <select id="payerMember">
-                        <option value="">Selecciona un miembro</option>
+                    <label>Juego (opcional):</label>
+                    <select id="paymentGame">
+                        <option value="">Sin juego</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Cantidad (€):</label>
+                    <label>¿Quién paga esta ronda?</label>
+                    <div id="payersList" style="background: white; padding: 15px; border-radius: 8px; border: 2px solid #e5e7eb;">
+                        <p style="color: #6b7280; text-align: center;">Primero añade miembros</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Cantidad total (€):</label>
                     <input type="number" id="paymentAmount" placeholder="0.00" step="0.01" min="0">
+                </div>
+                <div class="form-group">
+                    <label>Participantes en esta ronda:</label>
+                    <div style="background: #e0f2fe; padding: 15px; border-radius: 8px; margin-bottom: 10px;">
+                        <p style="color: #0369a1; margin: 0; font-size: 0.95em;">
+                            💡 Por defecto se incluyen los miembros activos. Puedes ajustar si alguien se une o se va.
+                        </p>
+                    </div>
+                    <div id="participantsList" style="background: white; padding: 15px; border-radius: 8px; border: 2px solid #e5e7eb;">
+                        <p style="color: #6b7280; text-align: center;">Primero añade miembros</p>
+                    </div>
                 </div>
                 <button onclick="registerPayment()">💳 Registrar Pago</button>
             </div>
@@ -498,7 +881,62 @@
         <!-- TAB BALANCES -->
         <div id="balances" class="tab-content">
             <div class="section">
-                <h2>Balances por Bar</h2>
+                <h2>📊 Estadísticas y Balances</h2>
+                
+                <!-- Filtros -->
+                <div style="background: #f0f9ff; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                    <h3 style="color: #0369a1; margin-bottom: 15px;">🔍 Filtros</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                        <div class="form-group" style="margin: 0;">
+                            <label>Bar:</label>
+                            <select id="filterBar" onchange="applyFilters()">
+                                <option value="">Todos los bares</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin: 0;">
+                            <label>Juego:</label>
+                            <select id="filterGame" onchange="applyFilters()">
+                                <option value="">Todos los juegos</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin: 0;">
+                            <label>Desde:</label>
+                            <input type="date" id="filterDateFrom" onchange="applyFilters()">
+                        </div>
+                        <div class="form-group" style="margin: 0;">
+                            <label>Hasta:</label>
+                            <input type="date" id="filterDateTo" onchange="applyFilters()">
+                        </div>
+                    </div>
+                    <button onclick="clearFilters()" class="button-secondary" style="margin-top: 15px;">🔄 Limpiar Filtros</button>
+                </div>
+
+                <!-- Estadísticas Globales -->
+                <div style="background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                    <h3 style="color: #374151; margin-bottom: 15px;">📈 Estadísticas Generales</h3>
+                    <div id="globalStats" class="stats-grid"></div>
+                </div>
+
+                <!-- Ranking de Pagadores -->
+                <div style="background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                    <h3 style="color: #374151; margin-bottom: 15px;">🏆 Ranking: Quién Ha Pagado Más</h3>
+                    <div id="payersRanking"></div>
+                </div>
+
+                <!-- Estadísticas por Juego -->
+                <div style="background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                    <h3 style="color: #374151; margin-bottom: 15px;">🎮 Estadísticas por Juego</h3>
+                    <div id="gameStats"></div>
+                </div>
+
+                <!-- Estadísticas por Bar -->
+                <div style="background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+                    <h3 style="color: #374151; margin-bottom: 15px;">🏪 Estadísticas por Bar</h3>
+                    <div id="barStats"></div>
+                </div>
+
+                <!-- Balances por Bar -->
+                <h3 style="color: #374151; margin: 20px 0 15px 0;">💰 Balances Detallados por Bar</h3>
                 <div id="barBalances"></div>
             </div>
         </div>
@@ -520,16 +958,30 @@
                 <button class="modal-close" onclick="closeEditModal()">✕</button>
             </div>
             <div class="form-group">
+                <label>Fecha:</label>
+                <input type="date" id="editPaymentDate">
+            </div>
+            <div class="form-group">
                 <label>Bar:</label>
                 <select id="editPaymentBar"></select>
             </div>
             <div class="form-group">
-                <label>Miembro que paga:</label>
-                <select id="editPayerMember"></select>
+                <label>Juego (opcional):</label>
+                <select id="editPaymentGame">
+                    <option value="">Sin juego</option>
+                </select>
             </div>
             <div class="form-group">
-                <label>Cantidad (€):</label>
+                <label>¿Quién paga esta ronda?</label>
+                <div id="editPayersList" style="background: white; padding: 15px; border-radius: 8px; border: 2px solid #e5e7eb; max-height: 200px; overflow-y: auto;"></div>
+            </div>
+            <div class="form-group">
+                <label>Cantidad total (€):</label>
                 <input type="number" id="editPaymentAmount" step="0.01" min="0">
+            </div>
+            <div class="form-group">
+                <label>Participantes en esta ronda:</label>
+                <div id="editParticipantsList" style="background: white; padding: 15px; border-radius: 8px; border: 2px solid #e5e7eb; max-height: 200px; overflow-y: auto;"></div>
             </div>
             <div style="display: flex; gap: 10px; margin-top: 20px;">
                 <button onclick="saveEditedPayment()">💾 Guardar Cambios</button>
@@ -547,16 +999,62 @@
         let data = {
             members: [],
             bars: [],
-            payments: []
+            payments: [],
+            games: [],
+            activeMembers: [], // IDs de miembros actualmente activos
+            articles: [], // Artículos disponibles (bebidas, comidas, etc)
+            currentOrders: {} // Pedido actual global: { articleId: quantity }
         };
 
         let currentEditingPayment = null;
+
+        // Filtros activos
+        let activeFilters = {
+            bar: null,
+            game: null,
+            dateFrom: null,
+            dateTo: null
+        };
 
         // Cargar datos del localStorage
         function loadData() {
             const saved = localStorage.getItem('barsManagementData');
             if (saved) {
                 data = JSON.parse(saved);
+                // Asegurar que activeMembers existe
+                if (!data.activeMembers) {
+                    data.activeMembers = [];
+                }
+                // Asegurar que games existe (compatibilidad con versiones anteriores)
+                if (!data.games) {
+                    data.games = [];
+                }
+                // Asegurar que articles existe
+                if (!data.articles) {
+                    data.articles = [];
+                }
+                // Migrar currentOrders del formato antiguo (por persona) al nuevo (global)
+                if (data.currentOrders && typeof data.currentOrders === 'object') {
+                    // Verificar si está en formato antiguo (tiene IDs de miembros como claves)
+                    const firstKey = Object.keys(data.currentOrders)[0];
+                    if (firstKey && data.currentOrders[firstKey] && typeof data.currentOrders[firstKey] === 'object') {
+                        // Es formato antiguo, convertir a formato nuevo
+                        const newOrders = {};
+                        Object.keys(data.currentOrders).forEach(memberId => {
+                            const memberOrders = data.currentOrders[memberId];
+                            Object.keys(memberOrders).forEach(articleId => {
+                                if (!newOrders[articleId]) {
+                                    newOrders[articleId] = 0;
+                                }
+                                newOrders[articleId] += memberOrders[articleId];
+                            });
+                        });
+                        data.currentOrders = newOrders;
+                        saveData(); // Guardar la migración
+                    }
+                } else {
+                    data.currentOrders = {};
+                }
             }
         }
 
@@ -646,6 +1144,13 @@
                 renderBalances();
             } else if (tabName === 'historial') {
                 renderHistory();
+            } else if (tabName === 'juegos') {
+                renderGames();
+            } else if (tabName === 'articulos') {
+                renderArticles();
+            } else if (tabName === 'pedidos') {
+                renderOrderArticlesManager();
+                renderCurrentOrderSummary();
             }
         }
 
@@ -663,11 +1168,16 @@
                 return;
             }
 
-            data.members.push({
+            const newMember = {
                 id: Date.now(),
                 name: name,
                 avatar: selectedMemberAvatar
-            });
+            };
+
+            data.members.push(newMember);
+            
+            // Añadir como activo por defecto
+            data.activeMembers.push(newMember.id);
 
             saveData();
             document.getElementById('memberName').value = '';
@@ -709,6 +1219,31 @@
             initAvatarSelectors();
         }
 
+        // Añadir juego
+        function addGame() {
+            const name = document.getElementById('gameName').value.trim();
+            
+            if (!name) {
+                alert('Por favor, introduce el nombre del juego');
+                return;
+            }
+
+            if (data.games.some(g => g.name.toLowerCase() === name.toLowerCase())) {
+                alert('Este juego ya existe');
+                return;
+            }
+
+            data.games.push({
+                id: Date.now(),
+                name: name
+            });
+
+            saveData();
+            document.getElementById('gameName').value = '';
+            renderGames();
+            updatePaymentSelects();
+        }
+
         // Eliminar miembro
         function deleteMember(id) {
             if (!confirm('¿Estás seguro de eliminar este miembro? Se perderán sus pagos asociados.')) {
@@ -717,9 +1252,29 @@
 
             data.members = data.members.filter(m => m.id !== id);
             data.payments = data.payments.filter(p => p.memberId !== id);
+            data.activeMembers = data.activeMembers.filter(mid => mid !== id);
             saveData();
             renderMembers();
             updatePaymentSelects();
+        }
+
+        // Alternar estado activo/inactivo de un miembro
+        function toggleMemberActive(id) {
+            // Asegurar que activeMembers existe
+            if (!data.activeMembers) {
+                data.activeMembers = [];
+            }
+            
+            const index = data.activeMembers.indexOf(id);
+            if (index === -1) {
+                data.activeMembers.push(id);
+            } else {
+                data.activeMembers.splice(index, 1);
+            }
+            saveData();
+            renderMembers();
+            renderPayersList();
+            renderParticipantsList();
         }
 
         // Eliminar bar
@@ -735,31 +1290,258 @@
             updatePaymentSelects();
         }
 
+        // Eliminar juego
+        function deleteGame(id) {
+            if (!confirm('¿Estás seguro de eliminar este juego?')) {
+                return;
+            }
+
+            data.games = data.games.filter(g => g.id !== id);
+            // Actualizar pagos que tenían este juego
+            data.payments.forEach(p => {
+                if (p.gameId === id) {
+                    p.gameId = null;
+                }
+            });
+            saveData();
+            renderGames();
+            updatePaymentSelects();
+        }
+
+        // Añadir artículo
+        function addArticle() {
+            const name = document.getElementById('articleName').value.trim();
+            const icon = document.getElementById('articleIcon').value;
+            
+            if (!name) {
+                alert('Por favor, introduce el nombre del artículo');
+                return;
+            }
+
+            if (data.articles.some(a => a.name.toLowerCase() === name.toLowerCase())) {
+                alert('Este artículo ya existe');
+                return;
+            }
+
+            data.articles.push({
+                id: Date.now(),
+                name: name,
+                icon: icon
+            });
+
+            saveData();
+            document.getElementById('articleName').value = '';
+            renderArticles();
+            renderOrderArticlesManager();
+        }
+
+        // Eliminar artículo
+        function deleteArticle(id) {
+            if (!confirm('¿Estás seguro de eliminar este artículo?')) {
+                return;
+            }
+
+            data.articles = data.articles.filter(a => a.id !== id);
+            
+            // Limpiar pedido de este artículo
+            if (data.currentOrders[id]) {
+                delete data.currentOrders[id];
+            }
+            
+            saveData();
+            renderArticles();
+            renderOrderArticlesManager();
+            renderCurrentOrderSummary();
+        }
+
+        // Renderizar artículos
+        function renderArticles() {
+            const list = document.getElementById('articlesList');
+            if (data.articles.length === 0) {
+                list.innerHTML = '<li class="list-item">No hay artículos añadidos</li>';
+                return;
+            }
+
+            list.innerHTML = data.articles.map(article => `
+                <li class="list-item">
+                    <div class="list-item-content">
+                        <span style="margin-right: 10px; font-size: 24px;">${article.icon}</span>
+                        <strong>${article.name}</strong>
+                    </div>
+                    <button class="delete-btn" onclick="deleteArticle(${article.id})">🗑️ Eliminar</button>
+                </li>
+            `).join('');
+        }
+
+        // Cambiar cantidad de un artículo en el pedido global
+        function updateGlobalOrderQuantity(articleId, change) {
+            // Inicializar si no existe
+            if (!data.currentOrders[articleId]) {
+                data.currentOrders[articleId] = 0;
+            }
+            
+            // Aplicar cambio
+            data.currentOrders[articleId] += change;
+            
+            // No permitir cantidades negativas
+            if (data.currentOrders[articleId] < 0) {
+                data.currentOrders[articleId] = 0;
+            }
+            
+            // Si llega a 0, eliminar el artículo
+            if (data.currentOrders[articleId] === 0) {
+                delete data.currentOrders[articleId];
+            }
+            
+            saveData();
+            renderOrderArticlesManager();
+            renderCurrentOrderSummary();
+        }
+
+        // Renderizar gestor de artículos del pedido
+        function renderOrderArticlesManager() {
+            const container = document.getElementById('orderArticlesManager');
+            
+            if (data.articles.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #6b7280;">Primero añade artículos en la pestaña "Artículos"</p>';
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="order-items-grid">
+                    ${data.articles.map(article => {
+                        const quantity = data.currentOrders[article.id] || 0;
+                        return `
+                            <div class="order-item">
+                                <div class="order-item-header">
+                                    <span class="order-item-icon">${article.icon}</span>
+                                    <span>${article.name}</span>
+                                </div>
+                                <div class="order-controls">
+                                    <button class="order-btn order-btn-minus" onclick="updateGlobalOrderQuantity(${article.id}, -1)">−</button>
+                                    <span class="order-quantity">${quantity}</span>
+                                    <button class="order-btn order-btn-plus" onclick="updateGlobalOrderQuantity(${article.id}, 1)">+</button>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
+        // Renderizar resumen del pedido actual
+        function renderCurrentOrderSummary() {
+            const container = document.getElementById('currentOrderSummary');
+            
+            // Verificar si hay pedidos
+            if (Object.keys(data.currentOrders).length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; color: #0369a1;">
+                        <p style="font-size: 1.2em; margin: 0;">📋 No hay pedidos activos</p>
+                        <p style="margin: 10px 0 0 0; opacity: 0.8;">Usa los botones + y - abajo para añadir artículos al pedido</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Renderizar resumen
+            let html = '<h3 style="color: #0369a1; margin-bottom: 15px;">📊 Resumen Total del Pedido</h3>';
+            
+            Object.keys(data.currentOrders).forEach(articleId => {
+                const article = data.articles.find(a => a.id === parseInt(articleId));
+                if (article && data.currentOrders[articleId] > 0) {
+                    html += `
+                        <div class="order-summary-item">
+                            <div class="order-summary-label">
+                                <span style="font-size: 24px; margin-right: 10px;">${article.icon}</span>
+                                <span>${article.name}</span>
+                            </div>
+                            <div class="order-summary-quantity">× ${data.currentOrders[articleId]}</div>
+                        </div>
+                    `;
+                }
+            });
+
+            // Calcular total de artículos
+            const totalItems = Object.values(data.currentOrders).reduce((sum, qty) => sum + qty, 0);
+            html += `
+                <div style="margin-top: 15px; padding-top: 15px; border-top: 2px solid #0369a1; display: flex; justify-content: space-between; align-items: center;">
+                    <strong style="color: #0369a1; font-size: 1.1em;">TOTAL ARTÍCULOS:</strong>
+                    <strong style="color: #0369a1; font-size: 1.3em;">${totalItems}</strong>
+                </div>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        // Limpiar todos los pedidos
+        function clearAllOrders() {
+            if (!confirm('¿Estás seguro de limpiar todo el pedido?')) {
+                return;
+            }
+            
+            data.currentOrders = {};
+            saveData();
+            renderOrderArticlesManager();
+            renderCurrentOrderSummary();
+            alert('El pedido ha sido limpiado');
+        }
+
         // Registrar pago
         function registerPayment() {
+            const dateInput = document.getElementById('paymentDate').value;
             const barId = parseInt(document.getElementById('paymentBar').value);
-            const memberId = parseInt(document.getElementById('payerMember').value);
+            const gameId = document.getElementById('paymentGame').value ? parseInt(document.getElementById('paymentGame').value) : null;
             const amount = parseFloat(document.getElementById('paymentAmount').value);
+            
+            // Obtener pagadores seleccionados
+            const payerCheckboxes = document.querySelectorAll('#payersList input[type="checkbox"]:checked');
+            const payers = Array.from(payerCheckboxes).map(cb => parseInt(cb.value));
+            
+            // Obtener participantes seleccionados
+            const participantCheckboxes = document.querySelectorAll('#participantsList input[type="checkbox"]:checked');
+            const participants = Array.from(participantCheckboxes).map(cb => parseInt(cb.value));
 
-            if (!barId || !memberId || !amount || amount <= 0) {
+            if (!dateInput) {
+                alert('Por favor, selecciona una fecha');
+                return;
+            }
+
+            if (!barId || !amount || amount <= 0) {
                 alert('Por favor, completa todos los campos correctamente');
                 return;
             }
 
+            if (payers.length === 0) {
+                alert('Debes seleccionar al menos un pagador');
+                return;
+            }
+
+            if (participants.length === 0) {
+                alert('Debes seleccionar al menos un participante');
+                return;
+            }
+
+            // Crear fecha con hora actual
+            const selectedDate = new Date(dateInput + 'T' + new Date().toTimeString().slice(0,8));
+
             data.payments.push({
                 id: Date.now(),
                 barId: barId,
-                memberId: memberId,
+                gameId: gameId,
+                payers: payers,
+                participants: participants,
                 amount: amount,
-                date: new Date().toISOString()
+                date: selectedDate.toISOString()
             });
 
             saveData();
             
-            // Limpiar formulario
+            // Limpiar formulario excepto fecha y participantes
             document.getElementById('paymentBar').value = '';
-            document.getElementById('payerMember').value = '';
+            document.getElementById('paymentGame').value = '';
             document.getElementById('paymentAmount').value = '';
+            // Mantener fecha y participantes activos
 
             alert('Pago registrado correctamente');
         }
@@ -772,9 +1554,15 @@
             currentEditingPayment = paymentId;
 
             // Llenar el modal con los datos actuales
+            const paymentDate = new Date(payment.date);
+            document.getElementById('editPaymentDate').value = paymentDate.toISOString().split('T')[0];
             document.getElementById('editPaymentBar').value = payment.barId;
-            document.getElementById('editPayerMember').value = payment.memberId;
+            document.getElementById('editPaymentGame').value = payment.gameId || '';
             document.getElementById('editPaymentAmount').value = payment.amount;
+
+            // Renderizar listas para edición
+            renderEditPayersList(payment.payers || [payment.memberId]); // Compatibilidad con datos antiguos
+            renderEditParticipantsList(payment.participants);
 
             // Mostrar modal
             document.getElementById('editModal').classList.add('active');
@@ -788,22 +1576,53 @@
         function saveEditedPayment() {
             if (!currentEditingPayment) return;
 
+            const dateInput = document.getElementById('editPaymentDate').value;
             const barId = parseInt(document.getElementById('editPaymentBar').value);
-            const memberId = parseInt(document.getElementById('editPayerMember').value);
+            const gameId = document.getElementById('editPaymentGame').value ? parseInt(document.getElementById('editPaymentGame').value) : null;
             const amount = parseFloat(document.getElementById('editPaymentAmount').value);
+            
+            // Obtener pagadores seleccionados
+            const payerCheckboxes = document.querySelectorAll('#editPayersList input[type="checkbox"]:checked');
+            const payers = Array.from(payerCheckboxes).map(cb => parseInt(cb.value));
+            
+            // Obtener participantes seleccionados
+            const participantCheckboxes = document.querySelectorAll('#editParticipantsList input[type="checkbox"]:checked');
+            const participants = Array.from(participantCheckboxes).map(cb => parseInt(cb.value));
 
-            if (!barId || !memberId || !amount || amount <= 0) {
+            if (!dateInput) {
+                alert('Por favor, selecciona una fecha');
+                return;
+            }
+
+            if (!barId || !amount || amount <= 0) {
                 alert('Por favor, completa todos los campos correctamente');
+                return;
+            }
+
+            if (payers.length === 0) {
+                alert('Debes seleccionar al menos un pagador');
+                return;
+            }
+
+            if (participants.length === 0) {
+                alert('Debes seleccionar al menos un participante');
                 return;
             }
 
             const paymentIndex = data.payments.findIndex(p => p.id === currentEditingPayment);
             if (paymentIndex !== -1) {
+                // Mantener hora original pero actualizar fecha
+                const originalDate = new Date(data.payments[paymentIndex].date);
+                const newDate = new Date(dateInput + 'T' + originalDate.toTimeString().slice(0,8));
+
                 data.payments[paymentIndex] = {
                     ...data.payments[paymentIndex],
                     barId: barId,
-                    memberId: memberId,
-                    amount: amount
+                    gameId: gameId,
+                    payers: payers,
+                    participants: participants,
+                    amount: amount,
+                    date: newDate.toISOString()
                 };
 
                 saveData();
@@ -832,15 +1651,31 @@
                 return;
             }
 
-            list.innerHTML = data.members.map(member => `
-                <li class="list-item">
-                    <div class="list-item-content">
-                        ${displayAvatar(member.avatar)}
-                        <strong>${member.name}</strong>
-                    </div>
-                    <button class="delete-btn" onclick="deleteMember(${member.id})">🗑️ Eliminar</button>
-                </li>
-            `).join('');
+            // Asegurar que activeMembers existe
+            if (!data.activeMembers) {
+                data.activeMembers = [];
+            }
+
+            list.innerHTML = data.members.map(member => {
+                const isActive = data.activeMembers.includes(member.id);
+                return `
+                    <li class="list-item">
+                        <div class="list-item-content">
+                            ${displayAvatar(member.avatar)}
+                            <strong>${member.name}</strong>
+                            <span class="member-status ${isActive ? 'active' : 'inactive'}">
+                                ${isActive ? '✓ Activo' : 'Inactivo'}
+                            </span>
+                        </div>
+                        <div style="display: flex; gap: 5px;">
+                            <button class="toggle-active-btn ${isActive ? '' : 'inactive'}" onclick="toggleMemberActive(${member.id})">
+                                ${isActive ? '👤 Activo' : '➕ Activar'}
+                            </button>
+                            <button class="delete-btn" onclick="deleteMember(${member.id})">🗑️</button>
+                        </div>
+                    </li>
+                `;
+            }).join('');
         }
 
         // Renderizar bares
@@ -862,12 +1697,31 @@
             `).join('');
         }
 
+        // Renderizar juegos
+        function renderGames() {
+            const list = document.getElementById('gamesList');
+            if (data.games.length === 0) {
+                list.innerHTML = '<li class="list-item">No hay juegos añadidos</li>';
+                return;
+            }
+
+            list.innerHTML = data.games.map(game => `
+                <li class="list-item">
+                    <div class="list-item-content">
+                        <span style="margin-right: 10px; font-size: 24px;">🎮</span>
+                        <strong>${game.name}</strong>
+                    </div>
+                    <button class="delete-btn" onclick="deleteGame(${game.id})">🗑️ Eliminar</button>
+                </li>
+            `).join('');
+        }
+
         // Actualizar selects de pagos
         function updatePaymentSelects() {
             const barSelect = document.getElementById('paymentBar');
-            const memberSelect = document.getElementById('payerMember');
+            const gameSelect = document.getElementById('paymentGame');
             const editBarSelect = document.getElementById('editPaymentBar');
-            const editMemberSelect = document.getElementById('editPayerMember');
+            const editGameSelect = document.getElementById('editPaymentGame');
 
             // Select de bares
             barSelect.innerHTML = '<option value="">Selecciona un bar</option>' +
@@ -875,18 +1729,384 @@
             
             editBarSelect.innerHTML = data.bars.map(bar => `<option value="${bar.id}">${bar.name}</option>`).join('');
 
-            // Select de miembros
-            memberSelect.innerHTML = '<option value="">Selecciona un miembro</option>' +
-                data.members.map(member => `<option value="${member.id}">${member.name}</option>`).join('');
+            // Select de juegos
+            gameSelect.innerHTML = '<option value="">Sin juego</option>' +
+                data.games.map(game => `<option value="${game.id}">${game.name}</option>`).join('');
             
-            editMemberSelect.innerHTML = data.members.map(member => `<option value="${member.id}">${member.name}</option>`).join('');
+            editGameSelect.innerHTML = '<option value="">Sin juego</option>' +
+                data.games.map(game => `<option value="${game.id}">${game.name}</option>`).join('');
+
+            // Establecer fecha de hoy por defecto
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('paymentDate').value = today;
+
+            // Actualizar listas
+            renderPayersList();
+            renderParticipantsList();
+        }
+
+        // Renderizar lista de pagadores en formulario de pago
+        function renderPayersList() {
+            const container = document.getElementById('payersList');
+            
+            if (data.members.length === 0) {
+                container.innerHTML = '<p style="color: #6b7280; text-align: center;">Primero añade miembros</p>';
+                return;
+            }
+
+            // Asegurar que activeMembers existe
+            if (!data.activeMembers) {
+                data.activeMembers = [];
+            }
+
+            container.innerHTML = data.members.map(member => {
+                const isActive = data.activeMembers.includes(member.id);
+                return `
+                    <div class="participant-item">
+                        <input type="checkbox" id="payer-${member.id}" value="${member.id}" ${isActive ? 'checked' : ''}>
+                        <label for="payer-${member.id}">
+                            ${displayAvatar(member.avatar)}
+                            <span>${member.name}</span>
+                        </label>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Renderizar lista de participantes en formulario de pago
+        function renderParticipantsList() {
+            const container = document.getElementById('participantsList');
+            
+            if (data.members.length === 0) {
+                container.innerHTML = '<p style="color: #6b7280; text-align: center;">Primero añade miembros</p>';
+                return;
+            }
+
+            // Asegurar que activeMembers existe
+            if (!data.activeMembers) {
+                data.activeMembers = [];
+            }
+
+            container.innerHTML = data.members.map(member => {
+                const isActive = data.activeMembers.includes(member.id);
+                return `
+                    <div class="participant-item">
+                        <input type="checkbox" id="participant-${member.id}" value="${member.id}" ${isActive ? 'checked' : ''}>
+                        <label for="participant-${member.id}">
+                            ${displayAvatar(member.avatar)}
+                            <span>${member.name}</span>
+                        </label>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Renderizar lista de pagadores en modal de edición
+        function renderEditPayersList(selectedPayers = []) {
+            const container = document.getElementById('editPayersList');
+            
+            if (data.members.length === 0) {
+                container.innerHTML = '<p style="color: #6b7280; text-align: center;">No hay miembros</p>';
+                return;
+            }
+
+            container.innerHTML = data.members.map(member => {
+                const isChecked = selectedPayers.includes(member.id) ? 'checked' : '';
+                return `
+                    <div class="participant-item">
+                        <input type="checkbox" id="edit-payer-${member.id}" value="${member.id}" ${isChecked}>
+                        <label for="edit-payer-${member.id}">
+                            ${displayAvatar(member.avatar)}
+                            <span>${member.name}</span>
+                        </label>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Renderizar lista de participantes en modal de edición
+        function renderEditParticipantsList(selectedParticipants = []) {
+            const container = document.getElementById('editParticipantsList');
+            
+            if (data.members.length === 0) {
+                container.innerHTML = '<p style="color: #6b7280; text-align: center;">No hay miembros</p>';
+                return;
+            }
+
+            container.innerHTML = data.members.map(member => {
+                const isChecked = selectedParticipants.includes(member.id) ? 'checked' : '';
+                return `
+                    <div class="participant-item">
+                        <input type="checkbox" id="edit-participant-${member.id}" value="${member.id}" ${isChecked}>
+                        <label for="edit-participant-${member.id}">
+                            ${displayAvatar(member.avatar)}
+                            <span>${member.name}</span>
+                        </label>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Aplicar filtros
+        function applyFilters() {
+            activeFilters.bar = document.getElementById('filterBar').value ? parseInt(document.getElementById('filterBar').value) : null;
+            activeFilters.game = document.getElementById('filterGame').value ? parseInt(document.getElementById('filterGame').value) : null;
+            activeFilters.dateFrom = document.getElementById('filterDateFrom').value || null;
+            activeFilters.dateTo = document.getElementById('filterDateTo').value || null;
+            
+            renderBalances();
+        }
+
+        // Limpiar filtros
+        function clearFilters() {
+            document.getElementById('filterBar').value = '';
+            document.getElementById('filterGame').value = '';
+            document.getElementById('filterDateFrom').value = '';
+            document.getElementById('filterDateTo').value = '';
+            
+            activeFilters = {
+                bar: null,
+                game: null,
+                dateFrom: null,
+                dateTo: null
+            };
+            
+            renderBalances();
+        }
+
+        // Obtener pagos filtrados
+        function getFilteredPayments() {
+            return data.payments.filter(payment => {
+                // Filtro por bar
+                if (activeFilters.bar && payment.barId !== activeFilters.bar) {
+                    return false;
+                }
+                
+                // Filtro por juego
+                if (activeFilters.game !== null) {
+                    if (activeFilters.game === 0) {
+                        // "Sin juego" seleccionado
+                        if (payment.gameId) return false;
+                    } else {
+                        if (payment.gameId !== activeFilters.game) return false;
+                    }
+                }
+                
+                // Filtro por fecha desde
+                if (activeFilters.dateFrom) {
+                    const paymentDate = new Date(payment.date).toISOString().split('T')[0];
+                    if (paymentDate < activeFilters.dateFrom) return false;
+                }
+                
+                // Filtro por fecha hasta
+                if (activeFilters.dateTo) {
+                    const paymentDate = new Date(payment.date).toISOString().split('T')[0];
+                    if (paymentDate > activeFilters.dateTo) return false;
+                }
+                
+                return true;
+            });
+        }
+
+        // Calcular estadísticas globales
+        function calculateGlobalStats() {
+            const filteredPayments = getFilteredPayments();
+            
+            const totalAmount = filteredPayments.reduce((sum, p) => sum + p.amount, 0);
+            const totalPayments = filteredPayments.length;
+            
+            // Contar partidas con juego
+            const gamesPlayed = filteredPayments.filter(p => p.gameId).length;
+            const gamesNotPlayed = totalPayments - gamesPlayed;
+            
+            // Calcular promedio por pago
+            const avgPerPayment = totalPayments > 0 ? totalAmount / totalPayments : 0;
+            
+            // Contar cuántos pagos diferentes hay por bar
+            const barCounts = {};
+            filteredPayments.forEach(p => {
+                barCounts[p.barId] = (barCounts[p.barId] || 0) + 1;
+            });
+            const barsWithPayments = Object.keys(barCounts).length;
+            
+            return {
+                totalAmount,
+                totalPayments,
+                gamesPlayed,
+                gamesNotPlayed,
+                avgPerPayment,
+                barsWithPayments
+            };
+        }
+
+        // Calcular ranking de pagadores
+        function calculatePayersRanking() {
+            const filteredPayments = getFilteredPayments();
+            const payersStats = {};
+            
+            filteredPayments.forEach(payment => {
+                const payers = payment.payers || (payment.memberId ? [payment.memberId] : []);
+                const amountPerPayer = payment.amount / (payers.length || 1);
+                
+                payers.forEach(payerId => {
+                    if (!payersStats[payerId]) {
+                        const member = data.members.find(m => m.id === payerId);
+                        payersStats[payerId] = {
+                            member: member,
+                            totalPaid: 0,
+                            paymentCount: 0
+                        };
+                    }
+                    payersStats[payerId].totalPaid += amountPerPayer;
+                    payersStats[payerId].paymentCount += 1;
+                });
+            });
+            
+            return Object.values(payersStats).sort((a, b) => b.totalPaid - a.totalPaid);
+        }
+
+        // Calcular estadísticas por juego
+        function calculateGameStats() {
+            const filteredPayments = getFilteredPayments();
+            const gameStats = {};
+            
+            filteredPayments.forEach(payment => {
+                if (!payment.gameId) return; // Ignorar pagos sin juego
+                
+                if (!gameStats[payment.gameId]) {
+                    const game = data.games.find(g => g.id === payment.gameId);
+                    if (!game) return;
+                    
+                    gameStats[payment.gameId] = {
+                        gameId: payment.gameId,
+                        name: game.name,
+                        gamesCount: 0,
+                        totalAmount: 0,
+                        payerAmounts: {}
+                    };
+                }
+                
+                gameStats[payment.gameId].gamesCount++;
+                gameStats[payment.gameId].totalAmount += payment.amount;
+                
+                // Calcular cuánto pagó cada persona en este juego
+                const payers = payment.payers || (payment.memberId ? [payment.memberId] : []);
+                const amountPerPayer = payment.amount / (payers.length || 1);
+                
+                payers.forEach(payerId => {
+                    if (!gameStats[payment.gameId].payerAmounts[payerId]) {
+                        gameStats[payment.gameId].payerAmounts[payerId] = 0;
+                    }
+                    gameStats[payment.gameId].payerAmounts[payerId] += amountPerPayer;
+                });
+            });
+            
+            // Procesar estadísticas
+            const result = Object.values(gameStats).map(stat => {
+                stat.avgPerGame = stat.gamesCount > 0 ? stat.totalAmount / stat.gamesCount : 0;
+                
+                // Encontrar quien más pagó
+                const topPayerEntry = Object.entries(stat.payerAmounts)
+                    .sort((a, b) => b[1] - a[1])[0];
+                
+                if (topPayerEntry) {
+                    const member = data.members.find(m => m.id === parseInt(topPayerEntry[0]));
+                    stat.topPayer = {
+                        member: member,
+                        amount: topPayerEntry[1]
+                    };
+                }
+                
+                return stat;
+            });
+            
+            return result.sort((a, b) => b.totalAmount - a.totalAmount);
+        }
+
+        // Calcular estadísticas por bar
+        function calculateBarStats() {
+            const filteredPayments = getFilteredPayments();
+            const barStats = {};
+            
+            filteredPayments.forEach(payment => {
+                if (!barStats[payment.barId]) {
+                    const bar = data.bars.find(b => b.id === payment.barId);
+                    if (!bar) return;
+                    
+                    barStats[payment.barId] = {
+                        bar: bar,
+                        visitsCount: 0,
+                        totalAmount: 0,
+                        payerAmounts: {},
+                        gameCounts: {}
+                    };
+                }
+                
+                barStats[payment.barId].visitsCount++;
+                barStats[payment.barId].totalAmount += payment.amount;
+                
+                // Calcular cuánto pagó cada persona en este bar
+                const payers = payment.payers || (payment.memberId ? [payment.memberId] : []);
+                const amountPerPayer = payment.amount / (payers.length || 1);
+                
+                payers.forEach(payerId => {
+                    if (!barStats[payment.barId].payerAmounts[payerId]) {
+                        barStats[payment.barId].payerAmounts[payerId] = 0;
+                    }
+                    barStats[payment.barId].payerAmounts[payerId] += amountPerPayer;
+                });
+                
+                // Contar juegos jugados en este bar
+                if (payment.gameId) {
+                    if (!barStats[payment.barId].gameCounts[payment.gameId]) {
+                        barStats[payment.barId].gameCounts[payment.gameId] = 0;
+                    }
+                    barStats[payment.barId].gameCounts[payment.gameId]++;
+                }
+            });
+            
+            // Procesar estadísticas
+            const result = Object.values(barStats).map(stat => {
+                stat.avgPerVisit = stat.visitsCount > 0 ? stat.totalAmount / stat.visitsCount : 0;
+                
+                // Encontrar quien más pagó
+                const topPayerEntry = Object.entries(stat.payerAmounts)
+                    .sort((a, b) => b[1] - a[1])[0];
+                
+                if (topPayerEntry) {
+                    const member = data.members.find(m => m.id === parseInt(topPayerEntry[0]));
+                    stat.topPayer = {
+                        member: member,
+                        amount: topPayerEntry[1]
+                    };
+                }
+                
+                // Encontrar juego más jugado
+                const topGameEntry = Object.entries(stat.gameCounts)
+                    .sort((a, b) => b[1] - a[1])[0];
+                
+                if (topGameEntry) {
+                    const game = data.games.find(g => g.id === parseInt(topGameEntry[0]));
+                    stat.topGame = game ? `${game.name} (${topGameEntry[1]})` : null;
+                }
+                
+                return stat;
+            });
+            
+            return result.sort((a, b) => b.totalAmount - a.totalAmount);
         }
 
         // Calcular balances
         function calculateBalances() {
             const balances = {};
+            const filteredPayments = getFilteredPayments();
 
-            data.bars.forEach(bar => {
+            // Si hay filtro por bar, solo procesar ese bar
+            const barsToProcess = activeFilters.bar 
+                ? [data.bars.find(b => b.id === activeFilters.bar)].filter(b => b)
+                : data.bars;
+
+            barsToProcess.forEach(bar => {
                 balances[bar.id] = {
                     bar: bar,
                     members: {}
@@ -902,24 +2122,41 @@
                 });
             });
 
-            // Calcular lo que cada uno ha pagado
-            data.payments.forEach(payment => {
-                if (balances[payment.barId] && balances[payment.barId].members[payment.memberId]) {
-                    balances[payment.barId].members[payment.memberId].paid += payment.amount;
+            // Calcular lo que cada uno ha pagado y debe (solo pagos filtrados)
+            filteredPayments.forEach(payment => {
+                if (balances[payment.barId]) {
+                    // Obtener lista de pagadores (compatibilidad con datos antiguos)
+                    const payers = payment.payers || (payment.memberId ? [payment.memberId] : []);
+                    
+                    // Sumar lo pagado (dividido entre los pagadores)
+                    if (payers.length > 0) {
+                        const amountPerPayer = payment.amount / payers.length;
+                        payers.forEach(payerId => {
+                            if (balances[payment.barId].members[payerId]) {
+                                balances[payment.barId].members[payerId].paid += amountPerPayer;
+                            }
+                        });
+                    }
+
+                    // Dividir entre participantes
+                    const participants = payment.participants || [];
+                    if (participants.length > 0) {
+                        const amountPerPerson = payment.amount / participants.length;
+                        participants.forEach(participantId => {
+                            if (balances[payment.barId].members[participantId]) {
+                                balances[payment.barId].members[participantId].owes += amountPerPerson;
+                            }
+                        });
+                    }
                 }
             });
 
-            // Calcular balances
+            // Calcular balance final
             Object.keys(balances).forEach(barId => {
                 const barBalance = balances[barId];
-                const totalPaid = Object.values(barBalance.members).reduce((sum, m) => sum + m.paid, 0);
-                const memberCount = data.members.length;
-                const avgPerPerson = totalPaid / memberCount;
-
                 Object.keys(barBalance.members).forEach(memberId => {
                     const memberBalance = barBalance.members[memberId];
-                    memberBalance.owes = avgPerPerson;
-                    memberBalance.balance = memberBalance.paid - avgPerPerson;
+                    memberBalance.balance = memberBalance.paid - memberBalance.owes;
                 });
             });
 
@@ -928,20 +2165,187 @@
 
         // Renderizar balances
         function renderBalances() {
+            // Actualizar selectores de filtro
+            const filterBarSelect = document.getElementById('filterBar');
+            const filterGameSelect = document.getElementById('filterGame');
+            
+            filterBarSelect.innerHTML = '<option value="">Todos los bares</option>' +
+                data.bars.map(bar => `<option value="${bar.id}">${bar.name}</option>`).join('');
+            
+            filterGameSelect.innerHTML = '<option value="">Todos los juegos</option>' +
+                '<option value="0">Sin juego</option>' +
+                data.games.map(game => `<option value="${game.id}">${game.name}</option>`).join('');
+            
+            // Restaurar valores de filtros
+            if (activeFilters.bar) filterBarSelect.value = activeFilters.bar;
+            if (activeFilters.game !== null) filterGameSelect.value = activeFilters.game;
+            
+            // Renderizar estadísticas globales
+            const globalStats = calculateGlobalStats();
+            const globalStatsContainer = document.getElementById('globalStats');
+            
+            globalStatsContainer.innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-label">💶 Total Gastado</div>
+                    <div class="stat-value">${globalStats.totalAmount.toFixed(2)}€</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">📝 Total Pagos</div>
+                    <div class="stat-value">${globalStats.totalPayments}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">🎮 Con Juego</div>
+                    <div class="stat-value">${globalStats.gamesPlayed}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">🚫 Sin Juego</div>
+                    <div class="stat-value">${globalStats.gamesNotPlayed}</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">📊 Promedio/Pago</div>
+                    <div class="stat-value">${globalStats.avgPerPayment.toFixed(2)}€</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">🏪 Bares Visitados</div>
+                    <div class="stat-value">${globalStats.barsWithPayments}</div>
+                </div>
+            `;
+            
+            // Renderizar ranking de pagadores
+            const ranking = calculatePayersRanking();
+            const rankingContainer = document.getElementById('payersRanking');
+            
+            if (ranking.length === 0) {
+                rankingContainer.innerHTML = '<p style="text-align: center; color: #6b7280;">No hay datos para mostrar</p>';
+            } else {
+                const maxAmount = ranking[0].totalPaid;
+                rankingContainer.innerHTML = ranking.map((stat, index) => {
+                    const position = index + 1;
+                    const percentage = (stat.totalPaid / maxAmount) * 100;
+                    let positionClass = '';
+                    let medal = '';
+                    
+                    if (position === 1) {
+                        positionClass = 'gold';
+                        medal = '🥇';
+                    } else if (position === 2) {
+                        positionClass = 'silver';
+                        medal = '🥈';
+                    } else if (position === 3) {
+                        positionClass = 'bronze';
+                        medal = '🥉';
+                    }
+                    
+                    return `
+                        <div class="ranking-item">
+                            <div class="ranking-position ${positionClass}">
+                                ${medal || position}
+                            </div>
+                            <div class="ranking-info">
+                                ${displayAvatar(stat.member.avatar)}
+                                <strong style="margin-left: 10px;">${stat.member.name}</strong>
+                            </div>
+                            <div class="ranking-stats">
+                                <div class="ranking-amount">${stat.totalPaid.toFixed(2)}€</div>
+                                <div class="ranking-count">${stat.paymentCount} ${stat.paymentCount === 1 ? 'pago' : 'pagos'}</div>
+                                <div class="progress-bar" style="width: 200px;">
+                                    <div class="progress-fill" style="width: ${percentage}%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+            
+            // Renderizar estadísticas por juego
+            const gameStatsData = calculateGameStats();
+            const gameStatsContainer = document.getElementById('gameStats');
+            
+            if (gameStatsData.length === 0) {
+                gameStatsContainer.innerHTML = '<p style="text-align: center; color: #6b7280;">No hay partidas registradas con los filtros aplicados</p>';
+            } else {
+                gameStatsContainer.innerHTML = gameStatsData.map(stat => `
+                    <div class="game-stat-card">
+                        <h4 style="color: #374151; margin-bottom: 10px; display: flex; align-items: center;">
+                            <span style="font-size: 24px; margin-right: 10px;">🎮</span>
+                            ${stat.name}
+                        </h4>
+                        <div class="stat-row">
+                            <span class="stat-label">Partidas jugadas:</span>
+                            <span class="stat-value">${stat.gamesCount}</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Total gastado:</span>
+                            <span class="stat-value">${stat.totalAmount.toFixed(2)}€</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Promedio por partida:</span>
+                            <span class="stat-value">${stat.avgPerGame.toFixed(2)}€</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Quien más pagó:</span>
+                            <span class="stat-value">
+                                ${stat.topPayer ? `${displayAvatar(stat.topPayer.member.avatar)} ${stat.topPayer.member.name} (${stat.topPayer.amount.toFixed(2)}€)` : 'N/A'}
+                            </span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            // Renderizar estadísticas por bar
+            const barStatsData = calculateBarStats();
+            const barStatsContainer = document.getElementById('barStats');
+            
+            if (barStatsData.length === 0) {
+                barStatsContainer.innerHTML = '<p style="text-align: center; color: #6b7280;">No hay datos de bares con los filtros aplicados</p>';
+            } else {
+                barStatsContainer.innerHTML = barStatsData.map(stat => `
+                    <div class="game-stat-card">
+                        <h4 style="color: #374151; margin-bottom: 10px; display: flex; align-items: center;">
+                            ${displayAvatar(stat.bar.avatar)}
+                            ${stat.bar.name}
+                        </h4>
+                        <div class="stat-row">
+                            <span class="stat-label">Visitas/Pagos:</span>
+                            <span class="stat-value">${stat.visitsCount}</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Total gastado:</span>
+                            <span class="stat-value">${stat.totalAmount.toFixed(2)}€</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Promedio por visita:</span>
+                            <span class="stat-value">${stat.avgPerVisit.toFixed(2)}€</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Quien más pagó:</span>
+                            <span class="stat-value">
+                                ${stat.topPayer ? `${displayAvatar(stat.topPayer.member.avatar)} ${stat.topPayer.member.name} (${stat.topPayer.amount.toFixed(2)}€)` : 'N/A'}
+                            </span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Juego más jugado:</span>
+                            <span class="stat-value">${stat.topGame || 'Sin juegos'}</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            // Renderizar balances por bar
             const container = document.getElementById('barBalances');
             const balances = calculateBalances();
 
-            if (data.bars.length === 0) {
-                container.innerHTML = '<p>No hay bares registrados</p>';
+            if (Object.keys(balances).length === 0) {
+                container.innerHTML = '<p>No hay bares registrados o no hay datos con los filtros aplicados</p>';
                 return;
             }
 
             let html = '';
 
-            data.bars.forEach(bar => {
-                const barBalance = balances[bar.id];
+            Object.values(balances).forEach(barBalance => {
+                const bar = barBalance.bar;
                 html += `
-                    <div style="margin-bottom: 30px; background: white; padding: 20px; border-radius: 10px;">
+                    <div style="margin-bottom: 30px; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
                         <h3 style="display: flex; align-items: center; margin-bottom: 15px;">
                             ${displayAvatar(bar.avatar)}
                             ${bar.name}
@@ -950,6 +2354,11 @@
                 `;
 
                 Object.values(barBalance.members).forEach(memberBalance => {
+                    // Solo mostrar miembros con actividad
+                    if (memberBalance.paid === 0 && memberBalance.owes === 0) {
+                        return;
+                    }
+                    
                     const balanceClass = memberBalance.balance > 0 ? 'balance-positive' : 
                                        memberBalance.balance < 0 ? 'balance-negative' : 'balance-neutral';
                     const balanceText = memberBalance.balance > 0 ? 'Le deben' : 
@@ -994,21 +2403,45 @@
 
             list.innerHTML = sortedPayments.map(payment => {
                 const bar = data.bars.find(b => b.id === payment.barId);
-                const member = data.members.find(m => m.id === payment.memberId);
+                const game = payment.gameId ? data.games.find(g => g.id === payment.gameId) : null;
                 const date = new Date(payment.date);
 
-                if (!bar || !member) return '';
+                if (!bar) return '';
+
+                // Obtener pagadores (compatibilidad con datos antiguos)
+                const payers = payment.payers || (payment.memberId ? [payment.memberId] : []);
+                const payerObjects = payers
+                    .map(id => data.members.find(m => m.id === id))
+                    .filter(m => m);
+                
+                const payerNames = payerObjects.length > 0 
+                    ? payerObjects.map(m => m.name).join(' + ')
+                    : 'Desconocido';
+
+                const payerAvatars = payerObjects.length > 0
+                    ? payerObjects.map(m => displayAvatar(m.avatar)).join('')
+                    : '';
+
+                // Obtener nombres de participantes
+                const participants = payment.participants || [];
+                const participantNames = participants
+                    .map(id => data.members.find(m => m.id === id))
+                    .filter(m => m)
+                    .map(m => m.name)
+                    .join(', ');
 
                 return `
                     <li class="history-item">
                         <div class="history-date">
-                            ${date.toLocaleDateString('es-ES')} - ${date.toLocaleTimeString('es-ES', {hour: '2-digit', minute: '2-digit'})}
+                            📅 ${date.toLocaleDateString('es-ES')} - ${date.toLocaleTimeString('es-ES', {hour: '2-digit', minute: '2-digit'})}
                         </div>
                         <div class="history-details">
-                            ${displayAvatar(member.avatar)}
-                            <strong>${member.name}</strong> pagó en 
+                            ${payerAvatars}
+                            <strong>${payerNames}</strong> ${payerObjects.length > 1 ? 'pagaron' : 'pagó'} en 
                             ${displayAvatar(bar.avatar)}
                             <strong>${bar.name}</strong>
+                            ${game ? `<br><span style="color: #6b7280; font-size: 0.9em;">🎮 ${game.name}</span>` : ''}
+                            ${participantNames ? `<br><span style="color: #6b7280; font-size: 0.9em;">👥 Participantes: ${participantNames}</span>` : ''}
                         </div>
                         <div class="history-amount">
                             ${payment.amount.toFixed(2)}€
@@ -1028,6 +2461,8 @@
             initAvatarSelectors();
             renderMembers();
             renderBars();
+            renderGames();
+            renderArticles();
             updatePaymentSelects();
         }
 
