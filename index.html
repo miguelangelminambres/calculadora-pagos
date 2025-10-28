@@ -1523,7 +1523,7 @@
 </head>
 <body>
     <!-- Pantalla de Activación de Licencia -->
-    <div id="activationOverlay" class="activation-overlay app-hidden">
+    <div id="activationOverlay" class="activation-overlay" style="display: none;">
         <div class="activation-box">
             <h1>🍻 Gestión de Bares</h1>
             <p class="subtitle">Sistema de Gestión para Pandillas</p>
@@ -1535,7 +1535,7 @@
 
             <div class="activation-step">
                 <h3>✅ Paso 2: Activa tu licencia</h3>
-                <p>Introduce tu código de licencia y el nombre de tu pandilla para activar la aplicación.</p>
+                <p>Introduce tu código de licencia, el nombre de tu pandilla y crea una contraseña segura.</p>
             </div>
 
             <div class="license-input-group">
@@ -1561,6 +1561,33 @@
                 >
             </div>
 
+            <div class="license-input-group">
+                <label for="pandillaPasswordInput">Crea tu Contraseña:</label>
+                <input 
+                    type="password" 
+                    id="pandillaPasswordInput" 
+                    class="pandilla-input" 
+                    placeholder="Mínimo 6 caracteres"
+                    minlength="6"
+                    autocomplete="new-password"
+                >
+                <small style="color: #6b7280; font-size: 0.85em; display: block; margin-top: 5px;">
+                    💡 Esta será la contraseña de tu pandilla. ¡No la olvides!
+                </small>
+            </div>
+
+            <div class="license-input-group">
+                <label for="pandillaPasswordConfirmInput">Confirma tu Contraseña:</label>
+                <input 
+                    type="password" 
+                    id="pandillaPasswordConfirmInput" 
+                    class="pandilla-input" 
+                    placeholder="Repite la contraseña"
+                    minlength="6"
+                    autocomplete="new-password"
+                >
+            </div>
+
             <button class="activation-button" onclick="activateLicense()">🔓 Activar Licencia</button>
             
             <div id="activationError" class="activation-error"></div>
@@ -1576,7 +1603,7 @@
     </div>
 
     <!-- Pantalla de Login -->
-    <div id="loginOverlay" class="login-overlay app-hidden">
+    <div id="loginOverlay" class="login-overlay" style="display: none;">
         <div class="login-box">
             <h1>🍻 Gestión de Bares</h1>
             <p>Introduce la contraseña para acceder</p>
@@ -1942,6 +1969,7 @@
         let licenseData = {
             code: null,           // Código de licencia activado
             pandillaName: null,   // Nombre de la pandilla
+            password: null,       // Contraseña personalizada de la pandilla
             activated: false,     // Si está activada
             activationDate: null  // Fecha de activación
         };
@@ -3845,9 +3873,6 @@
             updatePaymentSelects();
         }
 
-        // Sistema de login
-        const CORRECT_PASSWORD = "pocha25";
-
         // ============================================
         // SISTEMA DE LICENCIAS
         // ============================================
@@ -3899,12 +3924,16 @@
         function activateLicense() {
             const licenseInput = document.getElementById('licenseInput');
             const pandillaInput = document.getElementById('pandillaNameInput');
+            const passwordInput = document.getElementById('pandillaPasswordInput');
+            const passwordConfirmInput = document.getElementById('pandillaPasswordConfirmInput');
             const errorDiv = document.getElementById('activationError');
             const successDiv = document.getElementById('activationSuccess');
             const button = document.querySelector('.activation-button');
             
             const code = licenseInput.value.trim().toUpperCase();
             const pandillaName = pandillaInput.value.trim();
+            const password = passwordInput.value;
+            const passwordConfirm = passwordConfirmInput.value;
             
             // Limpiar mensajes
             errorDiv.style.display = 'none';
@@ -3926,6 +3955,30 @@
                 setTimeout(() => errorDiv.style.animation = '', 500);
                 return;
             }
+
+            if (!password) {
+                errorDiv.textContent = '❌ Por favor, crea una contraseña';
+                errorDiv.style.display = 'block';
+                errorDiv.style.animation = 'shake 0.5s';
+                setTimeout(() => errorDiv.style.animation = '', 500);
+                return;
+            }
+
+            if (password.length < 6) {
+                errorDiv.textContent = '❌ La contraseña debe tener al menos 6 caracteres';
+                errorDiv.style.display = 'block';
+                errorDiv.style.animation = 'shake 0.5s';
+                setTimeout(() => errorDiv.style.animation = '', 500);
+                return;
+            }
+
+            if (password !== passwordConfirm) {
+                errorDiv.textContent = '❌ Las contraseñas no coinciden';
+                errorDiv.style.display = 'block';
+                errorDiv.style.animation = 'shake 0.5s';
+                setTimeout(() => errorDiv.style.animation = '', 500);
+                return;
+            }
             
             // Verificar si el código es válido
             if (!VALID_LICENSES.includes(code)) {
@@ -3933,17 +3986,20 @@
                 errorDiv.style.display = 'block';
                 errorDiv.style.animation = 'shake 0.5s';
                 setTimeout(() => errorDiv.style.animation = '', 500);
+                button.disabled = false;
+                button.textContent = '🔓 Activar Licencia';
                 return;
             }
             
             // Verificar si el código ya fue usado (verificación básica)
-            // Nota: En una versión más avanzada, esto se verificaría en un servidor
             const usedLicenses = JSON.parse(localStorage.getItem('usedLicenses') || '[]');
             if (usedLicenses.includes(code)) {
                 errorDiv.textContent = '❌ Este código ya ha sido activado. Contacta con el administrador.';
                 errorDiv.style.display = 'block';
                 errorDiv.style.animation = 'shake 0.5s';
                 setTimeout(() => errorDiv.style.animation = '', 500);
+                button.disabled = false;
+                button.textContent = '🔓 Activar Licencia';
                 return;
             }
             
@@ -3952,8 +4008,12 @@
             button.textContent = '⏳ Activando...';
             
             setTimeout(() => {
+                // Encriptar contraseña (hash simple - en producción usar bcrypt o similar)
+                const hashedPassword = btoa(password); // Base64 encoding simple
+                
                 licenseData.code = code;
                 licenseData.pandillaName = pandillaName;
+                licenseData.password = hashedPassword;
                 licenseData.activated = true;
                 licenseData.activationDate = new Date().toISOString();
                 
@@ -3963,17 +4023,26 @@
                 usedLicenses.push(code);
                 localStorage.setItem('usedLicenses', JSON.stringify(usedLicenses));
                 
-                successDiv.textContent = '✅ ¡Licencia activada correctamente! Redirigiendo...';
+                successDiv.textContent = '✅ ¡Licencia activada correctamente! Tu contraseña ha sido guardada. Redirigiendo...';
                 successDiv.style.display = 'block';
                 
                 // Actualizar título con nombre de pandilla
-                document.getElementById('appTitle').textContent = `🍻 ${pandillaName}`;
+                const appTitle = document.getElementById('appTitle');
+                if (appTitle) {
+                    appTitle.textContent = `🍻 ${pandillaName}`;
+                }
                 
                 setTimeout(() => {
-                    document.getElementById('activationOverlay').classList.add('app-hidden');
-                    document.getElementById('loginOverlay').classList.remove('app-hidden');
-                    document.getElementById('loginPassword').focus();
-                }, 1500);
+                    // Ocultar activación y mostrar login
+                    document.getElementById('activationOverlay').style.display = 'none';
+                    document.getElementById('loginOverlay').style.display = 'flex';
+                    
+                    // Focus en el input de password
+                    const passwordInput = document.getElementById('loginPassword');
+                    if (passwordInput) {
+                        passwordInput.focus();
+                    }
+                }, 2000);
             }, 1000);
         }
 
@@ -3983,14 +4052,17 @@
             
             if (licenseData.activated && licenseData.code && VALID_LICENSES.includes(licenseData.code)) {
                 // Licencia válida, actualizar título y continuar al login
-                document.getElementById('appTitle').textContent = `🍻 ${licenseData.pandillaName}`;
-                document.getElementById('activationOverlay').classList.add('app-hidden');
-                document.getElementById('loginOverlay').classList.remove('app-hidden');
+                const appTitle = document.getElementById('appTitle');
+                if (appTitle) {
+                    appTitle.textContent = `🍻 ${licenseData.pandillaName}`;
+                }
+                document.getElementById('activationOverlay').style.display = 'none';
+                document.getElementById('loginOverlay').style.display = 'flex';
                 return true;
             } else {
                 // Sin licencia o inválida, mostrar pantalla de activación
-                document.getElementById('activationOverlay').classList.remove('app-hidden');
-                document.getElementById('loginOverlay').classList.add('app-hidden');
+                document.getElementById('activationOverlay').style.display = 'flex';
+                document.getElementById('loginOverlay').style.display = 'none';
                 return false;
             }
         }
@@ -4000,7 +4072,17 @@
             const password = input.value;
             const errorDiv = document.getElementById('loginError');
 
-            if (password === CORRECT_PASSWORD) {
+            // Verificar que existe contraseña guardada
+            if (!licenseData.password) {
+                errorDiv.textContent = '❌ Error: No se encontró contraseña configurada';
+                errorDiv.style.display = 'block';
+                return;
+            }
+
+            // Desencriptar y comparar contraseña
+            const savedPassword = atob(licenseData.password); // Decodificar Base64
+            
+            if (password === savedPassword) {
                 // Contraseña correcta
                 document.getElementById('loginOverlay').style.display = 'none';
                 document.getElementById('appContainer').classList.remove('app-hidden');
@@ -4028,18 +4110,8 @@
         // Permitir Enter para enviar
         document.addEventListener('DOMContentLoaded', function() {
             // Verificar licencia primero
-            checkLicense();
+            const hasLicense = checkLicense();
             
-            // Configurar input de licencia
-            const licenseInput = document.getElementById('licenseInput');
-            if (licenseInput) {
-                licenseInput.addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter') {
-                        activateLicense();
-                    }
-                });
-            }
-
             // Configurar input de nombre de pandilla
             const pandillaInput = document.getElementById('pandillaNameInput');
             if (pandillaInput) {
@@ -4049,8 +4121,38 @@
                     }
                 });
             }
+
+            // Configurar input de licencia
+            const licenseInput = document.getElementById('licenseInput');
+            if (licenseInput) {
+                licenseInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        document.getElementById('pandillaPasswordInput').focus();
+                    }
+                });
+            }
+
+            // Configurar input de contraseña
+            const pandillaPasswordInput = document.getElementById('pandillaPasswordInput');
+            if (pandillaPasswordInput) {
+                pandillaPasswordInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        document.getElementById('pandillaPasswordConfirmInput').focus();
+                    }
+                });
+            }
+
+            // Configurar input de confirmar contraseña
+            const pandillaPasswordConfirmInput = document.getElementById('pandillaPasswordConfirmInput');
+            if (pandillaPasswordConfirmInput) {
+                pandillaPasswordConfirmInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        activateLicense();
+                    }
+                });
+            }
             
-            // Configurar password input
+            // Configurar password input de login
             const passwordInput = document.getElementById('loginPassword');
             if (passwordInput) {
                 passwordInput.addEventListener('keypress', function(e) {
@@ -4060,7 +4162,7 @@
                 });
                 
                 // Verificar si ya está autenticado en esta sesión
-                if (sessionStorage.getItem('authenticated') === 'true' && licenseData.activated) {
+                if (sessionStorage.getItem('authenticated') === 'true' && hasLicense) {
                     document.getElementById('loginOverlay').style.display = 'none';
                     document.getElementById('appContainer').classList.remove('app-hidden');
                 }
